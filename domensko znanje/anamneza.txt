@@ -1,0 +1,30 @@
+Licna anamneza(istorija bolesti):
+* pusenje
+* alergija na lekove, bilo sta drugo...
+* alkohol
+
+Profesionalna anamneza:
+* Radno mesto( gde se radi, izlozenost raznih stvarima...)
+
+Socioekonomski uslovi:
+* mesto i uslovi stanovanja
+* zivot u gradu/ na selu
+* u kuci/stanu
+* da li se lozi za grejanje, sporet na lozenje
+* kucni ljubimci
+
+Ranije bolesti:
+* upale pluca
+* upale grla(tj. angine)
+* bronhitis
+* astma
+* slabljenje imuniteta:
+	* dijabetes
+	* srcane bolesti
+	* maligne bolesti(jer metastaze mogu biti u plucima)
+	* cir
+
+Porodicna anamneza:
+* u familiji neko plucne bolesti
+* -||-   maligne bolesti
+* -||-   druge bolesti(secer, cir...)

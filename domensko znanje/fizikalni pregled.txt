@@ -1,0 +1,39 @@
+Plucni:
+	* disajni zvuk
+	-> oslabljen disajni zvuk
+	-> poostren disajni zvuk
+	-> necujno disajni zvuk
+	-> normalan disajni zvuk
+
+	* sumovi
+	-> pukoti ( "puckati")
+	-> rano-inspirijski( puckati na pocetku udisaja)
+	-> kasno-inspirijski( gugutanje(kao golub) na kraju udisaja)
+	-> zvizduci( niskotonski("grublje"), visokotonski("svira"))
+
+Temperatura:
+	normalna
+	povisena
+	snizena
+
+RTG(Rentgen) pluca:
+	normalan
+	patoloski:
+		1.homogene lezije <-> jasno ogranicene (tumor, izliv, uvecane limfne zlezde)
+		2.inhomogene lezije <-> nejasno ogranicene(bronhopneumonija, pneumonija, pleuropneumonija(gore nejasno, dole izliv), tromboembolija, fibroze pluca
+CT pluca
+
+UZ(Ultrazvuk) plucne maramice
+	do koliko ide (pleuralni) izliv, dubina, visina, gustina, mesto/dubina punkcije gde je najbolje "uci" iglom.
+
+KKS(krvna slika):
+	*leukociti: 1) poviseni/leukocitoza
+		    2) snizeni/leukopenija
+	*eritrociti: 1) poviseni/eritrocitoza
+		     2) snizeni/anemija
+	*parametarske inflamacije: povisene/u normi
+
+Punkcije:
+	*pleuralna punkcije( i terapijska i preventivna uloga)
+	izvlacenje tecnosti iz pleuralnog prostora, odnosno izmedju pluca i zida grudnog kosa, koja se uzorkuje i salje u laboratoriju
+	* transtorakalna iglena punkcija ( izvlacenja cesto i tumora, uz pogled na CT...)
