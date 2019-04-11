@@ -1,0 +1,43 @@
+Sta je uzrokuje:
+	* common_cold    		27%
+	* otitis_media   		12%
+	* pneumonia   			5%
+	* copd   			4%
+	* strep_throat   		4%
+	* flu   			4%
+	* urinary_tract_infection   	3%
+	* asthma   			3%
+
+Sa cim je povezana:
+	* cough			79%
+	* sore_throat   	59%
+	* vomiting   		55%
+	* nasal_congestion   	52%
+	* headache   		37%
+	* diarrhea   		31%
+	* ear_pain   		28%
+	* chills   		28%	[STRONG PREDICTOR]
+	* decreased_appetite   	21%
+	* pulling_at_ears   	16%
+	* irritable_infant   	12%
+	*    	7%
+
+Koje su procedure:
+	* x_ray   			100%
+	* urinalysis   			94.74%
+	* intravenous_fluid_replacment  83.69%
+	* kidney_function_tests   	76.91%
+	* blood_culture   		55.65%
+	* influenzavirus_antibody_assay 47.39%
+	* nebulizer_therapy   		30.42%
+	* catheter   			10.00%
+
+Koji su lekovi:
+	* tamiflu		100%
+	* cefepime   		45.20%
+	* cefotaxime   		40.08%
+	* zosyn   		12.46%
+	* sodium_citrate   	10%
+	* meropenem   		10%
+	* dmax   		10%
+

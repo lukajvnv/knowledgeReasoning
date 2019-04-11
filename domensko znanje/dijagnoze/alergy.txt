@@ -1,0 +1,35 @@
+Simptomi:
+	* skin_rash			85%	[STRONG PREDICTOR]
+	* allergic_reaction		65%	[STRONG PREDICTOR]
+	* itching_of_skin		61%	[STRONG PREDICTOR]
+	* peripheral_edema		28%
+	* abnormal_appearing_skin	27%
+	* cough				26%
+	* swollen_eye			24%	[STRONG PREDICTOR]
+	* lip_swelling			20%	[STRONG PREDICTOR]
+	* skin_swelling			13%
+	* ithcness_of_eye		10%
+	* fluid_retention		9%
+	* swollen_tongue		9%	[STRONG PREDICTOR]
+
+Procedure:
+	* skin_exam		100%
+	* nebuzer_therapy	68.06%
+	* other_skin_procedures	51.06%
+	* x_ray_chest		10%
+
+Lekovi:
+	* benadryl			100%
+	* prednisone			89.40%
+	* medrol			84.20%
+	* famotidine			80.01%
+	* hydroxyzine			75.37%
+	* epinephrine			74.93%
+	* zyrtec			70.77%
+	* prednisolone			65.75%
+	* cimetidine			47.14%
+	* xyzal				28.36%
+	* collidal_oatmeal_topical	26.75%
+	* calamine_topical		20.54%
+	* ticlopidine			10%
+

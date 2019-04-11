@@ -1,0 +1,41 @@
+Sta je uzrokuje:
+	* copd    		24%
+	* common_cold   	21%
+	* acute_bronchitis   	14%
+	* asthma   		9%
+	* pneumonia   		8%
+	* chronic_sinusitis   	7%
+	* acute_sinusitis   	6%
+	* seasonal_allergies   	3%
+Sa cim je povezana:
+	* nasal_congestion	63%
+	* shortness_of_breath   59%
+	* sore_throat   	57%
+	* fever   		53%
+	* sharp_chest_pain   	39%
+	* cough   		36%
+	* headache   		31%
+	* congestion_in_chest   29%	[STRONG PREDICTOR]
+	* coryza   		28%
+	* ache_all_over   	27%
+	* difficulty_breathing   25%
+	* wheezing   		20%
+Koje su procedure:
+	* radiographic    	99.99%
+	* x_ray   		96.56%
+	* ecg   		51.35%
+	* kidney_function_test  50.61%
+	* electrolytes_panel   	47.95%
+	* nebulizer_therapy   	43.41%
+	* cardiac_enzymes_test  36.42%
+	* other_procedures   	10%
+
+Koji su lekovi:
+	* azithromycin		100%
+	* mucinex		72.56%
+	* combivent		62.51%
+	* clarithromycin	50.98%
+	* avelox		48.58%
+	* benzonatate		44.01%
+	* robitissin_ac		38.46%
+	* robitussin_dm		32.98%

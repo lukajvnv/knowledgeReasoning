@@ -1,0 +1,35 @@
+Simptomi:
+	* shortness_of_breath	44%
+	* cough			30%
+	* fatigue		24%
+	* decreased_appetite	14%
+	* hemoptysis		6%
+	* drainage_in_throat	6%
+	* leg_weakness		4%
+	* smoking_problems	2%
+
+Procedure:
+	* blood_test		100%
+	* cbc			95.25%
+	* radiographic		86.35%
+	* glucose_level		62.33%
+	* scan_ct		54.61%
+	* electrolytes_panel	47.45%
+	* skin_exam		28.83%
+	* magnetic_resonance	10%
+
+Lekovi:
+	* carboplatin			100%
+	* dexamethasone_topical_product	82.94%
+	* taxol				71.04%
+	* compro			66.51%
+	* tarceva			49.42%
+	* dexamethasone			49.42%
+	* etoposide			45.64%
+	* neulasta			42.98%
+	* spiriva			41.61%
+	* avastin			32.71%
+	* aranesp			24.21%
+	* gemzar			18.50%
+	* cisplatin			10%
+

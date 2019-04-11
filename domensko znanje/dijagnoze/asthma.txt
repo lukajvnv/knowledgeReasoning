@@ -1,0 +1,37 @@
+Simptomi:
+	* cough			74%
+	* shortness_of_breath	61%
+	* wheezing		55%	[STRONG PREDICTOR]
+	* difficulty_breathing	45%
+	* nasal_congestion	39%
+	* fever			36%
+	* sharp_chest_pain	25%
+	* coryza		21%
+	* chest_tightness	14%
+	* allergic_reaction	11%
+	* coughing_up_sputum	8%
+	* congestion_in_chest	8%
+Procedure:
+	* x_ray						100%
+	* nebulizer_therapy				96.78%
+	* other_diagnostic				65.17%
+	* arterial_blood_gases				41.71%
+	* influenzavirus_antibody_assay			30.53%
+	* other_respiratory_therapy			23.78%
+	* other_diagnostic_skin_and_subcutaneous 	15.13%
+	* orphtalmologic_diagnosis			10%
+
+Lekovi:
+	* albuterol			100%
+	* prednisone			78.85%
+	* singulair			74.51%
+	* fluticasone_nasal_product	69.86%
+	* ipratropium			68.00%
+	* prednisolone			64.02%
+	* budesonide			59.34%
+	* xopenex			57.04%
+	* combivent			56.35%
+	* beclomethasone_nasal_product	39.01%
+	* terbutaline			10.58%
+	* maxair			10%
+

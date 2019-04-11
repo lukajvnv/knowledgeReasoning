@@ -1,0 +1,35 @@
+Simptomi:
+	* cough			81%
+	* nasal_congestion	75%
+	* sore_throat		66%
+	* headache		66%
+	* frontal_headache	56%	[STRONG PREDICTOR]
+	* coryza		52%
+	* fever			51%
+	* ear_pain		49%
+	* sinus_congestion	37%	[STRONG PREDICTOR]
+	* painful_sinuses	29%	[STRONG PREDICTOR]
+	* facial_pain		26%
+	* coughing_up_sputum	23%
+
+Procedure:
+	* other_procedure			100%
+	* head_ct				84.28%
+	* influenzavirus_antibody_therapy	77.07%
+	* other_respiratory_therapy		38.90%
+	* physical_therapy 			19.30%
+	* tracheoscopy				10%
+
+Lekovi:
+	* amoicillin		100%
+	* augmentin		85.40%
+	* mucinex		67.18%
+	* clarithromycin	48.93%
+	* cefdinir		48.55%
+	* pcm_la		36.72%
+	* cefuroxime		32.32%
+	* robitussin_ac		18.75%
+	* oxymetazoline_nasal	17.65%
+	* triamcinolone_nasal	14.07%
+	* robitussin_dm		12.78%
+

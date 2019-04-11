@@ -1,0 +1,34 @@
+Simptomi:
+	* smoking_problems	44%	[STRONG PREDICTOR]
+	* cough			42%
+	* sharp_chest_pain	34%
+	* shortnss_of_breath	31%
+	* headache 		26%
+	* drug_abuse		25%
+	* abusing_alcohol	22%
+	* coughing_up_sputum	8%
+	* hurts_to_breath	5%
+	* excessive_anger	4%
+	* sinus_congestion	4%
+	* hemoptysis		3%
+
+Procedure:
+	* mental_health_counselling	100%
+	* psychotherapy			88.99%
+	* lipid_panel			79.89%
+	* hemoglibin_measurment		41.11%
+	* nebulizer_therapy		34.07%
+	* depression_screen		20.30%
+	* prostate_measurment		16.71%
+	* mammogram			10%
+
+Lekovi:
+	* chantix			100%
+	* nicotine			99.71%
+	* emtricitabine			32.62%
+	* magnesium_hydroxide		32.62%
+	* capsaicin_topical		32.62%
+	* rapacuronium			24.19%
+	* intelence			24.19%
+	* docosanol_topical		10%
+

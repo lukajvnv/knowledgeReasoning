@@ -1,0 +1,28 @@
+Simptomi:
+	* cough			85%
+	* sore_throat		82%	[STRONG PREDICTOR]
+	* fever			78%
+	* nasal_congestion	69%
+	* coryza		48%	[STRONG PREDICTOR]
+	* ear_pain		44%
+	* headache		36%
+	* vomiting		34%
+	* wheezing		16%
+	* congestion_in_chest	12%
+	* chills		12%
+	* flu_like syndrome	11%
+
+Procedure:
+	* influenzavirus_antibody_assay	100%
+	* nebulizer_therapy		99.80%
+	* other_respiratory_therapy	26.39%
+	* other_therapeutic_ear		17.62%
+	* diagnostic_procedures_on_ear	10%
+
+Lekovi:
+	* mucinex		100%
+	* pcm_la		70.05%
+	* robitussin_dm		52.62%
+	* phenol_topical	16.84%
+	* duramax		15.59%
+

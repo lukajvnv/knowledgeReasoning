@@ -1,0 +1,36 @@
+Simptomi:
+	* cough			93%
+	* shortness_of_breath	70%
+	* nasal_congestion	54%
+	* fever			49%
+	* sore_throat		42%
+	* difficulty_breathing	39%
+	* sharp_chest_pain	39%
+	* coryza		31%
+	* wheezing		25%
+	* coughing_up_sputum	23%	[STRONG PREDICTOR]
+	* congestion_in_chest	22%	[STRONG PREDICTOR]
+	* chest_tightness	12%
+
+Procedure:
+	* radiographic		100%
+	* x_ray			89.81%
+	* blodd_test		84.81%
+	* cbc			69.08%
+	* ecg			27.08%
+	* glucose_level		19.32%
+	* kidney_function_test	10.53%
+	* electrolytes_panel	10%
+
+Lekovi:
+	* azithromycin		100%
+	* combivent		78.79%
+	* spiriva		69.40%
+	* ipratropium		69.20%
+	* mucinex		65.86%
+	* xopenex		54.99%
+	* robitussin_ac		41.34%
+	* clarithromycin	40.82%
+	* benzonatate		40.46%
+	* theophylline		15.83%
+

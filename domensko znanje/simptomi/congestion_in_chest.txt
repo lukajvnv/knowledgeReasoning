@@ -1,0 +1,43 @@
+Sta je uzrokuje:
+	* common_cold   	26%
+	* copd   		24%
+	* acute_bronchitis	13%
+	* chronic_sinusitis	10%
+	* asthma		9%
+	* pneumonia		7%
+	* acute_sinusitis	6%
+	* otitis_media		5%
+
+Sa cim je povezana:
+	* cough			88%
+	* coryza	  	53%
+	* nasal_congestion	51%
+	* fever	  		48%
+	* sore_throat	  	45%
+	* shortness_of_breath	38%
+	* coughing_up_sputum	30%	[STRONG PREDICTOR]
+	* sinus_congestion	29%	[STRONG PREDICTOR]
+	* headeache	  	27%
+	* frontal_headache	 8%
+	* plugged_feeling_in_ear 7%
+	* hoarse_voice	  	 7%
+
+Koje su procedure:
+	* x_ray					100%
+	* nebulizer_therapy    			76.93%
+	* other   				70.55%
+	* inflenzavirus   			59.20%
+	* other_respiratory_therapy   		32.15%
+	* other_therapeutic_nervous_system      20.98%
+	* other_therapeutic_ear  		20.97%
+	* other_therapeutic_respiratory   	10.00%
+
+Koji su lekovi:
+	* azithromycin		100%
+	* mucinex   		79.27%
+	* clarithromycin	55.90%
+	* benzonatate   	52.74%
+	* robitussin_ac		51.00%
+	* robitussin_dim   	41.12%
+	* cefuroxime   		31.25%
+

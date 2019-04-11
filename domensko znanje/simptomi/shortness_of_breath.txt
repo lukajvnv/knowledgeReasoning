@@ -1,0 +1,44 @@
+Sta je uzrokuje:
+	* copd    			15%
+	* asthma    			13%
+	* hearth failure   		10%
+	* pneumonia    			7%
+	* coronary_atherosclerosis    	3%
+	* atrial_fibrilation    	2%
+	* acute_bronchitis    		2%
+	* anxiety    			2%
+
+Sa cim je povezana:
+	* sharp_chest_pain		66%
+	* cough				57%
+	* wheezing			29%
+	* dizziness			28%
+	* chest_tightness		27%
+	* weakness			21%
+	* peripheral_edema		13%
+	* paplatations			13%
+	* coughing_up_sputum		11%
+	* irregular_heartbeat		8%
+	* sweating			6%
+	* hurts_to_breath		6%
+Koje su procedure:
+	* radiographic     	100%
+	* blood_test    	91.56%
+	* x_ray    	80.01%
+	* cbc    	78.37%
+	* ecg    	60.19%
+	* kidney_test    	19.73%
+	* glucose_level    	12.98%
+	* electrolytes_panel    	10.00%
+Koji su lekovi:
+	* ipratropium		100%
+	* combivent 		96.75%
+	* oxygen 		86.62%
+	* norepinephrine	29.78%
+	* lexiscan 		23.90%
+	* integrilin		23.90%
+	* zosyn			23.90%
+	* albutein		21.36%
+	* bee_polen		18.37%
+	* nesiritide		18.37%
+	* dobutamine		18.37%

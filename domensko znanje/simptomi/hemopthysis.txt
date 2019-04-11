@@ -1,0 +1,46 @@
+Sta je uzrokuje:
+	* copd    				15%
+	* pneumonia   				11%
+	* common_cold   			8%
+	* acute_bronchitis   			8%
+	* lung_cancer   			2%
+	* smoking_addiction   			2%
+	* gastroinntestinal_hemorrhage   	2%
+	* chronic_sinusitis   			2%
+
+Sa cim je povezana:
+	* cough			52%
+	* shorhness_of_breath	45%
+	* sore_throat		44%
+	* fever			31%
+	* coughing_up_sputum	29%	[STRONG PREDICTOR]
+	* sharp_chest_pain	29%
+	* nosebleed		21%
+	* feeling_ill		13%
+	* rib_pain		10%
+	* congestion_in_chest	10%
+	* blood_in_stool	8%
+	* lump_in_throat	8%	[STRONG PREDICTOR]
+
+Koje su procedure:
+	* radiographic    			100%
+	* blood_test   				86.99%
+	* x_ray   				86.00%
+	* cbc   				81.41%
+	* kidney_function_test  		22.46%
+	* glucose_level   			14.96%
+	* electrolytes_panel   			13.99%
+	* intravenous_fluid_replacment   	10.00%
+
+Koji su lekovi:
+	* benzonatate 		100%
+	* robitussin_ac		94.14%
+	* clarithromycin	94.14%
+	* robitussin_dm		69.95%
+	* magnesium_sulfate	57.12%
+	* voriconazole		39.56%
+	* codeine		39.56%
+	* megace		39.56%
+	* urso			39.56%
+	* methamphetamine	10.00%
+

@@ -1,0 +1,39 @@
+Simptomi:
+	* cough			82%
+	* fever			75%
+	* shorhness_of_breath	69%
+	* sharp_chest_pain	46%
+	* nasal_congestion	44%
+	* difficulty_breathing	43%
+	* vomiting		41%
+	* weakness		29%
+	* sore_throat		26%
+	* wheezing		25%
+	* coryza		23%
+	* chills		20%
+
+Procedure:
+	* radiographic			100%
+	* x_ray				96.33%
+	* blood_test			74.28%
+	* cbc				67.92%
+	* intravenous_fluid_replacment	30.80%
+	* kidney_function_tests		19.87%
+	* elctrolytes			10.60%
+	* glucose_measurment		10%
+
+Lekovi:
+	* azithromycin			100%
+	* ceftriaxone			95.55%
+	* levaquin			93.01%
+	* avelox			72.34%
+	* ipratropium			72.17%
+	* xopenex			60.77%
+	* zosyn				58.01%
+	* robitusin_ac			43.83%
+	* cefepime			38.72%
+	* cefotaxime			21.23%
+	* norepinephrine		12.42%
+	* ceftazidime			12.42%
+	* piperacillin_zosyn		10.00%
+
