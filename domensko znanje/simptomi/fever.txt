@@ -17,10 +17,10 @@ Sa cim je povezana:
 	* diarrhea   		31%
 	* ear_pain   		28%
 	* chills   		28%	[STRONG PREDICTOR]
-	* decreased_appetite   	21%
-	* pulling_at_ears   	16%
-	* irritable_infant   	12%
-	*    	7%
+	* coryza   	21%
+	* decreased_appetite   	16%
+	* pulling_at_ears   	12%
+	* irritable_infant   	7%
 
 Koje su procedure:
 	* x_ray   			100%

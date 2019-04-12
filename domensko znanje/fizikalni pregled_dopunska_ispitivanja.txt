@@ -1,3 +1,4 @@
+Fizikalni_pregled(na licu mesta sa tom osobom...):
 Plucni:
 	* disajni zvuk
 	-> oslabljen disajni zvuk
@@ -15,6 +16,8 @@ Temperatura:
 	normalna
 	povisena
 	snizena
+
+Dopunska ispitivanja:
 
 RTG(Rentgen) pluca:
 	normalan
