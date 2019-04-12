@@ -2,7 +2,7 @@ Plucni:
 	* disajni zvuk
 	-> oslabljen disajni zvuk
 	-> poostren disajni zvuk
-	-> necujno disajni zvuk
+	-> necujno disajni zvuk(tada verovatno ima pleuralni izliv)
 	-> normalan disajni zvuk
 
 	* sumovi
@@ -21,7 +21,8 @@ RTG(Rentgen) pluca:
 	patoloski:
 		1.homogene lezije <-> jasno ogranicene (tumor, izliv, uvecane limfne zlezde)
 		2.inhomogene lezije <-> nejasno ogranicene(bronhopneumonija, pneumonija, pleuropneumonija(gore nejasno, dole izliv), tromboembolija, fibroze pluca
-CT pluca
+CT pluca:
+	normalan/patoloski;
 
 UZ(Ultrazvuk) plucne maramice
 	do koliko ide (pleuralni) izliv, dubina, visina, gustina, mesto/dubina punkcije gde je najbolje "uci" iglom.

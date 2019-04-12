@@ -1,0 +1,36 @@
+Simptomi:
+	* sharp_chest_pain	82%
+	* shortness_of_breath	76%
+	* cough			62%
+	* difficulty_breathing	43%
+	* hurts_to_breath	35%	[STRONG PREDICTOR]
+	* back_pain		32%
+	* rib_pain		31%	[STRONG PREDICTOR]
+	* fever			24%
+	* sharp_abdominal_pain	24%
+	* drainage_in_throat	24%	[STRONG PREDICTOR]
+	* weakness		21%
+	* side_pain		20%
+
+Procedure:
+	* radiographic		100%
+	* x_ray			84.97%
+	* blood_test		72.65%
+	* cbc			63.28%
+	* ecg			46.05%
+	* kidney_function_test	16.17%
+	* glucose_level		13.13%
+	* electrolytes_panel	10%
+
+Lekovi:
+	* carboplatin		100%
+	* cholecalciferol	100%
+	* kayexalate		100%
+	* arixtra		66.47%
+	* fludrocortisone	66.47%
+	* lidocaine_topical	66.47%
+	* cefepime		66.47%
+	* emend			66.47%
+	* afinitor		10%
+	* norfloxacin		10%
+

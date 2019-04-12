@@ -1,0 +1,36 @@
+Simptomi:
+	* sharp_chest_pain	76%
+	* shortness_of_breath	71%
+	* sholder_pain		41%
+	* difficulty_breathing	41%
+	* rib_pain		41%	[STRONG PREDICTOR]
+	* back_pain		38%
+	* cough			31%
+	* side_pain		23%
+	* coughing_up_sputum	13%
+	* drainage_in_throat	13%	[STRONG PREDICTOR]
+	* drug_abuse		13%
+	* hurts_to_breath	7%
+
+Procedure:
+	* radiographic			100%
+	* x_ray				91.28%
+	* blood_test			62.01%
+	* cbc				57.95%
+	* intravenous_fluid_replacment	42.74%
+	* kidney_function_test		14.46%
+	* ct				10%
+	* ecg				10%
+
+Lekovi:
+	* morphine		100%
+	* fentanyl		73.67%
+	* versed		63.15%
+	* oxygen		50.98%
+	* zosyn			27.46%
+	* colistimethate	10%
+	* etomidate		10%
+	* loversol		10%
+	* pancrease		10%
+	* flucinonide_topical	10%
+
