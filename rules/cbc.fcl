@@ -1,0 +1,41 @@
+
+FUNCTION_BLOCK sablon
+
+VAR_INPUT               // ulazne varijable
+	rbc : REAL;
+	wbc : REAL;
+END_VAR
+
+VAR_OUTPUT              // izlazne varijable
+	cbc_result : REAL;
+END_VAR
+
+FUZZIFY rbc
+	TERM rbc_in_range := (3, 0) (4, 1) (5.5, 0);
+	TERM rbc_out_range := (3, 1) (4.5, 0) (5.4, 1);
+END_FUZZIFY
+
+FUZZIFY wbc
+	TERM wbc_in_range := (3, 0) (4, 1) (10.5, 0);
+	TERM wbc_out_range := (3, 1) (6, 0) (13, 1);
+END_FUZZIFY
+
+DEFUZZIFY cbc_result
+	TERM correct := (0,0) (50,1) (100, 0);
+	TERM incorrect := (50,0) (100,1) (150, 0);
+	METHOD : COG;		// 'Center Of Gravity' odn. centar mase (koristi se i MM odn. mean max)
+	DEFAULT := 0;		// podrazumevana vrednost (ukoliko nijedno pravilo nije aktivirano)
+END_DEFUZZIFY
+
+RULEBLOCK blok1
+	AND : MIN;			// za konjunkciju se koristi minimum (samim tim sa za disjunkciju koristi maksimum)
+	ACT : MIN;			// za zaključivanje (implikaciju) je izabran minimum (Mamdani implikacija) (osim MIN koristi se i PROD)
+	ACCU : MAX;			// za kompoziciju je izabran maksimum (osim MAX koristi se i SUM)
+
+	RULE 1 : IF rbc IS rbc_in_range AND wbc IS wbc_in_range THEN cbc_result IS correct;
+	RULE 2 : IF rbc IS rbc_out_range THEN cbc_result IS incorrect;
+	RULE 3 : IF wbc IS wbc_out_range THEN cbc_result IS incorrect;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
+
