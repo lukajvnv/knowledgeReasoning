@@ -2,7 +2,7 @@
 patient_fever(1).
 
 % patient_respiratory_sound(Id, value). Id - patient id, value - possible value: {regular, patologic}
-patient_respriratory_sound(1, patologic).
+patient_respiratory_sound(1, patologic).
 
 % patient_respiratory_noise(Id, value). Id - patient id, value - possible value: {puff, whistle}
 patient_respiratory_noise(1, whistle).
