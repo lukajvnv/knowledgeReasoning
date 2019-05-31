@@ -6,16 +6,22 @@
         <!-- Persistence provider -->
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <!-- Entity classes -->
-        <class>application.model.Patient</class>
+        <class>application.model.Student</class>
         <properties>
             <!-- The JDBC driver of your database -->
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
             <!-- The JDBC URL to the database instance -->
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/medcare_db" />
+            <property name="javax.persistence.jdbc.url" 
+            value="jdbc:mysql://localhost:3306/medcare_db?useSSL=false&amp;createDatabaseIfNotExist=true&amp;allowPublicKeyRetrieval=true" />
             <!-- The database username -->
             <property name="javax.persistence.jdbc.username" value="root" />
             <!-- The database password -->
             <property name="javax.persistence.jdbc.password" value="kimi" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+         	<property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+         	<property name="javax.persistence.schema-generation.database.action"
+            value="create" />
+        	<property name="hibernate.show_sql" value="true" />
         </properties>
     </persistence-unit>
 </persistence>

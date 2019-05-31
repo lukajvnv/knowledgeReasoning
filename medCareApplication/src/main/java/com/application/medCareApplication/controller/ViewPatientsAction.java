@@ -36,17 +36,16 @@ public class ViewPatientsAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		//PatientTableFrame newPatientDialog = new PatientTableFrame();
-		//newPatientDialog.setVisible(true);
-	
 		
-		JPanel mainPanel = MainFrame.getInstance().getMainPanel();
+		/*JPanel mainPanel = MainFrame.getInstance().getMainPanel();
 		mainPanel.removeAll();
 		//mainPanel.repaint();
 		
 		PatientsTablePanel patientsTablePanel = new PatientsTablePanel();
 		mainPanel.add(patientsTablePanel, BorderLayout.CENTER);
-		mainPanel.validate();
+		mainPanel.validate();*/
+		
+		MainFrame.getInstance().updateMainPanel();
 	}
 
 }

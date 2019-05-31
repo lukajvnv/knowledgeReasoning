@@ -29,7 +29,8 @@ public class NewPatientDialogAction extends AbstractAction {
 		putValue(NAME, name);
 	}
 
-
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub

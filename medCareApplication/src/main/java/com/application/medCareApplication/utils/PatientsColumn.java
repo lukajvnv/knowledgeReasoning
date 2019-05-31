@@ -9,7 +9,7 @@ public class PatientsColumn {
 	public static String firstNameColumn = "Ime";
 	public static String lastNameColumn = "Prezime";
 	public static String jmbgColumn = "Jmbg";
-	public static String dateOfBirthColumn = "Datum ro�enja";
+	public static String dateOfBirthColumn = "Datum_rodjenja";
 	public static String addressColumn = "Adresa";
 	public static String telephoneNumberColumn = "Telefon";
 }

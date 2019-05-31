@@ -92,7 +92,7 @@ public class PatientTableFrame extends JFrame {
 							System.out.println(p);
 							
 							dispose();
-							PatientFrame patientFrame = new PatientFrame();
+							PatientFrame patientFrame = new PatientFrame(p);
 							patientFrame.setVisible(true);
 						}
 					} catch (Exception ex) {
@@ -128,7 +128,7 @@ public class PatientTableFrame extends JFrame {
 							System.out.println(p);
 							
 							dispose();
-							PatientFrame patientFrame = new PatientFrame();
+							PatientFrame patientFrame = new PatientFrame(p);
 							patientFrame.setVisible(true);
 						}
 					} catch (Exception ex) {

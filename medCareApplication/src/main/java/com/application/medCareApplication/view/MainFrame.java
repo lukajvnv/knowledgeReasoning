@@ -2,10 +2,13 @@ package com.application.medCareApplication.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -26,6 +29,7 @@ import javax.swing.border.LineBorder;
 import com.application.medCareApplication.controller.NewPatientDialogAction;
 import com.application.medCareApplication.controller.ViewPatientDetailAction;
 import com.application.medCareApplication.controller.ViewPatientsAction;
+import com.application.medCareApplication.utils.handler.DatabaseHandler;
 
 
 public class MainFrame extends JFrame {
@@ -42,6 +46,8 @@ public class MainFrame extends JFrame {
 	private JPanel contentPane;
 	private JLabel logoLabel;
 	private JPanel mainPanel;
+	
+	private DatabaseHandler databaseHandler;
 
 	/**
 	 * Launch the application.
@@ -132,7 +138,6 @@ public class MainFrame extends JFrame {
 		JButton newPatientButton = new JButton(new NewPatientDialogAction());
 		newPatientButton.setText("Novi pacijent");
 		newPatientButton.setIcon(new ImageIcon("images/create_icon&24.png"));
-		newPatientButton.setToolTipText("Dodaj pacijenta");
 		toolBar.add(newPatientButton);
 		
 		JButton viewPatientsButton = new JButton(new ViewPatientsAction());
@@ -191,18 +196,26 @@ public class MainFrame extends JFrame {
 		JLabel dateLabel = new JLabel(dtf.format(localDate));
 		datePanel.add(dateLabel);
 		
-		/*addWindowListener(new WindowAdapter() {
+		databaseHandler = new DatabaseHandler();
+		
+		addWindowListener(new WindowAdapter() {
         	@Override
         	public void windowClosing(WindowEvent e) {
         		super.windowClosing(e);
         		
-        		if (Utils.confirm(MainFrame.getInstance(),"Da li ste sigurni?") == JOptionPane.YES_OPTION) {
+        		/*if (Utils.confirm(MainFrame.getInstance(),"Da li ste sigurni?") == JOptionPane.YES_OPTION) {
 //        			MainFrame.getInstance().dispose();
 					MainFrame.getInstance().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        		}
+        		}*/
+        		try {
+					databaseHandler.close();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
         	}
-		});*/
+		});
 		
 		/*EventQueue.invokeLater(new Runnable() {
 		public void run() {
@@ -221,6 +234,27 @@ public class MainFrame extends JFrame {
 		});*/
 		
 	}
+	
+	public void updateMainPanel() {
+		JPanel mainPanel = getMainPanel();
+		mainPanel.removeAll();
+		//mainPanel.repaint();
+		
+		PatientsTablePanel patientsTablePanel = new PatientsTablePanel();
+		mainPanel.add(patientsTablePanel, BorderLayout.CENTER);
+		mainPanel.validate();
+	}
+	
+	public void updateMainPanelPatientsTable() {
+		JPanel mainPanel = getMainPanel();
+		for(Component c : mainPanel.getComponents()) {
+			if(c instanceof PatientsTablePanel) {
+				System.out.println("update");
+				((PatientsTablePanel)c).refreshData();;
+			}
+		}
+	}
+	
 	public JLabel getLogoLabel() {
 		return logoLabel;
 	}
@@ -229,5 +263,13 @@ public class MainFrame extends JFrame {
 	}
 	public JPanel getContentPane() {
 		return contentPane;
+	}
+
+	public DatabaseHandler getDatabaseHandler() {
+		return databaseHandler;
+	}
+
+	public void setDatabaseHandler(DatabaseHandler databaseHandler) {
+		this.databaseHandler = databaseHandler;
 	}
 }

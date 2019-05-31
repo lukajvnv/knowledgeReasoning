@@ -70,7 +70,7 @@ public class PatientsTablePanel extends JScrollPane {
 							System.out.println(p);
 							
 							//dispose();
-							PatientFrame patientFrame = new PatientFrame();
+							PatientFrame patientFrame = new PatientFrame(p);
 							patientFrame.setVisible(true);
 							
 							
@@ -109,7 +109,7 @@ public class PatientsTablePanel extends JScrollPane {
 							System.out.println(p);
 							
 							//dispose();
-							PatientFrame patientFrame = new PatientFrame();
+							PatientFrame patientFrame = new PatientFrame(p);
 							patientFrame.setVisible(true);
 						}
 					} catch (Exception ex) {
@@ -120,6 +120,11 @@ public class PatientsTablePanel extends JScrollPane {
 		});
 		
 		
+	}
+	
+	public void refreshData() {
+		PatientsTableModel tableModel = (PatientsTableModel) patientsTable.getModel();
+		tableModel.collectData();
 	}
 
 	public JTable getTable() {

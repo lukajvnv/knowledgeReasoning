@@ -1,18 +1,39 @@
 package com.application.medCareApplication.model;
-	import java.io.Serializable;
-import java.util.Vector;
+	import java.util.Vector;
 
-	public class Patient implements Serializable {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+	@Entity
+	@Table(name = "patient")
+	public class Patient{
 		
+		@Id
+	    @Column(name = "Id", unique = true)
 		private Integer patientId;
 		
+		@Column(name = "Ime")
 		private String firstName;
+		
+		@Column(name = "Prezime")
 		private String lastName;
+		
+		@Column(name = "Jmbg")
 		private String jmbg;
+		
+		@Column(name = "Datum_rodjenja")
 		private String dateOfBirth;
+		
+		@Column(name = "Adresa")
 		private String address;
+		
+		@Column(name = "Telefon")
 		private String telephoneNumber;
 		
+		@Transient
 		private Vector<Object> structuredData;
 		
 		public Patient() {

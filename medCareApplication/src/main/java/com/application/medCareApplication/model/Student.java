@@ -1,17 +1,17 @@
 package com.application.medCareApplication.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
-
 /**Testiranje ne koristi se... */
 
 @Entity
 @Table(name = "student")
-public class Student {
+public class Student implements Serializable {
     @Id
     @Column(name = "student_id", unique = true)
     private int id;

@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -22,6 +23,8 @@ import javax.swing.border.EmptyBorder;
 
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.utils.Utils;
+import com.application.medCareApplication.utils.handler.DatabaseHandler;
+import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.utils.MyDateField;
 import com.application.medCareApplication.view.utils.MyFieldFocusListener;
 
@@ -234,9 +237,19 @@ public class NewPatientDialog extends JDialog {
 						String jmbg = jmbgTextField.getText().trim();
 						String dateOfBirth = dateOfBirthDateField.getValue();
 						
-						Patient p = new Patient(1, firstName, lastName, jmbg, dateOfBirth, address, telephone);
+						Patient p = new Patient(-1, firstName, lastName, jmbg, dateOfBirth, address, telephone);
 						System.out.println(p);
+						
+						DatabaseHandler databaseHandler = MainFrame.getInstance().getDatabaseHandler();
+						try {
+							databaseHandler.create(p);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					
+						MainFrame.getInstance().updateMainPanelPatientsTable();
+						dispose();
 					}
 				});
 				buttonPane.add(addPatientButton);

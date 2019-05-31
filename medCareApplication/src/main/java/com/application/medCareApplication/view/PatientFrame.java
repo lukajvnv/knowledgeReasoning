@@ -25,6 +25,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import com.application.medCareApplication.model.Patient;
+import com.application.medCareApplication.utils.Utils;
+import com.application.medCareApplication.utils.handler.DatabaseHandler;
 import com.application.medCareApplication.view.dialog.NewAnamnesisDialog;
 import com.application.medCareApplication.view.dialog.NewEwsScoreDialog;
 import com.application.medCareApplication.view.dialog.NewPhysicalExaminationDialog;
@@ -33,9 +36,14 @@ import com.application.medCareApplication.view.utils.MyFieldFocusListener;
 @SuppressWarnings("serial")
 public class PatientFrame extends JFrame {
 
+	private DatabaseHandler databaseHandler;
+	
 	private JPanel contentPane;
 	private JTextField patientIdtextField;
 
+	private Patient patient;
+	private JButton searchButton;
+	private JLabel patientInfoLabel;
 	/**
 	 * Launch the application.
 	 */
@@ -43,7 +51,7 @@ public class PatientFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PatientFrame frame = new PatientFrame();
+					PatientFrame frame = new PatientFrame(new Patient());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -55,7 +63,10 @@ public class PatientFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PatientFrame() {
+	public PatientFrame(Patient p) {
+		databaseHandler = MainFrame.getInstance().getDatabaseHandler();
+		setPatient(p);
+		
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		
@@ -87,9 +98,34 @@ public class PatientFrame extends JFrame {
 
 		toolBar.add(patientIdtextField);
 		
-		JButton searchButton = new JButton("Pretra\u017Ei");
+		searchButton = new JButton("Pretra\u017Ei");
 		searchButton.setToolTipText("Pretraga po id pacijenta");
 		searchButton.setIcon(new ImageIcon("images/zoom_icon&24.png"));
+		searchButton.addActionListener(new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				try {
+					int id = Integer.parseInt(patientIdtextField.getText().trim());
+					Patient p = databaseHandler.selectPatient(id);
+					
+					if(p != null) {
+						patient = p;
+						String patientInfoText = String.format("%s %s, ID: %s, (%s)", patient.getLastName(), patient.getFirstName(), patient.getPatientId(), patient.getDateOfBirth());
+						patientInfoLabel.setText(patientInfoText);
+					}else {
+						Utils.error("Pacijent sa unetim id ne postoji!");
+					}
+					
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					Utils.error("Nevalidan id!");
+				}
+				
+			}
+		});
 		toolBar.add(searchButton);
 		
 		JButton refreshButton = new JButton("Osve\u017Ei");
@@ -216,12 +252,31 @@ public class PatientFrame extends JFrame {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		mainPanel.add(patientInfoPanel, BorderLayout.NORTH);
 		
-		JLabel patientInfoLabel = new JLabel();
+		String patientInfoText = String.format("%s %s, ID: %s, (%s)", patient.getLastName(), patient.getFirstName(), patient.getPatientId(), patient.getDateOfBirth());
+		
+		patientInfoLabel = new JLabel();
 		patientInfoLabel.setForeground(Color.RED);
 		patientInfoLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		patientInfoLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		patientInfoLabel.setText("Jovanovic Luka, ID: 50000, (1996)");
+		patientInfoLabel.setText(patientInfoText);
 		patientInfoPanel.add(patientInfoLabel);
 	}
 
+	public Patient getPatient() {
+		return patient;
+	}
+
+	public void setPatient(Patient patient) {
+		this.patient = patient;
+	}
+
+	public JTextField getPatientIdtextField() {
+		return patientIdtextField;
+	}
+	public JButton getSearchButton() {
+		return searchButton;
+	}
+	public JLabel getPatientInfoLabel() {
+		return patientInfoLabel;
+	}
 }

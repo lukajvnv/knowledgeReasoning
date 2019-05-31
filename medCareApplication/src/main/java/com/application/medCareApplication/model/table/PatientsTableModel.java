@@ -1,11 +1,14 @@
 package com.application.medCareApplication.model.table;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.utils.PatientsColumn;
+import com.application.medCareApplication.utils.handler.DatabaseHandler;
+import com.application.medCareApplication.view.MainFrame;
 
 public class PatientsTableModel extends DefaultTableModel {
 
@@ -18,8 +21,12 @@ public class PatientsTableModel extends DefaultTableModel {
 	//private Map<String, Label> headerColumns;
 	private ArrayList<PatientTableModelRow> rowsData; 
 	
+	private DatabaseHandler databaseHandler;
+	
 	public PatientsTableModel(){
 		this.rowsData = new ArrayList<PatientTableModelRow>();
+		
+		databaseHandler = MainFrame.getInstance().getDatabaseHandler();
 		
 		initTableHeader();
 		collectData();
@@ -41,8 +48,14 @@ public class PatientsTableModel extends DefaultTableModel {
 	
 	public void collectData() {
 		setRowCount(0);
-		for(int i = 0; i < 15; i++) {
+		/*for(int i = 0; i < 15; i++) {
 			Patient p = new Patient(i, "ime" + i, "prezime" + i, "jmbg" + i, "15.5.2018", "adresa" + i, "telefon" + i);
+			PatientTableModelRow ptr = new PatientTableModelRow(p);
+			rowsData.add(ptr);
+			addRow(ptr.addRowToTable());
+		}*/
+		List<Patient> patients = databaseHandler.selectAll();
+		for(Patient p: patients) {
 			PatientTableModelRow ptr = new PatientTableModelRow(p);
 			rowsData.add(ptr);
 			addRow(ptr.addRowToTable());
