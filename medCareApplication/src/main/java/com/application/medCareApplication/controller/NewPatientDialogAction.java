@@ -35,6 +35,7 @@ public class NewPatientDialogAction extends AbstractAction {
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		NewPatientDialog newPatientDialog = new NewPatientDialog();
+		newPatientDialog.addActionListeners();
 		newPatientDialog.setVisible(true);
 		
 	}

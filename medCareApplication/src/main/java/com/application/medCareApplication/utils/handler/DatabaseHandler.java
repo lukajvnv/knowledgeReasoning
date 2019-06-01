@@ -78,7 +78,7 @@ public class DatabaseHandler implements IHandler {
 		log.log(Level.INFO, "Closing database connection");
 	}
 	
-	public void create(Patient patient) throws SQLException{
+	public void createPatient(Patient patient) throws SQLException{
 		
 		int id = getId();
 		String template = "INSERT INTO patient (Id, Ime, Prezime, Jmbg, Telefon, Datum_rodjenja, Adresa) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -144,7 +144,7 @@ public class DatabaseHandler implements IHandler {
 		
 	}
 	
-	public List<Patient> selectAll() {
+	public List<Patient> selectAllPatients() {
 	
 		String sql = String.format("SELECT %s FROM %s;", "*", "patient");
 		
@@ -178,7 +178,31 @@ public class DatabaseHandler implements IHandler {
 	
 	}
 	
-	public int getId () {
+	public void updatePatient(Patient patient) throws SQLException {
+		String template = "UPDATE patient SET Ime = ?, Prezime = ?, Jmbg = ?, Telefon = ?, Datum_rodjenja = ?, Adresa = ? WHERE Id = ?";
+
+		System.out.println(template);
+		PreparedStatement preparedStatement = databaseConnection.prepareStatement(template);
+		
+		try {
+			preparedStatement.setInt(7, patient.getPatientId());
+			preparedStatement.setString(1, patient.getFirstName());
+			preparedStatement.setString(2, patient.getLastName());
+			preparedStatement.setString(3, patient.getJmbg());
+			preparedStatement.setString(4, patient.getTelephoneNumber());
+			preparedStatement.setString(5, patient.getDateOfBirth());
+			preparedStatement.setString(6, patient.getAddress());
+
+			
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			throw new SQLException("");
+		} finally {
+			preparedStatement.close();
+		}
+	}
+	
+	private int getId () {
 		String sql = String.format("SELECT %s FROM %s;", "*", "patient");
 		StringBuilder st = new StringBuilder(sql);
 		

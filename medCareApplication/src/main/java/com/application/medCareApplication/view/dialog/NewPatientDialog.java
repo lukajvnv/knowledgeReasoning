@@ -34,20 +34,21 @@ public class NewPatientDialog extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = -6011252674744475176L;
-	private final JPanel contentPanel = new JPanel();
-	private JTextField firstNameTextField;
-	private JTextField lastNameTextField;
-	private JTextField jmbgTextField;
-	private JTextField addressTextField;
-	private JTextField telephoneNumberTextField;
-	private JLabel firstNameLabel;
-	private JLabel lastNameLabel;
-	private JLabel jmbgLabel;
-	private JLabel addressLabel;
-	private JLabel telephoneNumberLabel;
-	private MyDateField dateOfBirthDateField;
-	private JButton addPatientButton;
-	private JButton cancelButton;
+	
+	protected final JPanel contentPanel = new JPanel();
+	protected JTextField firstNameTextField;
+	protected JTextField lastNameTextField;
+	protected JTextField jmbgTextField;
+	protected JTextField addressTextField;
+	protected JTextField telephoneNumberTextField;
+	protected JLabel firstNameLabel;
+	protected JLabel lastNameLabel;
+	protected JLabel jmbgLabel;
+	protected JLabel addressLabel;
+	protected JLabel telephoneNumberLabel;
+	protected MyDateField dateOfBirthDateField;
+	protected JButton addPatientButton;
+	protected JButton cancelButton;
 	
 	/**
 	 * Launch the application.
@@ -71,6 +72,52 @@ public class NewPatientDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public NewPatientDialog() {
+		
+		
+		initComponents();
+		
+		
+		
+	}
+	
+	public void addActionListeners() {
+		addPatientButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				boolean valid = validation();
+				
+				if(!valid) {
+					return;
+				}
+				
+				String firstName = firstNameTextField.getText().trim();
+				String lastName = lastNameTextField.getText().trim();
+				String address = addressTextField.getText().trim();
+				String telephone = telephoneNumberTextField.getText().trim();
+				String jmbg = jmbgTextField.getText().trim();
+				String dateOfBirth = dateOfBirthDateField.getValue();
+				
+				Patient p = new Patient(-1, firstName, lastName, jmbg, dateOfBirth, address, telephone);
+				System.out.println(p);
+				
+				DatabaseHandler databaseHandler = MainFrame.getInstance().getDatabaseHandler();
+				try {
+					databaseHandler.createPatient(p);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			
+				MainFrame.getInstance().updateMainPanelPatientsTable();
+				dispose();
+			}
+		});
+	}
+	
+	public void initComponents() {
 		setModal(true);
 		setLocationRelativeTo(null);
 		setTitle("Dodavanje novog pacijenta");
@@ -218,40 +265,7 @@ public class NewPatientDialog extends JDialog {
 				addPatientButton = new JButton("Dodaj");
 				addPatientButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 				addPatientButton.setActionCommand("OK");
-				addPatientButton.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// TODO Auto-generated method stub
-						
-						boolean valid = validation();
-						
-						if(!valid) {
-							return;
-						}
-						
-						String firstName = firstNameTextField.getText().trim();
-						String lastName = lastNameTextField.getText().trim();
-						String address = addressTextField.getText().trim();
-						String telephone = telephoneNumberTextField.getText().trim();
-						String jmbg = jmbgTextField.getText().trim();
-						String dateOfBirth = dateOfBirthDateField.getValue();
-						
-						Patient p = new Patient(-1, firstName, lastName, jmbg, dateOfBirth, address, telephone);
-						System.out.println(p);
-						
-						DatabaseHandler databaseHandler = MainFrame.getInstance().getDatabaseHandler();
-						try {
-							databaseHandler.create(p);
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					
-						MainFrame.getInstance().updateMainPanelPatientsTable();
-						dispose();
-					}
-				});
+				
 				buttonPane.add(addPatientButton);
 				//getRootPane().setDefaultButton(addPatientButton); "oznacava dugme"
 			}
@@ -283,7 +297,8 @@ public class NewPatientDialog extends JDialog {
 		});
 	}
 	
-	boolean validation() {
+	
+	public boolean validation() {
 		String firstName = firstNameTextField.getText().trim();
 		String lastName = lastNameTextField.getText().trim();
 		String address = addressTextField.getText().trim();

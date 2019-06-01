@@ -250,7 +250,7 @@ public class MainFrame extends JFrame {
 		for(Component c : mainPanel.getComponents()) {
 			if(c instanceof PatientsTablePanel) {
 				System.out.println("update");
-				((PatientsTablePanel)c).refreshData();;
+				((PatientsTablePanel)c).refreshData();
 			}
 		}
 	}

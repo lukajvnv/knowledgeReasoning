@@ -31,6 +31,7 @@ import com.application.medCareApplication.utils.handler.DatabaseHandler;
 import com.application.medCareApplication.view.dialog.NewAnamnesisDialog;
 import com.application.medCareApplication.view.dialog.NewEwsScoreDialog;
 import com.application.medCareApplication.view.dialog.NewPhysicalExaminationDialog;
+import com.application.medCareApplication.view.dialog.UpdatePatientDialog;
 import com.application.medCareApplication.view.utils.MyFieldFocusListener;
 
 @SuppressWarnings("serial")
@@ -113,8 +114,9 @@ public class PatientFrame extends JFrame {
 					
 					if(p != null) {
 						patient = p;
-						String patientInfoText = String.format("%s %s, ID: %s, (%s)", patient.getLastName(), patient.getFirstName(), patient.getPatientId(), patient.getDateOfBirth());
-						patientInfoLabel.setText(patientInfoText);
+						/*String patientInfoText = String.format("%s %s, ID: %s, (%s)", patient.getLastName(), patient.getFirstName(), patient.getPatientId(), patient.getDateOfBirth());
+						patientInfoLabel.setText(patientInfoText);*/
+						setPatientInfoLabel();
 					}else {
 						Utils.error("Pacijent sa unetim id ne postoji!");
 					}
@@ -134,17 +136,25 @@ public class PatientFrame extends JFrame {
 		
 		JButton patientInfoButton = new JButton("Osnovni podaci");
 		patientInfoButton.setIcon(new ImageIcon("images/contact_card_icon&24.png"));
-		toolBar.add(patientInfoButton);
-		
-		JButton symptomsButton = new JButton("Anamneze");
-		symptomsButton.addActionListener(new AbstractAction() {
+		patientInfoButton.addActionListener(new AbstractAction() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				NewPhysicalExaminationDialog p = new NewPhysicalExaminationDialog();
-				p.setVisible(true);
+				UpdatePatientDialog d = new UpdatePatientDialog(patient, PatientFrame.this);
+				d.setVisible(true);
 			}
+		});
+		toolBar.add(patientInfoButton);
+		
+		JButton symptomsButton = new JButton("Anamneze");
+		symptomsButton.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				NewAnamnesisDialog p = new NewAnamnesisDialog();
+				p.setVisible(true);
+			}	
 		});
 		
 		symptomsButton.setToolTipText("Sve anamneze pacijenta");
@@ -154,12 +164,11 @@ public class PatientFrame extends JFrame {
 		JButton physicalExaminationsButton = new JButton("Pregledi");
 		physicalExaminationsButton.setToolTipText("Svi pregledi pacijenta");
 		physicalExaminationsButton.setIcon(new ImageIcon("images/folder_icon&24.png"));
-		physicalExaminationsButton.addActionListener(new AbstractAction() {
-			
+		physicalExaminationsButton.addActionListener(new AbstractAction() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				NewAnamnesisDialog p = new NewAnamnesisDialog();
+				NewPhysicalExaminationDialog p = new NewPhysicalExaminationDialog();
 				p.setVisible(true);
 			}
 		});
@@ -252,16 +261,20 @@ public class PatientFrame extends JFrame {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		mainPanel.add(patientInfoPanel, BorderLayout.NORTH);
 		
-		String patientInfoText = String.format("%s %s, ID: %s, (%s)", patient.getLastName(), patient.getFirstName(), patient.getPatientId(), patient.getDateOfBirth());
 		
 		patientInfoLabel = new JLabel();
 		patientInfoLabel.setForeground(Color.RED);
 		patientInfoLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		patientInfoLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		patientInfoLabel.setText(patientInfoText);
+		setPatientInfoLabel();
 		patientInfoPanel.add(patientInfoLabel);
 	}
 
+	public void setPatientInfoLabel() {
+		String patientInfoText = String.format("%s %s, ID: %s, (%s)", patient.getLastName(), patient.getFirstName(), patient.getPatientId(), patient.getDateOfBirth());
+		patientInfoLabel.setText(patientInfoText);
+	}
+	
 	public Patient getPatient() {
 		return patient;
 	}

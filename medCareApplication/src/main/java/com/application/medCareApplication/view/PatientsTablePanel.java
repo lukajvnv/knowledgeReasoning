@@ -124,7 +124,7 @@ public class PatientsTablePanel extends JScrollPane {
 	
 	public void refreshData() {
 		PatientsTableModel tableModel = (PatientsTableModel) patientsTable.getModel();
-		tableModel.collectData();
+		tableModel.refreshData();
 	}
 
 	public JTable getTable() {

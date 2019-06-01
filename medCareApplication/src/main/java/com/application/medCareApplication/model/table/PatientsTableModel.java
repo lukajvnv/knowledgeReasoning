@@ -48,18 +48,17 @@ public class PatientsTableModel extends DefaultTableModel {
 	
 	public void collectData() {
 		setRowCount(0);
-		/*for(int i = 0; i < 15; i++) {
-			Patient p = new Patient(i, "ime" + i, "prezime" + i, "jmbg" + i, "15.5.2018", "adresa" + i, "telefon" + i);
-			PatientTableModelRow ptr = new PatientTableModelRow(p);
-			rowsData.add(ptr);
-			addRow(ptr.addRowToTable());
-		}*/
-		List<Patient> patients = databaseHandler.selectAll();
+		List<Patient> patients = databaseHandler.selectAllPatients();
 		for(Patient p: patients) {
 			PatientTableModelRow ptr = new PatientTableModelRow(p);
 			rowsData.add(ptr);
 			addRow(ptr.addRowToTable());
 		}
+	}
+	
+	public void refreshData() {
+		this.rowsData = new ArrayList<PatientTableModelRow>();
+		collectData();
 	}
 	
 	public void create() {

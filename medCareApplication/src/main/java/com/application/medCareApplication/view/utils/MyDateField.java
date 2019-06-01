@@ -65,6 +65,7 @@ public class MyDateField extends JDatePickerImpl {
 	 * @return - string koji predstavlja datum u formatu yyyy.MM.dd
 	 */
 	public String formatDateOutput(DateModel<?> model){
-		return String.format("%s.%s.%s", model.getYear(), model.getMonth()+1, model.getDay());
+		//return String.format("%s.%s.%s", model.getYear(), model.getMonth()+1, model.getDay());
+		return String.format("%s.%s.%s.", model.getDay(), model.getMonth()+1, model.getYear());
 	}
 }
