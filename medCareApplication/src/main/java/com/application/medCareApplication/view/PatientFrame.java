@@ -244,6 +244,18 @@ public class PatientFrame extends JFrame {
 		JButton btnNewButton_11 = new JButton("New button");
 		toolBar_1.add(btnNewButton_11);
 		
+		JButton btnDopunskaIspitivanja = new JButton("Dopunska ispitivanja");
+		toolBar_1.add(btnDopunskaIspitivanja);
+		btnDopunskaIspitivanja.addActionListener(new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Pozivace se csv connector kako bi se na osnovu anamneze i fiz pregleda konkretnog pacijenta ponudilo koja ispitivanja jos treba da uradi
+				
+				
+			}
+		});
+		
 		Component horizontalStrut = Box.createHorizontalStrut(100);
 		horizontalStrut.setBackground(Color.WHITE);
 		toolBar_1.add(horizontalStrut);
