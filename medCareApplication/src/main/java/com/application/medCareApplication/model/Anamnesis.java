@@ -8,37 +8,52 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "anamnesis")
 public class Anamnesis {
+
 	@Id
 	private int anamnesisId;
+	
 	
 	@Column(name = "IdPacijenta")
 	private int patientId;
 	
-	@Column(name = "Temperatura")
-	private String bodyTemperature;
+	@Column(name = "Pusenje")
+	private String smoking;
 	
-	@Column(name = "Disajni_zvuk")
-	private String respiratorySound;
+	@Column(name = "Alkohol")
+	private String alcohol;
 	
-	@Column(name = "Sumovi")
-	private String respriratoryNoise;
-
+	@Column(name = "Stanje")
+	private String employed;
+	
+	@Column(name = "Tezina")
+	private String workingCondition;
+	
+	@Column(name = "Zivi")
+	private String livingPlace;
+	
+	@Column(name = "Stanuje")
+	private String livingObject;
+	
+	@Column(name = "Ljubimci")
+	private String pet;
+	
 	public Anamnesis() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	
-	public Anamnesis(int patientId, String bodyTemperature, String respiratorySound, String respriratoryNoise) {
+
+	public Anamnesis(int patientId, String smoking, String alcohol, String employed, String workingCondition,
+			String livingPlace, String livingObject, String pet) {
 		super();
 		this.patientId = patientId;
-		this.bodyTemperature = bodyTemperature;
-		this.respiratorySound = respiratorySound;
-		this.respriratoryNoise = respriratoryNoise;
+		this.smoking = smoking;
+		this.alcohol = alcohol;
+		this.employed = employed;
+		this.workingCondition = workingCondition;
+		this.livingPlace = livingPlace;
+		this.livingObject = livingObject;
+		this.pet = pet;
 	}
-
-
 
 	public int getPatientId() {
 		return patientId;
@@ -48,27 +63,60 @@ public class Anamnesis {
 		this.patientId = patientId;
 	}
 
-	public String getBodyTemperature() {
-		return bodyTemperature;
+	public String getSmoking() {
+		return smoking;
 	}
 
-	public void setBodyTemperature(String bodyTemperature) {
-		this.bodyTemperature = bodyTemperature;
+	public void setSmoking(String smoking) {
+		this.smoking = smoking;
 	}
 
-	public String getRespiratorySound() {
-		return respiratorySound;
+	public String getAlcohol() {
+		return alcohol;
 	}
 
-	public void setRespiratorySound(String respiratorySound) {
-		this.respiratorySound = respiratorySound;
+	public void setAlcohol(String alcohol) {
+		this.alcohol = alcohol;
 	}
 
-	public String getRespriratoryNoise() {
-		return respriratoryNoise;
+	public String getEmployed() {
+		return employed;
 	}
 
-	public void setRespriratoryNoise(String respriratoryNoise) {
-		this.respriratoryNoise = respriratoryNoise;
+	public void setEmployed(String employed) {
+		this.employed = employed;
 	}
+
+	public String getWorkingCondition() {
+		return workingCondition;
+	}
+
+	public void setWorkingCondition(String workingCondition) {
+		this.workingCondition = workingCondition;
+	}
+
+	public String getLivingPlace() {
+		return livingPlace;
+	}
+
+	public void setLivingPlace(String livingPlace) {
+		this.livingPlace = livingPlace;
+	}
+
+	public String getLivingObject() {
+		return livingObject;
+	}
+
+	public void setLivingObject(String livingObject) {
+		this.livingObject = livingObject;
+	}
+
+	public String getPet() {
+		return pet;
+	}
+
+	public void setPet(String pet) {
+		this.pet = pet;
+	}
+
 }
