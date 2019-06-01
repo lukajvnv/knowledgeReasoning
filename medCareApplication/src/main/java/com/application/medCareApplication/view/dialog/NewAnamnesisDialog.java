@@ -10,9 +10,11 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -23,7 +25,12 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import com.application.medCareApplication.model.Anamnesis;
+import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.utils.Utils;
+import com.application.medCareApplication.utils.handler.DatabaseHandler;
+import com.application.medCareApplication.view.MainFrame;
+import com.application.medCareApplication.view.displayExaminations.ViewPatientAnamnesis;
 
 
 public class NewAnamnesisDialog extends JDialog {
@@ -35,16 +42,21 @@ public class NewAnamnesisDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JPanel personalAnamnesisPanel;
 	
-	ButtonGroup smokingButtonGroup;
-	ButtonGroup alcoholButtonGroup;
-	ButtonGroup emloyedButtonGroup;
-
+	private ButtonGroup smokingButtonGroup;
+	private ButtonGroup alcoholButtonGroup;
+	private ButtonGroup employedButtonGroup;
+	private ButtonGroup workingConditionButtonGroup;
+	private ButtonGroup livingPlaceButtonGroup;
+	private ButtonGroup livingObjectButtonGroup;
+	private ButtonGroup petButtonGroup;
+	
+	private Patient patient;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			NewAnamnesisDialog dialog = new NewAnamnesisDialog();
+			NewAnamnesisDialog dialog = new NewAnamnesisDialog(new Patient());
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -55,8 +67,18 @@ public class NewAnamnesisDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public NewAnamnesisDialog() {
-		setTitle("Dodavanje anamneze za pacijenta: Luka Jovanovic");
+	private ViewPatientAnamnesis panel;
+	
+	public NewAnamnesisDialog(Patient patient, ViewPatientAnamnesis p) {
+		this(patient);
+		this.panel = p;
+	}
+	
+	public NewAnamnesisDialog(Patient p) {
+		this.patient = p;
+		
+		String titleText = String.format("Dodavanje anamneze za pacijenta: %s %s", patient.getFirstName(), patient.getLastName());
+		setTitle(titleText);
 		setModal(true);
 		setFocusable(true);		//focus da bi se mogao trigerovati keyListener
 		setLocationRelativeTo(null);
@@ -107,13 +129,13 @@ public class NewAnamnesisDialog extends JDialog {
 				smokingPanel.setLayout(new GridLayout(0, 2, 5, 5));
 				
 					JRadioButton smokingYesRadioButton = new JRadioButton("Da");
-					smokingYesRadioButton.setActionCommand("da pusim");
+					smokingYesRadioButton.setActionCommand("Da");
 					smokingYesRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 					smokingPanel.add(smokingYesRadioButton);
 				
 				
 					JRadioButton smokingNoRadioButton = new JRadioButton("Ne");
-					smokingNoRadioButton.setActionCommand("ne pusim");
+					smokingNoRadioButton.setActionCommand("Ne");
 					smokingNoRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 					smokingPanel.add(smokingNoRadioButton);
 				
@@ -142,11 +164,13 @@ public class NewAnamnesisDialog extends JDialog {
 				alcoholPanel.setLayout(new GridLayout(1, 2, 5, 5));
 				
 					JRadioButton alcoholYesRadioButton = new JRadioButton("Da");
+					alcoholYesRadioButton.setActionCommand("Da");
 					alcoholYesRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 					alcoholPanel.add(alcoholYesRadioButton);
 				
 				
 					JRadioButton alcoholNoRadioButton = new JRadioButton("Ne");
+					alcoholNoRadioButton.setActionCommand("Ne");
 					alcoholNoRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 					alcoholPanel.add(alcoholNoRadioButton);
 					
@@ -190,17 +214,20 @@ public class NewAnamnesisDialog extends JDialog {
 				emloyedPanel.setLayout(new GridLayout(0, 2, 0, 0));
 				
 					JRadioButton employedRadioButton = new JRadioButton("Zaposlen");
+					employedRadioButton.setActionCommand("Zaposlen");
 					employedRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 					emloyedPanel.add(employedRadioButton);
 				
 				
 					JRadioButton unemployedRadioButton = new JRadioButton("Nezaposlen");
+					unemployedRadioButton.setActionCommand("Nezaposlen");
+					unemployedRadioButton.setSelected(true);
 					unemployedRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 					emloyedPanel.add(unemployedRadioButton);
 				
-					emloyedButtonGroup = new ButtonGroup();
-					emloyedButtonGroup.add(employedRadioButton);
-					emloyedButtonGroup.add(unemployedRadioButton);
+					employedButtonGroup = new ButtonGroup();
+					employedButtonGroup.add(employedRadioButton);
+					employedButtonGroup.add(unemployedRadioButton);
 			}
 			{
 				JLabel workingConditionLabel = new JLabel("Te\u017Eina:");
@@ -220,16 +247,19 @@ public class NewAnamnesisDialog extends JDialog {
 				profesionalAnamnesisPanel.add(workingConditionPanel, gbc_workingConditionPanel);
 				workingConditionPanel.setLayout(new GridLayout(0, 2, 0, 0));
 				
-					JRadioButton lightWorkingConditionRadioButton = new JRadioButton("Fizi\u010Dki lak posao");
+					JRadioButton lightWorkingConditionRadioButton = new JRadioButton("Fizicki lak posao");
+					lightWorkingConditionRadioButton.setActionCommand("Fizicki lak posao");
+					lightWorkingConditionRadioButton.setSelected(true);
 					lightWorkingConditionRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 					workingConditionPanel.add(lightWorkingConditionRadioButton);
 				
 				
-					JRadioButton hardWorkingConditionRadioButton = new JRadioButton("Fizi\u010Dki te\u017Eak posao");
+					JRadioButton hardWorkingConditionRadioButton = new JRadioButton("Fizicki tezak posao");
+					hardWorkingConditionRadioButton.setActionCommand("Fizicki tezak posao");
 					hardWorkingConditionRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 					workingConditionPanel.add(hardWorkingConditionRadioButton);
 				
-					ButtonGroup workingConditionButtonGroup = new ButtonGroup();
+					workingConditionButtonGroup = new ButtonGroup();
 					workingConditionButtonGroup.add(lightWorkingConditionRadioButton);
 					workingConditionButtonGroup.add(hardWorkingConditionRadioButton);
 			}
@@ -269,16 +299,18 @@ public class NewAnamnesisDialog extends JDialog {
 				livingPlacePanel.setLayout(new GridLayout(0, 2, 0, 0));
 				
 					JRadioButton cityLivingPlaceRadioButton = new JRadioButton("Grad");
-					
+					cityLivingPlaceRadioButton.setActionCommand("Grad");
+					cityLivingPlaceRadioButton.setSelected(true);
 					cityLivingPlaceRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 					livingPlacePanel.add(cityLivingPlaceRadioButton);
 				
 				
 					JRadioButton villageLivingPlaceRadioButton = new JRadioButton("Selo");
+					villageLivingPlaceRadioButton.setActionCommand("Selo");
 					villageLivingPlaceRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 					livingPlacePanel.add(villageLivingPlaceRadioButton);
 				
-					ButtonGroup livingPlaceButtonGroup = new ButtonGroup();
+					livingPlaceButtonGroup = new ButtonGroup();
 					livingPlaceButtonGroup.add(cityLivingPlaceRadioButton);
 					livingPlaceButtonGroup.add(villageLivingPlaceRadioButton);
 			}
@@ -302,17 +334,20 @@ public class NewAnamnesisDialog extends JDialog {
 				livingObjectPanel.setLayout(new GridLayout(1, 0, 0, 0));
 				
 					JRadioButton flatLivingObjectRadioButton = new JRadioButton("Stan");
+					flatLivingObjectRadioButton.setActionCommand("Stan");
+					flatLivingObjectRadioButton.setSelected(true);
 					flatLivingObjectRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 					livingObjectPanel.add(flatLivingObjectRadioButton);
 				
 				
-					JRadioButton houseLivingObjecctRadioButton = new JRadioButton("Ku\u0107a");
+					JRadioButton houseLivingObjecctRadioButton = new JRadioButton("Kuca");
+					houseLivingObjecctRadioButton.setActionCommand("Kuca");
 					houseLivingObjecctRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 					livingObjectPanel.add(houseLivingObjecctRadioButton);
 				
-					ButtonGroup socioeconomicalButtonGroup = new ButtonGroup();
-					socioeconomicalButtonGroup.add(flatLivingObjectRadioButton);
-					socioeconomicalButtonGroup.add(houseLivingObjecctRadioButton);
+					livingObjectButtonGroup = new ButtonGroup();
+					livingObjectButtonGroup.add(flatLivingObjectRadioButton);
+					livingObjectButtonGroup.add(houseLivingObjecctRadioButton);
 			}
 			{
 				JLabel petLabel = new JLabel("Ku\u0107ni ljubimci:");
@@ -342,7 +377,7 @@ public class NewAnamnesisDialog extends JDialog {
 					petNoRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 					petPanel.add(petNoRadioButton);
 				
-					ButtonGroup petButtonGroup = new ButtonGroup();
+					petButtonGroup = new ButtonGroup();
 					petButtonGroup.add(petYesRadioButton);
 					petButtonGroup.add(petNoRadioButton);
 			}
@@ -468,12 +503,33 @@ public class NewAnamnesisDialog extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
 						System.out.println("add action button");
-						//boolean valid = validation();
-						String str = Utils.getSelectedButtonText(alcoholButtonGroup);
-						System.out.println(str);
+						String alcohol = Utils.getSelectedButtonText(alcoholButtonGroup);
+						alcohol = (alcohol != null) ? alcohol : "Ne";
+						String smoking = Utils.getSelectedButtonText(smokingButtonGroup);
+						smoking = (smoking != null) ? smoking : "Ne";
+						String pet = Utils.getSelectedButtonText(petButtonGroup);
+						pet = (pet != null) ? pet : "Ne";	
+						
 						System.out.println("preko selection ");
-						String s = smokingButtonGroup.getSelection().getActionCommand();
-						System.out.println(s);
+						int patientId = patient.getPatientId();
+						String employed = employedButtonGroup.getSelection().getActionCommand();
+						String workingCondition = workingConditionButtonGroup.getSelection().getActionCommand();
+						String livingObject = livingObjectButtonGroup.getSelection().getActionCommand();
+						String livingPlace = livingPlaceButtonGroup.getSelection().getActionCommand();
+	
+						Anamnesis anamnesis = new Anamnesis(-1, patientId, smoking, alcohol, employed, workingCondition, livingPlace, livingObject, pet);
+					
+						DatabaseHandler dbHandler = MainFrame.getInstance().getDatabaseHandler();
+						try {
+							dbHandler.createAnamnesis(anamnesis);
+							DefaultListModel<Anamnesis> model =  (DefaultListModel<Anamnesis>) panel.getPatientAnamnesisList().getModel();
+							model.addElement(anamnesis);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+						dispose();
 					}
 				});
 			}
@@ -493,5 +549,13 @@ public class NewAnamnesisDialog extends JDialog {
 
 	public JPanel getPersonalAnamnesisPanel() {
 		return personalAnamnesisPanel;
+	}
+
+	public Patient getPatient() {
+		return patient;
+	}
+
+	public void setPatient(Patient patient) {
+		this.patient = patient;
 	}
 }

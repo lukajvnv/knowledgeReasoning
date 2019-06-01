@@ -10,10 +10,10 @@ import javax.persistence.Table;
 public class Anamnesis {
 
 	@Id
+	@Column(name = "anamnesis_id")
 	private int anamnesisId;
 	
-	
-	@Column(name = "IdPacijenta")
+	@Column(name = "Id_Pacijenta")
 	private int patientId;
 	
 	@Column(name = "Pusenje")
@@ -42,9 +42,10 @@ public class Anamnesis {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Anamnesis(int patientId, String smoking, String alcohol, String employed, String workingCondition,
-			String livingPlace, String livingObject, String pet) {
+	public Anamnesis(int anamnesisId, int patientId, String smoking, String alcohol, String employed,
+			String workingCondition, String livingPlace, String livingObject, String pet) {
 		super();
+		this.anamnesisId = anamnesisId;
 		this.patientId = patientId;
 		this.smoking = smoking;
 		this.alcohol = alcohol;
@@ -117,6 +118,13 @@ public class Anamnesis {
 
 	public void setPet(String pet) {
 		this.pet = pet;
+	}
+	
+	@Override
+	public String toString() {
+		return "[smoking=" + smoking + ", alcohol=" + alcohol + ", employed=" + employed
+				+ ", workingCondition=" + workingCondition + ", livingPlace=" + livingPlace + ", livingObject="
+				+ livingObject + ", pet=" + pet + "]";
 	}
 
 }

@@ -32,6 +32,8 @@ import com.application.medCareApplication.view.dialog.NewAnamnesisDialog;
 import com.application.medCareApplication.view.dialog.NewEwsScoreDialog;
 import com.application.medCareApplication.view.dialog.NewPhysicalExaminationDialog;
 import com.application.medCareApplication.view.dialog.UpdatePatientDialog;
+import com.application.medCareApplication.view.displayExaminations.ViewPatientAnamnesis;
+import com.application.medCareApplication.view.displayExaminations.ViewPatientPhysicalExamination;
 import com.application.medCareApplication.view.utils.MyFieldFocusListener;
 
 @SuppressWarnings("serial")
@@ -45,6 +47,9 @@ public class PatientFrame extends JFrame {
 	private Patient patient;
 	private JButton searchButton;
 	private JLabel patientInfoLabel;
+	private JSplitPane splitPane;
+	private JPanel rightPanel;
+	private JPanel leftPanel;
 	/**
 	 * Launch the application.
 	 */
@@ -149,12 +154,18 @@ public class PatientFrame extends JFrame {
 		
 		JButton symptomsButton = new JButton("Anamneze");
 		symptomsButton.addActionListener(new AbstractAction() {
-			@Override
+			/*@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				NewAnamnesisDialog p = new NewAnamnesisDialog();
 				p.setVisible(true);
-			}	
+			}*/
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				ViewPatientAnamnesis p = new ViewPatientAnamnesis(patient);
+				splitPane.setLeftComponent(p);
+			}
 		});
 		
 		symptomsButton.setToolTipText("Sve anamneze pacijenta");
@@ -165,11 +176,17 @@ public class PatientFrame extends JFrame {
 		physicalExaminationsButton.setToolTipText("Svi pregledi pacijenta");
 		physicalExaminationsButton.setIcon(new ImageIcon("images/folder_icon&24.png"));
 		physicalExaminationsButton.addActionListener(new AbstractAction() {	
-			@Override
+			/*@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				NewPhysicalExaminationDialog p = new NewPhysicalExaminationDialog();
 				p.setVisible(true);
+			}*/
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				ViewPatientPhysicalExamination p = new ViewPatientPhysicalExamination(patient);
+				splitPane.setLeftComponent(p);
 			}
 		});
 		toolBar.add(physicalExaminationsButton);
@@ -211,7 +228,7 @@ public class PatientFrame extends JFrame {
 		contentPane.add(mainPanel, BorderLayout.CENTER);
 		mainPanel.setLayout(new BorderLayout(0, 0));
 		
-		JSplitPane splitPane = new JSplitPane();
+		splitPane = new JSplitPane();
 		mainPanel.add(splitPane, BorderLayout.CENTER);
 		
 		// Divider postavljen da bude nevidljiv
@@ -219,15 +236,16 @@ public class PatientFrame extends JFrame {
 				
 		splitPane.setResizeWeight(0.5);
 		
-		JPanel rightPanel = new JPanel();
+		
+		rightPanel = new JPanel();
 		rightPanel.setBorder(new TitledBorder(null, "Detalji", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		splitPane.setRightComponent(rightPanel);
 		
-		JPanel leftPanel = new JPanel();
+		leftPanel = new JPanel();
 		splitPane.setLeftComponent(leftPanel);
 		leftPanel.setLayout(new BorderLayout(0, 0));
 		
-		JToolBar toolBar_1 = new JToolBar();
+		/*JToolBar toolBar_1 = new JToolBar();
 		leftPanel.add(toolBar_1, BorderLayout.NORTH);
 		
 		JButton btnNewButton_8 = new JButton("Novi");
@@ -254,13 +272,13 @@ public class PatientFrame extends JFrame {
 		toolBar_1.add(lblNewLabel);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		leftPanel.add(scrollPane, BorderLayout.CENTER);
+		leftPanel.add(scrollPane, BorderLayout.CENTER);*/
 		
+		//Prikaz najosnovnijih podataka o pacijentu
 		JPanel patientInfoPanel = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) patientInfoPanel.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		mainPanel.add(patientInfoPanel, BorderLayout.NORTH);
-		
 		
 		patientInfoLabel = new JLabel();
 		patientInfoLabel.setForeground(Color.RED);
@@ -291,5 +309,14 @@ public class PatientFrame extends JFrame {
 	}
 	public JLabel getPatientInfoLabel() {
 		return patientInfoLabel;
+	}
+	public JSplitPane getSplitPane() {
+		return splitPane;
+	}
+	public JPanel getRightPanel() {
+		return rightPanel;
+	}
+	public JPanel getLeftPanel() {
+		return leftPanel;
 	}
 }
