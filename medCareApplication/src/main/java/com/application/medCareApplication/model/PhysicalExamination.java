@@ -10,9 +10,10 @@ import javax.persistence.Table;
 public class PhysicalExamination {
 	
 	@Id
+	@Column(name = "physical_Examination_Id")
 	private int physicalExaminationId;
 	
-	@Column(name = "IdPacijenta")
+	@Column(name = "Id_Pacijenta")
 	private int patientId;
 	
 	@Column(name = "Temperatura")
@@ -22,21 +23,21 @@ public class PhysicalExamination {
 	private String respiratorySound;
 	
 	@Column(name = "Sumovi")
-	private String respriratoryNoise;
+	private String respiratoryNoise;
 
 	public PhysicalExamination() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	
-	
-	public PhysicalExamination(int patientId, String bodyTemperature, String respiratorySound, String respriratoryNoise) {
+	public PhysicalExamination(int physicalExaminationId, int patientId, String bodyTemperature,
+			String respiratorySound, String respiratoryNoise) {
 		super();
+		this.physicalExaminationId = physicalExaminationId;
 		this.patientId = patientId;
 		this.bodyTemperature = bodyTemperature;
 		this.respiratorySound = respiratorySound;
-		this.respriratoryNoise = respriratoryNoise;
+		this.respiratoryNoise = respiratoryNoise;
 	}
 
 
@@ -66,10 +67,18 @@ public class PhysicalExamination {
 	}
 
 	public String getRespriratoryNoise() {
-		return respriratoryNoise;
+		return respiratoryNoise;
 	}
 
 	public void setRespriratoryNoise(String respriratoryNoise) {
-		this.respriratoryNoise = respriratoryNoise;
+		this.respiratoryNoise = respriratoryNoise;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "[temperatura=" + bodyTemperature + ", disajniZvuk=" + respiratorySound
+				+ ", sumovi=" + respiratoryNoise + "]";
 	}
 }

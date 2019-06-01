@@ -10,14 +10,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Properties;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.application.medCareApplication.model.Anamnesis;
 import com.application.medCareApplication.model.Patient;
+import com.application.medCareApplication.model.PhysicalExamination;
 import com.application.medCareApplication.utils.PatientsColumn;
 
 /**
@@ -80,7 +80,7 @@ public class DatabaseHandler implements IHandler {
 	
 	public void createPatient(Patient patient) throws SQLException{
 		
-		int id = getId();
+		int id = getId("patient");
 		String template = "INSERT INTO patient (Id, Ime, Prezime, Jmbg, Telefon, Datum_rodjenja, Adresa) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		
 		System.out.println(template);
@@ -144,6 +144,7 @@ public class DatabaseHandler implements IHandler {
 		
 	}
 	
+	
 	public List<Patient> selectAllPatients() {
 	
 		String sql = String.format("SELECT %s FROM %s;", "*", "patient");
@@ -162,7 +163,10 @@ public class DatabaseHandler implements IHandler {
 			}
 			
 			while(rset.next()) {
-				patients.add(makeOnePatient(rset));
+				Patient p = makeOnePatient(rset);
+				if( p != null) {
+					patients.add(p);
+				}
 			}
 			
 			
@@ -202,8 +206,8 @@ public class DatabaseHandler implements IHandler {
 		}
 	}
 	
-	private int getId () {
-		String sql = String.format("SELECT %s FROM %s;", "*", "patient");
+	private int getId(String tableName) {
+		String sql = String.format("SELECT %s FROM %s;", "*", tableName);
 		StringBuilder st = new StringBuilder(sql);
 		
 		System.out.println(st);
@@ -252,16 +256,67 @@ public class DatabaseHandler implements IHandler {
 		}
 	}
 	
-	/*
-
-	@Override
-	public ArrayList<TableModelRow> read(Table table) throws SQLException{
-		String sql = String.format("select * from %s", table.getId());
-		Statement stmt;
-		ArrayList<TableModelRow> modelRows = new ArrayList<TableModelRow>();
+	public void createPhysicalExamination(PhysicalExamination ex) throws SQLException{
+		
+		int id = getId("physical_examination");
+		String template = "INSERT INTO physical_examination (physical_Examination_Id, Id_Pacijenta, Temperatura, Disajni_zvuk, Sumovi) VALUES (?, ?, ?, ?, ?)";
+		
+		System.out.println(template);
+	
+		try {
+			PreparedStatement preparedStatement = databaseConnection.prepareStatement(template);
+			preparedStatement.setInt(1, id);
+			preparedStatement.setInt(2, ex.getPatientId()); 
+			preparedStatement.setString(3, ex.getBodyTemperature());
+			preparedStatement.setString(4, ex.getRespiratorySound());
+			preparedStatement.setString(5, ex.getRespriratoryNoise());
+		
+			
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			throw new SQLException("");
+		}
+		
+	}
+	
+	public PhysicalExamination selectPatientPhysicalExamination(int physicalExaminationId) {
+		String sql = String.format("SELECT %s FROM %s WHERE %s = '%s';", "*", "physical_examination", PatientsColumn.physicalExaminationId, physicalExaminationId);
+		System.out.println(sql);
+		try {
+			PhysicalExamination physicalExamination = null;	
+			Statement stmt = databaseConnection.createStatement();			
+			
+			ResultSet rset = stmt.executeQuery(sql);
+			
+			if(!rset.isBeforeFirst()) {
+				System.out.println("Nevalidan id");
+			}
+			
+			while(rset.next()) {
+				physicalExamination = makeOnePhysicalExamination(rset);
+			}	
+			rset.close();
+			stmt.close();
+			return physicalExamination;
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	public List<PhysicalExamination> selectPatientPhysicalExaminations(Patient p) {
+		
+		String sql = String.format("SELECT %s FROM %s WHERE Id_Pacijenta = '%s';", "*", "physical_examination", p.getPatientId());
+		
+		System.out.println(sql);
+		
+		List<PhysicalExamination> physicalExaminatino = new ArrayList<PhysicalExamination>();
 		
 		try {
-			stmt = databaseConnection.createStatement();			
+			Statement stmt = databaseConnection.createStatement();			
 			
 			ResultSet rset = stmt.executeQuery(sql);
 			
@@ -270,239 +325,152 @@ public class DatabaseHandler implements IHandler {
 			}
 			
 			while(rset.next()) {
-				TableModelRow row = addNewRow(rset, table);
-				if(row != null){
-					modelRows.add(row);
+				PhysicalExamination pE = makeOnePhysicalExamination(rset);
+				if(pE != null) {
+					physicalExaminatino.add(pE);
 				}
 			}
+			
 			
 			rset.close();
 			stmt.close();
-	
-			return modelRows;
+			
+			return physicalExaminatino;
 			
 		} catch (SQLException e) {
 			//e.printStackTrace();
-			throw new SQLException(Utils.dict("handler.read.error") + e.getMessage());
+			return null;
+		}
+	
+	}
+	
+	private PhysicalExamination makeOnePhysicalExamination(ResultSet resultSet) {
+		PhysicalExamination physicalExamination = null;
+		try {
+			Integer physicalExaminationId = resultSet.getInt(PatientsColumn.physicalExaminationId);
+			Integer patientId = resultSet.getInt(PatientsColumn.patientId);
+			String bodyTemperature = resultSet.getString(PatientsColumn.bodyTemperature);
+			String respiratorySound = resultSet.getString(PatientsColumn.respiratorySound);
+			String respiratoryNoise = resultSet.getString(PatientsColumn.respiratoryNoise);
+			
+			physicalExamination = new PhysicalExamination(physicalExaminationId, patientId, bodyTemperature, respiratorySound, respiratoryNoise);
+			
+			return physicalExamination;
+		} catch (SQLException e) {
+			return physicalExamination;
 		}
 	}
 	
-	
-	
-	*//**
-	 * Formiranje reda u tabeli koji prezentuje TableModelRow klasa na osnovu vrednosti koji su dobijene u result
-	 * @param result - rezultat upita, trenutno aktuelan red
-	 * @param table - tabela iz koje se dobavljaju podaci
-	 * @return - red u tabeli prezentovan TableModelRow klasom
-	 *//*
-	private TableModelRow addNewRow(ResultSet result, Table table){
-		TableModelRow row = new TableModelRow();
+	public void createAnamnesis(Anamnesis anamnesis) throws SQLException{
+		int id = getId("anamnesis");
+		String template = "INSERT INTO anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
-		Set<Entry<String, Label>> entrySets = table.getLabels().entrySet();
-		for(Entry<String, Label> set : entrySets){
-			try {
-				String key = set.getKey();
-				Label label = set.getValue();
-				
-				String dbValue = result.getString(key);
-				if(dbValue == null){
-					dbValue = "NULL";
-				} else {
-					Types type = label.getDomain().getDataType();
-					if(type == Types.BOOLEAN){
-						dbValue = (dbValue.equals("0")) ? Utils.dict("no") : Utils.dict("yes");
-					} else if (type == Types.DOUBLE){
-						dbValue = dbValue.replace('.', Utils.dict("sep").charAt(0));
-					} else if (type == Types.DATE) {
-						dbValue = Utils.parseDate(dbValue);
-					}
-				}
-				row.addColumnValue(key, dbValue);
-			} catch (SQLException e) {
-				return null;
+		System.out.println(template);
+	
+		try {
+			PreparedStatement preparedStatement = databaseConnection.prepareStatement(template);
+			preparedStatement.setInt(1, id);
+			preparedStatement.setInt(2, anamnesis.getPatientId());
+			preparedStatement.setString(3, anamnesis.getSmoking());
+			preparedStatement.setString(4, anamnesis.getAlcohol());
+			preparedStatement.setString(5, anamnesis.getEmployed());
+			preparedStatement.setString(6, anamnesis.getWorkingCondition());
+			preparedStatement.setString(7, anamnesis.getLivingPlace());
+			preparedStatement.setString(8, anamnesis.getLivingObject());
+			preparedStatement.setString(9, anamnesis.getPet());
+			                               
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			throw new SQLException("");
+		}
+		
+	}
+	
+	public Anamnesis selectPatientAnamnesis(int anamnesisId) {
+		String sql = String.format("SELECT %s FROM %s WHERE %s = '%s';", "*", "anamnesis", PatientsColumn.anamnesisId, anamnesisId);
+		System.out.println(sql);
+		try {
+			Anamnesis anamnesis = null;	
+			Statement stmt = databaseConnection.createStatement();			
+			
+			ResultSet rset = stmt.executeQuery(sql);
+			
+			if(!rset.isBeforeFirst()) {
+				System.out.println("Nevalidan id");
 			}
+			
+			while(rset.next()) {
+				anamnesis = makeOneAnamnesis(rset);
+			}	
+			rset.close();
+			stmt.close();
+			return anamnesis;
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return null;
 		}
-				
-		return row;
+		
 	}
 	
-	@Override
-	public void delete(Table table, Map<String, String> keyValues) throws SQLException{	
-		String sql = String.format("DELETE FROM %s WHERE ", table.getId());
-		StringBuilder st = new StringBuilder(sql);
-
-		addConditionalPartOfStatement(st, keyValues);
-		st.append(";");
-				
-		try {
-			Statement stmt = databaseConnection.createStatement();					
-			stmt.execute(st.toString());
-			
-		} catch (SQLException s) {
-			throw new SQLException(Utils.dict("handler.delete.error") + s.getMessage());
-		} catch (Exception e){
-			
-		}
+	public List<Anamnesis> selectAllPatientAnamnesis(Patient p) {
 		
-	}
-
-	@Override
-	public void update(Table table, TableModelRow row) throws SQLException {
-		String sql = String.format("UPDATE %s SET ", table.getId());
-		StringBuilder st = new StringBuilder(sql);
+		String sql = String.format("SELECT %s FROM %s WHERE Id_Pacijenta = '%s';", "*", "anamnesis", p.getPatientId());
 		
-		addValuesOfStatement(st, row, table.getLabels());
-		st.append(" WHERE ");
-		Map<String, String> keyValues = row.getKeyValues(table.getKey());
-		addConditionalPartOfStatement(st, keyValues);
-		st.append(";");
+		System.out.println(sql);
 		
-		System.out.println(st);
+		List<Anamnesis> anamnesis = new ArrayList<Anamnesis>();
 		
 		try {
-			Statement stmt = databaseConnection.createStatement();					
-			stmt.execute(st.toString());			
-		} catch (SQLException s) {
-			throw new SQLException(Utils.dict("handler.update.error") + s.getMessage());
-		} catch (Exception e){
-			e.printStackTrace();
-		}
-	}
-	
-	@Override
-	public ArrayList<TableModelRow> search(Table table, Map<String, RangeSearch> rangeSearch) throws SQLException {
-		String sql = String.format("SELECT * FROM %s WHERE ", table.getId());
-		System.out.println("SQL : " + sql);
-		StringBuilder st = new StringBuilder(sql);
-		
-		// Ako je sve ignorisano
-		if (rangeSearch.size() == 0) {
-			st = new StringBuilder("SELECT * FROM " + table.getId());
-		}
-		
-		addConditionalPartOfStatementForSearch(st, rangeSearch, table);
-		st.append(";");
-		
-		Statement stmt;
-		ArrayList<TableModelRow> modelRows = new ArrayList<TableModelRow>();
-
-		
-		try {
-			stmt = databaseConnection.createStatement();			
+			Statement stmt = databaseConnection.createStatement();			
 			
-			System.out.println(st);
-			
-			ResultSet rset = stmt.executeQuery(st.toString());
+			ResultSet rset = stmt.executeQuery(sql);
 			
 			if(!rset.isBeforeFirst()) {
 				System.out.println("Nema podataka");
 			}
 			
 			while(rset.next()) {
-				TableModelRow row = addNewRow(rset, table);
-				if(row != null){
-					modelRows.add(row);
+				Anamnesis a = makeOneAnamnesis(rset);
+				if( a != null) {
+					anamnesis.add(a);
 				}
 			}
-			
+				
 			rset.close();
 			stmt.close();
 			
-			return modelRows;
+			return anamnesis;
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return null;
 		}
+	
+	}
+	
+	private Anamnesis makeOneAnamnesis(ResultSet resultSet) {
+		Anamnesis anamnesis = null;
+		try {
+			Integer anamnesisId = resultSet.getInt(PatientsColumn.anamnesisId);
+			Integer patientId = resultSet.getInt(PatientsColumn.patientId);
+			String smoking = resultSet.getString(PatientsColumn.smoking);
+			String alcohol = resultSet.getString(PatientsColumn.alcohol);
+			String employed = resultSet.getString(PatientsColumn.employed);
+			String workingCondition = resultSet.getString(PatientsColumn.workingCondition);
+			String livingPlace = resultSet.getString(PatientsColumn.livingPlace);
+			String livingObject = resultSet.getString(PatientsColumn.livingObject);
+			String pet = resultSet.getString(PatientsColumn.pet);
+			
+			anamnesis = new Anamnesis(anamnesisId, patientId, smoking, alcohol, employed, workingCondition, livingPlace, livingObject, pet);
+			return anamnesis;
+		} catch (SQLException e) {
+			return anamnesis;
+		}
+	}
+	
 
-	}
-
-	*//**
-	 * Kreiranje vise uslova upita koji svi moraju biti ispunjeni
-	 * @param st - upit koji se dora�uje
-	 * @param filterParams - obele�ja koja sa�injavaju uslove po kojima se vr�i filtriranje
-	 *//*
-	private void addConditionalPartOfStatement(StringBuilder st, Map<String, String> filterParams){
-		int i = 0;
-		for(Entry<String, String> param : filterParams.entrySet()){
-			st.append(param.getKey()).append("='").append(param.getValue()).append("' ");
-			if(++i < filterParams.size()){
-				st.append(" and ");
-			}
-		}
-	}
-	
-	*//**
-	 * Metoda koja formira deo upita koji sadrzi nove azurirane vrednosti koje ce biti unete u tabelu za vec postojecu torku
-	 * @param st - StringBuilder klasa koja kreira upit
-	 * @param row - torka sa svojim obelezjima i njihovim vrednostima
-	 * @param labels - obelezja tabele
-	 *//*
-	private void addValuesOfStatement(StringBuilder st, TableModelRow row, Map<String, Label> labels){
-		int i = 0;
-		int columnsNumber = row.getRowValues().size();
-		for(Entry<String, String> rowColumnValue : row.getRowValues().entrySet()){
-			String value = rowColumnValue.getValue();
-			if (value.trim().equals("")) {
-				value = "NULL";
-			} else {
-				Types type = labels.get(rowColumnValue.getKey()).getDomain().getDataType();
-					
-				if (type == Types.DOUBLE) {
-					value = value.replace(Utils.dict("sep").charAt(0), '.');
-				} else if (type == Types.DATE) {
-					// TODO:
-				}
-				
-				value = "\'" + value + "\'";
-			}
-			st.append(rowColumnValue.getKey()).append("=").append(value);
-			if(++i < columnsNumber){
-				st.append(", ");
-			}
-		}
-	}
-	
-	*//**
-	 * 
-	 * @param st - StringBuilder klasa koja kreira upit
-	 * @param rangeSearch - Kolekcija objekata RangeSearch {@link utils.RangeSearch}
-	 * @param table - Objekat klase Table
-	 *//*
-	private void addConditionalPartOfStatementForSearch(StringBuilder st, Map<String, RangeSearch> rangeSearch, Table table){
-		int i = 0;
-		for( Entry<String, RangeSearch> entry : rangeSearch.entrySet()){
-			String key = entry.getKey();
-			String lowerLimit = entry.getValue().getLowerLimit();
-			String upperLimit = entry.getValue().getUpperLimit();
-			Label label = table.getLabels().get(key);
-			switch(label.getDomain().getDataType()){
-			case VARCHAR:
-				st.append(key).append(" LIKE '%").append(lowerLimit).append("%'");
-				break;
-			case BOOLEAN:
-				st.append(key).append("='").append(lowerLimit).append("' ");
-				break;
-			case DOUBLE:
-				lowerLimit = lowerLimit.replace(Utils.dict("sep").charAt(0), '.');
-				upperLimit = upperLimit.replace(Utils.dict("sep").charAt(0), '.');
-			case INTEGER:
-				st.append(key).append(" >= '").append(lowerLimit).append("' AND ").append(key).append(" <= '").append(upperLimit).append("'");
-				break;
-			case DATE:
-				st.append(key).append(" >= '").append(lowerLimit).append("' AND ").append(key).append(" <= '").append(upperLimit).append("'");
-				break;
-			case CHAR:
-				st.append(key).append(" LIKE '%").append(lowerLimit).append("%'");
-			default:
-				break;
-			}
-			if(++i < rangeSearch.size()){
-				st.append(" and ");
-			}
-		}
-	}*/
-	
 	/**
 	 * Dobavljanje objekat Connection klase
 	 * @return - objekat koji pretdstavlja konekciju sa bazom podataka

@@ -11,9 +11,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -22,6 +24,12 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import com.application.medCareApplication.model.Patient;
+import com.application.medCareApplication.model.PhysicalExamination;
+import com.application.medCareApplication.utils.handler.DatabaseHandler;
+import com.application.medCareApplication.view.MainFrame;
+import com.application.medCareApplication.view.displayExaminations.ViewPatientPhysicalExamination;
 
 public class NewPhysicalExaminationDialog extends JDialog {
 
@@ -47,23 +55,37 @@ public class NewPhysicalExaminationDialog extends JDialog {
 	private JComboBox patientRespiratorySoundComboBox;
 	private JComboBox<String> patientRespiratoryNoiseComboBox;
 
+	private ButtonGroup bg;
+	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			NewPhysicalExaminationDialog dialog = new NewPhysicalExaminationDialog();
+			NewPhysicalExaminationDialog dialog = new NewPhysicalExaminationDialog(new Patient());
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	private Patient patient;
 
 	/**
 	 * Create the dialog.
 	 */
-	public NewPhysicalExaminationDialog() {
+	
+	private ViewPatientPhysicalExamination panel;
+	
+	public NewPhysicalExaminationDialog(Patient p, ViewPatientPhysicalExamination panel) {
+		this(p);
+		this.panel = panel;
+	}
+	
+	public NewPhysicalExaminationDialog(Patient p) {
+		this.patient = p;
+		
 		setTitle("Dodavanje fizikalnog pregleda");
 		setModal(true);
 		setFocusable(true);		//focus da bi se mogao trigerovati keyListener
@@ -94,7 +116,7 @@ public class NewPhysicalExaminationDialog extends JDialog {
 		{
 			patientIdTextField = new JTextField();
 			patientIdLabel.setLabelFor(patientIdTextField);
-			patientIdTextField.setText("55555");
+			patientIdTextField.setText(patient.getPatientId().toString());
 			patientIdTextField.setEditable(false);
 			GridBagConstraints gbc_patientIdTextField = new GridBagConstraints();
 			gbc_patientIdTextField.insets = new Insets(5, 5, 5, 5);
@@ -116,7 +138,7 @@ public class NewPhysicalExaminationDialog extends JDialog {
 		{
 			patientFirstNameTextField = new JTextField();
 			patientFirstNameLabel.setLabelFor(patientFirstNameTextField);
-			patientFirstNameTextField.setText("Luka ");
+			patientFirstNameTextField.setText(p.getFirstName());
 			patientFirstNameTextField.setEditable(false);
 			GridBagConstraints gbc_patientFirstNameTextField = new GridBagConstraints();
 			gbc_patientFirstNameTextField.insets = new Insets(5, 5, 5, 5);
@@ -138,7 +160,7 @@ public class NewPhysicalExaminationDialog extends JDialog {
 		{
 			patientLastNameTextField = new JTextField();
 			patientLastNameLabel.setLabelFor(patientLastNameTextField);
-			patientLastNameTextField.setText("Jovanovic");
+			patientLastNameTextField.setText(patient.getLastName());
 			patientLastNameTextField.setEditable(false);
 			GridBagConstraints gbc_patientLastNameTextField = new GridBagConstraints();
 			gbc_patientLastNameTextField.insets = new Insets(5, 5, 5, 5);
@@ -159,7 +181,7 @@ public class NewPhysicalExaminationDialog extends JDialog {
 		}
 		{
 			patientBodyTemperaturePanel = new JPanel();
-			ButtonGroup bg = new ButtonGroup();
+			bg = new ButtonGroup();
 			GridBagConstraints gbc_patientBodyTemperaturePanel = new GridBagConstraints();
 			gbc_patientBodyTemperaturePanel.insets = new Insets(5, 5, 5, 5);
 			gbc_patientBodyTemperaturePanel.fill = GridBagConstraints.BOTH;
@@ -170,14 +192,17 @@ public class NewPhysicalExaminationDialog extends JDialog {
 			{
 				regularTemperatureRadioButton = new JRadioButton("Normalna");
 				regularTemperatureRadioButton.setSelected(true);
+				regularTemperatureRadioButton.setActionCommand("Normalna");
 				patientBodyTemperaturePanel.add(regularTemperatureRadioButton);
 			}
 			{
-				upperBodyTemperatureRadioButton = new JRadioButton("Povi�ena");
+				upperBodyTemperatureRadioButton = new JRadioButton("Povisena");
+				upperBodyTemperatureRadioButton.setActionCommand("Povisena");
 				patientBodyTemperaturePanel.add(upperBodyTemperatureRadioButton);
 			}
 			{
-				lowerBodyTemperatureRadioButton = new JRadioButton("Sni\u017Eena");
+				lowerBodyTemperatureRadioButton = new JRadioButton("Snizena");
+				lowerBodyTemperatureRadioButton.setActionCommand("Snizena");
 				patientBodyTemperaturePanel.add(lowerBodyTemperatureRadioButton);
 			}
 			bg.add(regularTemperatureRadioButton);
@@ -196,7 +221,7 @@ public class NewPhysicalExaminationDialog extends JDialog {
 		{
 			patientRespiratorySoundComboBox = new JComboBox();
 			patientRespiratorySoundLabel.setLabelFor(patientRespiratorySoundComboBox);
-			patientRespiratorySoundComboBox.setModel(new DefaultComboBoxModel(new String[] {"Regularni", "Patolo\u0161ki"}));
+			patientRespiratorySoundComboBox.setModel(new DefaultComboBoxModel(new String[] {"Regularni", "Patoloski"}));
 			patientRespiratorySoundComboBox.setSelectedIndex(0);
 			GridBagConstraints gbc_patientRespiratorySoundComboBox = new GridBagConstraints();
 			gbc_patientRespiratorySoundComboBox.insets = new Insets(5, 5, 5, 5);
@@ -219,7 +244,7 @@ public class NewPhysicalExaminationDialog extends JDialog {
 			patientRespiratoryNoiseLabel.setLabelFor(patientRespiratoryNoiseComboBox);
 			patientRespiratoryNoiseComboBox.addItem("Normalan");
 			patientRespiratoryNoiseComboBox.addItem("Pukoti");
-			patientRespiratoryNoiseComboBox.addItem("�vizduci");
+			patientRespiratoryNoiseComboBox.addItem("Zvizduci");
 			patientRespiratoryNoiseComboBox.setSelectedIndex(0);
 			GridBagConstraints gbc_patientRespiratoryNoiseComboBox = new GridBagConstraints();
 			gbc_patientRespiratoryNoiseComboBox.insets = new Insets(5, 5, 5, 5);
@@ -243,23 +268,24 @@ public class NewPhysicalExaminationDialog extends JDialog {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
-						System.out.println("radio button");
-						/*boolean valid = validation();
 						
-						if(!valid) {
-							return;
+						String bodyTemperature = bg.getSelection().getActionCommand();
+						String respiratorySound = (String) patientRespiratorySoundComboBox.getSelectedItem();
+						String respiratoryNoise = (String) patientRespiratoryNoiseComboBox.getSelectedItem();
+
+						PhysicalExamination pE = new PhysicalExamination(-1, patient.getPatientId(), bodyTemperature, respiratorySound, respiratoryNoise);
+						
+						DatabaseHandler databaseHandler = MainFrame.getInstance().getDatabaseHandler();
+						try {
+							databaseHandler.createPhysicalExamination(pE);
+							DefaultListModel<PhysicalExamination> model =  (DefaultListModel<PhysicalExamination>) panel.getPatientPhysicalExaminatonList().getModel();
+							model.addElement(pE);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						}
 						
-						String firstName = firstNameTextField.getText().trim();
-						String lastName = lastNameTextField.getText().trim();
-						String address = addressTextField.getText().trim();
-						String telephone = telephoneNumberTextField.getText().trim();
-						String jmbg = jmbgTextField.getText().trim();
-						String dateOfBirth = dateOfBirthDateField.getValue();
-						
-						Patient p = new Patient(1, firstName, lastName, jmbg, dateOfBirth, address, telephone);
-						System.out.println(p);*/
-					
+						dispose();
 					}
 				});
 				buttonPane.add(addPhysicalExamanationButton);
@@ -305,5 +331,13 @@ public class NewPhysicalExaminationDialog extends JDialog {
 	}
 	public JComboBox<String> getPatientRespiratoryNoiseComboBox() {
 		return patientRespiratoryNoiseComboBox;
+	}
+
+	public Patient getPatient() {
+		return patient;
+	}
+
+	public void setPatient(Patient patient) {
+		this.patient = patient;
 	}
 }

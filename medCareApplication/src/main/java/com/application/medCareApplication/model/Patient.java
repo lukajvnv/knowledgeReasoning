@@ -13,7 +13,7 @@ import javax.persistence.Transient;
 	public class Patient{
 		
 		@Id
-	    @Column(name = "Id", unique = true)
+	    @Column(name = "Id_Pacijenta", unique = true)
 		private Integer patientId;
 		
 		@Column(name = "Ime")
