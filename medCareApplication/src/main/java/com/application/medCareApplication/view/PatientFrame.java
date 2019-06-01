@@ -213,7 +213,7 @@ public class PatientFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				NewEwsScoreDialog p = new NewEwsScoreDialog();
+				NewEwsScoreDialog p = new NewEwsScoreDialog(patient);
 				p.setVisible(true);
 			}
 		});

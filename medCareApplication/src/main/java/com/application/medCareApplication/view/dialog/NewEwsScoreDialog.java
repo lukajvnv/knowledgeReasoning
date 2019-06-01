@@ -9,6 +9,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,7 +20,16 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import org.springframework.util.ResourceUtils;
+
+import com.application.medCareApplication.model.Patient;
+import com.application.medCareApplication.utils.PrologHandler;
 import com.application.medCareApplication.utils.Utils;
+import com.application.medCareApplication.view.MainFrame;
+import com.ugos.jiprolog.engine.JIPEngine;
+import com.ugos.jiprolog.engine.JIPQuery;
+import com.ugos.jiprolog.engine.JIPTerm;
+import com.ugos.jiprolog.engine.JIPVariable;
 
 public class NewEwsScoreDialog extends JDialog {
 
@@ -42,12 +53,14 @@ public class NewEwsScoreDialog extends JDialog {
 	private JComboBox<String> aupuRateComboBox;
 	private JLabel patientDetailsInfoLabel;
 
+	private Patient patient;
+	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			NewEwsScoreDialog dialog = new NewEwsScoreDialog();
+			NewEwsScoreDialog dialog = new NewEwsScoreDialog(new Patient());
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -58,7 +71,9 @@ public class NewEwsScoreDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public NewEwsScoreDialog() {
+	public NewEwsScoreDialog(Patient p) {
+		this.patient = p;
+		
 		setTitle("Dodavanje ews scora za pacijenta");
 		setModal(true);
 		setFocusable(true);		//focus da bi se mogao trigerovati keyListener
@@ -86,7 +101,9 @@ public class NewEwsScoreDialog extends JDialog {
 			contentPanel.add(patientDetailsLabel, gbc_patientDetailsLabel);
 		}
 		{
-			patientDetailsInfoLabel = new JLabel("New label");
+			String patientInfoText = String.format("%s %s, %s", patient.getFirstName(), patient.getLastName(), patient.getDateOfBirth());
+			patientDetailsInfoLabel = new JLabel(patientInfoText);
+			patientDetailsInfoLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 			GridBagConstraints gbc_patientDetailsInfoLabel = new GridBagConstraints();
 			gbc_patientDetailsInfoLabel.insets = new Insets(5, 5, 5, 5);
 			gbc_patientDetailsInfoLabel.gridx = 6;
@@ -238,20 +255,29 @@ public class NewEwsScoreDialog extends JDialog {
 						boolean valid = validation();
 						
 						if(!valid) {
-							Utils.warning("Nevalidan unos!");
+							Utils.warning("Nevalidan unos[Obavezno popunjavanje, numericke vrednosti]!");
 							return;
 						}
-						/*
-						String firstName = firstNameTextField.getText().trim();
-						String lastName = lastNameTextField.getText().trim();
-						String address = addressTextField.getText().trim();
-						String telephone = telephoneNumberTextField.getText().trim();
-						String jmbg = jmbgTextField.getText().trim();
-						String dateOfBirth = dateOfBirthDateField.getValue();
 						
-						Patient p = new Patient(1, firstName, lastName, jmbg, dateOfBirth, address, telephone);
-						System.out.println(p);*/
-					
+						String respiratoryNumber = respirationNumberTextField.getText().trim();
+						String bodyTemperature = bodyTemperatureTextField.getText().trim();
+						String heartRate = heartRateTextField.getText().trim();
+						String saturationO2 = saturationO2TextField.getText().trim();
+						String systalBloodPressure = systalBloodPressureTextField.getText().trim();
+						String aupuRate = (String) aupuRateComboBox.getSelectedItem();
+						
+						String queryText = String.format("ukupno_bodova(%s, %s, %s, %s, %s, '%s', Bod)", respiratoryNumber, saturationO2, systalBloodPressure, heartRate, bodyTemperature, aupuRate);
+
+						
+						PrologHandler prologHandler = MainFrame.getInstance().getPrologHandler();
+						try {
+							String answer = prologHandler.findResult("ews.pl", queryText);
+							Utils.info(answer);
+						} catch (Exception e1) {
+							Utils.error("Greska pri prolog operaciji...");
+						}
+						
+						dispose();
 					}
 				});
 			}
@@ -276,7 +302,10 @@ public class NewEwsScoreDialog extends JDialog {
 		for(Component c : contentPanel.getComponents()) {
 			if(c instanceof JTextField) {
 				String text = ((JTextField) c).getText().trim();
-				if(!text.matches("\\d+")) {
+				/*if(!text.matches("\\d+")) {
+					valid = false;
+				}*/
+				if(!text.matches("^\\d+\\.?\\d?$")) {
 					valid = false;
 				}
 			}

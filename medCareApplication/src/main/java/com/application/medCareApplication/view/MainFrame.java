@@ -29,6 +29,7 @@ import javax.swing.border.LineBorder;
 import com.application.medCareApplication.controller.NewPatientDialogAction;
 import com.application.medCareApplication.controller.ViewPatientDetailAction;
 import com.application.medCareApplication.controller.ViewPatientsAction;
+import com.application.medCareApplication.utils.PrologHandler;
 import com.application.medCareApplication.utils.handler.DatabaseHandler;
 
 
@@ -48,6 +49,7 @@ public class MainFrame extends JFrame {
 	private JPanel mainPanel;
 	
 	private DatabaseHandler databaseHandler;
+	private PrologHandler prologHandler;
 
 	/**
 	 * Launch the application.
@@ -197,6 +199,7 @@ public class MainFrame extends JFrame {
 		datePanel.add(dateLabel);
 		
 		databaseHandler = new DatabaseHandler();
+		prologHandler = new PrologHandler();
 		
 		addWindowListener(new WindowAdapter() {
         	@Override
@@ -271,5 +274,13 @@ public class MainFrame extends JFrame {
 
 	public void setDatabaseHandler(DatabaseHandler databaseHandler) {
 		this.databaseHandler = databaseHandler;
+	}
+
+	public PrologHandler getPrologHandler() {
+		return prologHandler;
+	}
+
+	public void setPrologHandler(PrologHandler prologHandler) {
+		this.prologHandler = prologHandler;
 	}
 }
