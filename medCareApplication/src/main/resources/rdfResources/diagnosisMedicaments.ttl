@@ -1,0 +1,173 @@
+@base <http://www.ftn.uns.ac.rs/medCare> .
+@prefix medCare:    <http://www.ftn.uns.ac.rs/medCare#> .
+@prefix xsd: <http://w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<#C1>
+    a medCare:TherapyCase ;
+	medCare:about medCare:P1 ;
+	medCare:diagnose "asthma"^^xsd:string ;
+	medCare:medicament "albuterol"^^xsd:string ;
+	medCare:created "2019-03-25"^^xsd:date.
+	
+<#C2>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P1> ;
+	medCare:diagnose "asthma"^^xsd:string ;
+	medCare:medicament "albuterol"^^xsd:string ;
+	medCare:created "2019-01-25"^^xsd:date.
+
+<#C3>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P1> ;
+	medCare:diagnose "copd"^^xsd:string ;
+	medCare:medicament "spiriva"^^xsd:string ;
+	medCare:created "2019-01-22"^^xsd:date.
+
+<#C4>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P1> ;
+	medCare:diagnose "copd"^^xsd:string ;
+	medCare:medicament "azithromycin"^^xsd:string ;
+	medCare:created "2019-03-05"^^xsd:date.
+	
+<#C5>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P1> ;
+	medCare:diagnose "pneumonia"^^xsd:string ;
+	medCare:medicament "azithromycin"^^xsd:string ;
+	medCare:created "2019-03-25"^^xsd:date.
+	
+<#C6>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P2> ;
+	medCare:diagnose "pneumonia"^^xsd:string ;
+	medCare:medicament "azithromycin"^^xsd:string ;
+	medCare:created "2019-03-05"^^xsd:date.
+	
+<#C7>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P2> ;
+	medCare:diagnose "pneumonia"^^xsd:string ;
+	medCare:medicament "ceftriaxone"^^xsd:string ;
+	medCare:created "2019-04-14"^^xsd:date.
+	
+<#C8>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P2> ;
+	medCare:diagnose "asthma"^^xsd:string ;
+	medCare:medicament "albuterol"^^xsd:string ;
+	medCare:created "2019-05-07"^^xsd:date.
+	
+<#C9>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P3> ;
+	medCare:diagnose "asthma"^^xsd:string ;
+	medCare:medicament "prednisone"^^xsd:string ;
+	medCare:created "2019-02-20"^^xsd:date.
+	
+<#C10>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P3> ;
+	medCare:diagnose "copd"^^xsd:string ;
+	medCare:medicament "combivent"^^xsd:string ;
+	medCare:created "2019-03-05"^^xsd:date.
+	
+<#C11>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P3> ;
+	medCare:diagnose "asthma"^^xsd:string ;
+	medCare:medicament "prednisone"^^xsd:string ;
+	medCare:created "2019-05-17"^^xsd:date.
+	
+<#C12>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "asthma"^^xsd:string ;
+	medCare:medicament "albuterol"^^xsd:string ;
+	medCare:created "2019-01-05"^^xsd:date.
+	
+<#C13>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "asthma"^^xsd:string ;
+	medCare:medicament "prednisone"^^xsd:string ;
+	medCare:created "2019-02-14"^^xsd:date.
+	
+<#C14>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "asthma"^^xsd:string ;
+	medCare:medicament "ipratropium"^^xsd:string ;
+	medCare:created "2019-03-05"^^xsd:date.
+	
+<#C15>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "copd"^^xsd:string ;
+	medCare:medicament "combivent"^^xsd:string ;
+	medCare:created "2019-03-29"^^xsd:date.
+	
+<#C16>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "copd"^^xsd:string ;
+	medCare:medicament "azithromycin"^^xsd:string ;
+	medCare:created "2019-05-05"^^xsd:date.
+	
+<#C17>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P5> ;
+	medCare:diagnose "pneumonia"^^xsd:string ;
+	medCare:medicament "azithromycin"^^xsd:string ;
+	medCare:created "2019-03-15"^^xsd:date.
+	
+<#C18>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P5> ;
+	medCare:diagnose "copd"^^xsd:string ;
+	medCare:medicament "azithromycin"^^xsd:string ;
+	medCare:created "2019-04-29"^^xsd:date.
+	
+<#C19>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P5> ;
+	medCare:diagnose "pneumonia"^^xsd:string ;
+	medCare:medicament "ceftriaxone"^^xsd:string ;
+	medCare:created "2019-06-05"^^xsd:date.
+	
+<#C20>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P5> ;
+	medCare:diagnose "pneumonia"^^xsd:string ;
+	medCare:medicament "azithromycin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+	
+<#P1>
+	a medCare:Patient .
+	
+<#P2>
+	a medCare:Patient .
+	
+<#P3>
+	a medCare:Patient .
+	
+<#P4>
+	a medCare:Patient .
+	
+<#P5>
+	a medCare:Patient .
+	
+<#P6>
+	a medCare:Patient .
+	
+<#P7>
+	a medCare:Patient .
+	
+<#P8>
+	a medCare:Patient .
+	
+<#P9>
+	a medCare:Patient .
+	
+	

@@ -3,7 +3,7 @@
 symptom_procedure(congestion_in_chest, x_ray,					100).
 symptom_procedure(congestion_in_chest, nebulizer_therapy,    			76.93).
 symptom_procedure(congestion_in_chest, other,  				                70.55).
-symptom_procedure(congestion_in_chest, inflenzavirus,   			                59.20).
+symptom_procedure(congestion_in_chest, influenzavirus,   			                59.20).
 symptom_procedure(congestion_in_chest, other_respiratory_therapy,   		32.15).
 symptom_procedure(congestion_in_chest, other_therapeutic_nervous_system,               20.98).
 symptom_procedure(congestion_in_chest, other_therapeutic_ear, 		                20.97).
