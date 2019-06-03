@@ -18,6 +18,7 @@ public class PatientsColumn {
 	public static String bodyTemperature = "Temperatura";
 	public static String respiratorySound = "Disajni_zvuk";
 	public static String respiratoryNoise = "Sumovi";
+	public static String additionalExamination = "dopunska_ispitivanja";
 	
 	// anamneza pacijenta kolone
 	public static String anamnesisId = "anamnesis_Id";
@@ -28,4 +29,5 @@ public class PatientsColumn {
 	public static String livingPlace = "Zivi";
 	public static String livingObject = "Stanuje";
 	public static String pet = "Ljubimci";
+	
 }

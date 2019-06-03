@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Collection;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -23,12 +24,19 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.application.medCareApplication.connector.CbrApplication;
+import com.application.medCareApplication.model.Anamnesis;
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.PhysicalExamination;
 import com.application.medCareApplication.utils.PopUpMenus;
 import com.application.medCareApplication.utils.handler.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
+import com.application.medCareApplication.view.dialog.AdditionalExaminationDialog;
 import com.application.medCareApplication.view.dialog.NewPhysicalExaminationDialog;
+
+import ucm.gaia.jcolibri.cbrcore.CBRQuery;
+import ucm.gaia.jcolibri.exception.ExecutionException;
+import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
 
 public class ViewPatientPhysicalExamination extends JPanel {
 
@@ -40,10 +48,13 @@ public class ViewPatientPhysicalExamination extends JPanel {
 	private JList<PhysicalExamination> patientPhysicalExaminatonList;
 	private Patient patient;
 	
-	
+	private PhysicalExamination patientPhysicalExamination = new PhysicalExamination(); //PhysicalExamination konkretnog pacijenta na osnovu koje cbr treba da nam da rezultat dopunskog pregleda
+	Collection<RetrievalResult> eval;
 	
 	@SuppressWarnings("serial")
 	public ViewPatientPhysicalExamination(Patient p) {
+		MainFrame.getInstance().setIsAnamnesis(false);
+		
 		this.patient = p;
 		
 		setLayout(new BorderLayout(0, 0));
@@ -71,8 +82,49 @@ public class ViewPatientPhysicalExamination extends JPanel {
 		detailsButton.setIcon(new ImageIcon("images\\info_icon&24.png"));
 		toolBar.add(detailsButton);
 		
-		JButton btnNewButton_11 = new JButton("New button");
-		toolBar.add(btnNewButton_11);
+		JButton recomendedButton = new JButton("Preporuci dopunska ispitivanja");
+		recomendedButton.setIcon(new ImageIcon("images/arrow_top_right_icon&24.png"));
+		toolBar.add(recomendedButton);
+		
+		recomendedButton.addActionListener(new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				
+				CbrApplication app = new CbrApplication();
+				try {
+					app.configure();
+					
+					app.preCycle();
+					
+					CBRQuery query = new CBRQuery();
+
+					PhysicalExamination pe = new PhysicalExamination();
+					pe.setBodyTemperature(patientPhysicalExamination.getBodyTemperature());
+					pe.setRespiratoryNoise(patientPhysicalExamination.getRespiratoryNoise());
+					pe.setRespiratorySound(patientPhysicalExamination.getRespiratorySound());
+					
+					
+					query.setDescription( pe );
+					
+					app.cycle(query);
+
+					app.postCycle();
+					
+					//eval = MainFrame.getInstance().getEval();
+				} catch (ExecutionException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				AdditionalExaminationDialog dialog = new AdditionalExaminationDialog(patient);
+				dialog.setVisible(true);
+				
+				
+			}
+		});
 		
 		Component horizontalStrut = Box.createHorizontalStrut(50);
 		horizontalStrut.setBackground(Color.WHITE);

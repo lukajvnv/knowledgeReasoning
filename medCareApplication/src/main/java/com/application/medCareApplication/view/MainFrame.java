@@ -11,6 +11,7 @@ import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,6 +32,8 @@ import com.application.medCareApplication.controller.ViewPatientDetailAction;
 import com.application.medCareApplication.controller.ViewPatientsAction;
 import com.application.medCareApplication.utils.handler.DatabaseHandler;
 
+import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
+
 
 public class MainFrame extends JFrame {
 
@@ -48,6 +51,12 @@ public class MainFrame extends JFrame {
 	private JPanel mainPanel;
 	
 	private DatabaseHandler databaseHandler;
+	
+	/*
+	 *  Boolean polje kao privremeno resenje za rad sa CBR-om u okviru modula za odredjivanje dopunskih ispitivanja
+	 * */
+	private Boolean isAnamnesis;
+	private Collection<RetrievalResult> eval;
 
 	/**
 	 * Launch the application.
@@ -272,4 +281,22 @@ public class MainFrame extends JFrame {
 	public void setDatabaseHandler(DatabaseHandler databaseHandler) {
 		this.databaseHandler = databaseHandler;
 	}
+
+	public Boolean getIsAnamnesis() {
+		return isAnamnesis;
+	}
+
+	public void setIsAnamnesis(Boolean isAnamnesis) {
+		this.isAnamnesis = isAnamnesis;
+	}
+
+	public Collection<RetrievalResult> getEval() {
+		return eval;
+	}
+
+	public void setEval(Collection<RetrievalResult> eval) {
+		this.eval = eval;
+	}
+	
+	
 }

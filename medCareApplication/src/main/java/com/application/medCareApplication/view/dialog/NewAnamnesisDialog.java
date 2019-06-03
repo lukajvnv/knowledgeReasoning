@@ -69,6 +69,9 @@ public class NewAnamnesisDialog extends JDialog {
 	 */
 	private ViewPatientAnamnesis panel;
 	
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public NewAnamnesisDialog(Patient patient, ViewPatientAnamnesis p) {
 		this(patient);
 		this.panel = p;

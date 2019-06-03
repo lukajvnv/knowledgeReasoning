@@ -5,9 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import ucm.gaia.jcolibri.cbrcore.Attribute;
+import ucm.gaia.jcolibri.cbrcore.CaseComponent;
+
 @Entity
 @Table(name = "physical_examination")
-public class PhysicalExamination {
+public class PhysicalExamination implements CaseComponent {
 	
 	@Id
 	@Column(name = "physical_Examination_Id")
@@ -24,12 +27,26 @@ public class PhysicalExamination {
 	
 	@Column(name = "Sumovi")
 	private String respiratoryNoise;
+	
+	@Column(name = "dopunska_ispitivanja")
+	private String additionalExamination;
 
 	public PhysicalExamination() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
+	public PhysicalExamination(int physicalExaminationId, int patientId, String bodyTemperature,
+			String respiratorySound, String respiratoryNoise, String additionalExamination) {
+		super();
+		this.physicalExaminationId = physicalExaminationId;
+		this.patientId = patientId;
+		this.bodyTemperature = bodyTemperature;
+		this.respiratorySound = respiratorySound;
+		this.respiratoryNoise = respiratoryNoise;
+		this.additionalExamination = additionalExamination;
+	}
+
 	public PhysicalExamination(int physicalExaminationId, int patientId, String bodyTemperature,
 			String respiratorySound, String respiratoryNoise) {
 		super();
@@ -41,6 +58,30 @@ public class PhysicalExamination {
 	}
 
 
+
+	public int getPhysicalExaminationId() {
+		return physicalExaminationId;
+	}
+
+	public void setPhysicalExaminationId(int physicalExaminationId) {
+		this.physicalExaminationId = physicalExaminationId;
+	}
+
+	public String getRespiratoryNoise() {
+		return respiratoryNoise;
+	}
+
+	public void setRespiratoryNoise(String respiratoryNoise) {
+		this.respiratoryNoise = respiratoryNoise;
+	}
+
+	public String getAdditionalExamination() {
+		return additionalExamination;
+	}
+
+	public void setAdditionalExamination(String additionalExamination) {
+		this.additionalExamination = additionalExamination;
+	}
 
 	public int getPatientId() {
 		return patientId;
@@ -78,7 +119,14 @@ public class PhysicalExamination {
 
 	@Override
 	public String toString() {
-		return "[temperatura=" + bodyTemperature + ", disajniZvuk=" + respiratorySound
-				+ ", sumovi=" + respiratoryNoise + "]";
+		return "PhysicalExamination [physicalExaminationId=" + physicalExaminationId + ", patientId=" + patientId
+				+ ", bodyTemperature=" + bodyTemperature + ", respiratorySound=" + respiratorySound
+				+ ", respiratoryNoise=" + respiratoryNoise + ", additionalExamination=" + additionalExamination + "]";
+	}
+
+	@Override
+	public Attribute getIdAttribute() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -5,9 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import ucm.gaia.jcolibri.cbrcore.Attribute;
+import ucm.gaia.jcolibri.cbrcore.CaseComponent;
+
 @Entity
 @Table(name = "anamnesis")
-public class Anamnesis {
+public class Anamnesis implements CaseComponent {
 
 	@Id
 	@Column(name = "anamnesis_id")
@@ -37,9 +40,28 @@ public class Anamnesis {
 	@Column(name = "Ljubimci")
 	private String pet;
 	
+	@Column(name = "dopunska_ispitivanja")
+	private String additionalExamination;
+	
 	public Anamnesis() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public Anamnesis(int anamnesisId, int patientId, String smoking, String alcohol, String employed,
+			String workingCondition, String livingPlace, String livingObject, String pet,
+			String additionalExamination) {
+		super();
+		this.anamnesisId = anamnesisId;
+		this.patientId = patientId;
+		this.smoking = smoking;
+		this.alcohol = alcohol;
+		this.employed = employed;
+		this.workingCondition = workingCondition;
+		this.livingPlace = livingPlace;
+		this.livingObject = livingObject;
+		this.pet = pet;
+		this.additionalExamination = additionalExamination;
 	}
 
 	public Anamnesis(int anamnesisId, int patientId, String smoking, String alcohol, String employed,
@@ -54,6 +76,22 @@ public class Anamnesis {
 		this.livingPlace = livingPlace;
 		this.livingObject = livingObject;
 		this.pet = pet;
+	}
+
+	public String getAdditionalExamination() {
+		return additionalExamination;
+	}
+
+	public void setAdditionalExamination(String additionalExamination) {
+		this.additionalExamination = additionalExamination;
+	}
+
+	public int getAnamnesisId() {
+		return anamnesisId;
+	}
+
+	public void setAnamnesisId(int anamnesisId) {
+		this.anamnesisId = anamnesisId;
 	}
 
 	public int getPatientId() {
@@ -122,9 +160,16 @@ public class Anamnesis {
 	
 	@Override
 	public String toString() {
-		return "[smoking=" + smoking + ", alcohol=" + alcohol + ", employed=" + employed
-				+ ", workingCondition=" + workingCondition + ", livingPlace=" + livingPlace + ", livingObject="
-				+ livingObject + ", pet=" + pet + "]";
+		return "Anamnesis [anamnesisId=" + anamnesisId + ", patientId=" + patientId + ", smoking=" + smoking
+				+ ", alcohol=" + alcohol + ", employed=" + employed + ", workingCondition=" + workingCondition
+				+ ", livingPlace=" + livingPlace + ", livingObject=" + livingObject + ", pet=" + pet
+				+ ", additionalExamination=" + additionalExamination + "]";
+	}
+
+	@Override
+	public Attribute getIdAttribute() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

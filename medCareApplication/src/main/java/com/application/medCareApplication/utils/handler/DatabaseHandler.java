@@ -16,8 +16,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.application.medCareApplication.model.Anamnesis;
+import com.application.medCareApplication.model.CTpluca;
+import com.application.medCareApplication.model.KrvnaSlika;
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.PhysicalExamination;
+import com.application.medCareApplication.model.RTGPluca;
+import com.application.medCareApplication.model.UltraZvuk;
 import com.application.medCareApplication.utils.PatientsColumn;
 
 /**
@@ -344,7 +348,7 @@ public class DatabaseHandler implements IHandler {
 	
 	}
 	
-	private PhysicalExamination makeOnePhysicalExamination(ResultSet resultSet) {
+	/*private PhysicalExamination makeOnePhysicalExamination(ResultSet resultSet) {
 		PhysicalExamination physicalExamination = null;
 		try {
 			Integer physicalExaminationId = resultSet.getInt(PatientsColumn.physicalExaminationId);
@@ -359,7 +363,7 @@ public class DatabaseHandler implements IHandler {
 		} catch (SQLException e) {
 			return physicalExamination;
 		}
-	}
+	}*/
 	
 	public void createAnamnesis(Anamnesis anamnesis) throws SQLException{
 		int id = getId("anamnesis");
@@ -462,14 +466,228 @@ public class DatabaseHandler implements IHandler {
 			String livingPlace = resultSet.getString(PatientsColumn.livingPlace);
 			String livingObject = resultSet.getString(PatientsColumn.livingObject);
 			String pet = resultSet.getString(PatientsColumn.pet);
+			String additionalExamination = resultSet.getString(PatientsColumn.additionalExamination);
 			
-			anamnesis = new Anamnesis(anamnesisId, patientId, smoking, alcohol, employed, workingCondition, livingPlace, livingObject, pet);
+			anamnesis = new Anamnesis(anamnesisId, patientId, smoking, alcohol, employed, workingCondition, livingPlace, livingObject, pet,additionalExamination);
 			return anamnesis;
 		} catch (SQLException e) {
 			return anamnesis;
 		}
 	}
 	
+	private PhysicalExamination makeOnePhysicalExamination(ResultSet resultSet) {
+		PhysicalExamination pe = null;
+		try {
+			Integer physicalExaminationId = resultSet.getInt(PatientsColumn.physicalExaminationId);
+			Integer patientId = resultSet.getInt(PatientsColumn.patientId);
+			String bodyTemperature = resultSet.getString(PatientsColumn.bodyTemperature);
+			String respiratorySound = resultSet.getString(PatientsColumn.respiratorySound);
+			String respiratoryNoise = resultSet.getString(PatientsColumn.respiratoryNoise);
+			String additionalExamination = resultSet.getString(PatientsColumn.additionalExamination);
+			
+			pe = new PhysicalExamination(physicalExaminationId, patientId, bodyTemperature, respiratorySound, respiratoryNoise,
+					additionalExamination);
+			return pe;
+		} catch (SQLException e) {
+			return pe;
+		}
+	}
+	
+	
+	/**
+	 * 
+	 * Metoda koja vraca sve anamneze iz baze na osnovu koje realizujemo CBR
+	 * 
+	 * */
+	
+	public List<Anamnesis> selectAllPatientAnamnesis() {
+			
+			String sql = String.format("SELECT %s FROM %s ;", "*", "anamnesis");
+			
+			System.out.println(sql);
+			
+			List<Anamnesis> anamnesis = new ArrayList<Anamnesis>();
+			
+			try {
+				Statement stmt = databaseConnection.createStatement();			
+				
+				ResultSet rset = stmt.executeQuery(sql);
+				
+				if(!rset.isBeforeFirst()) {
+					System.out.println("Nema podataka");
+				}
+				
+				while(rset.next()) {
+					Anamnesis a = makeOneAnamnesis(rset);
+					if( a != null) {
+						anamnesis.add(a);
+					}
+				}
+					
+				rset.close();
+				stmt.close();
+				
+				return anamnesis;
+				
+			} catch (SQLException e) {
+				//e.printStackTrace();
+				return null;
+			}
+		
+		}
+	
+	/**
+	 * 
+	 * Metoda koja vraca sve fizikalne preglede iz baze na osnovu koje realizujemo CBR
+	 * 
+	 * */
+	
+	public List<PhysicalExamination> selectAllPatientPhysicalExamination() {
+			
+			String sql = String.format("SELECT %s FROM %s ;", "*", "physical_examination");
+			
+			System.out.println(sql);
+			
+			List<PhysicalExamination> pe = new ArrayList<PhysicalExamination>();
+			
+			try {
+				Statement stmt = databaseConnection.createStatement();			
+				
+				ResultSet rset = stmt.executeQuery(sql);
+				
+				if(!rset.isBeforeFirst()) {
+					System.out.println("Nema podataka");
+				}
+				
+				while(rset.next()) {
+					PhysicalExamination a = makeOnePhysicalExamination(rset);
+					if( a != null) {
+						pe.add(a);
+					}
+				}
+					
+				rset.close();
+				stmt.close();
+				
+				return pe;
+				
+			} catch (SQLException e) {
+				//e.printStackTrace();
+				return null;
+			}
+		
+		}
+	
+	
+	/*
+	 * 
+	 * Metoda koja kreira krvnu sliku i ubacuje u bazu!
+	 * 
+	 * */
+	public void createKrvnaSlika(KrvnaSlika krvna) throws SQLException{
+		int id = getId("krvna_slika");
+		String template = "INSERT INTO krvna_slika (id, id_pacijenta, leukociti, eritrociti, parametarske_inflamacije) VALUES (?, ?, ?, ?, ?)";
+		
+		System.out.println(template);
+	
+		try {
+			PreparedStatement preparedStatement = databaseConnection.prepareStatement(template);
+			preparedStatement.setInt(1, id);
+			preparedStatement.setInt(2, krvna.getPatientId());
+			preparedStatement.setString(3, krvna.getLeukociti());
+			preparedStatement.setString(4, krvna.getEritrociti());
+			preparedStatement.setString(5, krvna.getParametarske_inflamacije());
+			
+			                               
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			throw new SQLException("");
+		}
+		
+	}
+	
+
+	/*
+	 * 
+	 * Metoda koja kreira rtg pluca i ubacuje u bazu!
+	 * 
+	 * */
+	public void createRTGPluca(RTGPluca rtg) throws SQLException{
+		int id = getId("rtg_pluca");
+		String template = "INSERT INTO rtg_pluca (id, id_pacijenta, rtg, lezije) VALUES (?, ?, ?, ?)";
+		
+		System.out.println(template);
+	
+		try {
+			PreparedStatement preparedStatement = databaseConnection.prepareStatement(template);
+			preparedStatement.setInt(1, id);
+			preparedStatement.setInt(2, rtg.getPatientId());
+			preparedStatement.setString(3, rtg.getRtg());
+			preparedStatement.setString(4, rtg.getHomogene_lezije());
+
+			
+			                               
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			throw new SQLException("");
+		}
+		
+	}
+	
+	/*
+	 * 
+	 * Metoda koja kreira ct pluca i ubacuje u bazu!
+	 * 
+	 * */
+	public void createCTPluca(CTpluca ct) throws SQLException{
+		int id = getId("ct_pluca");
+		String template = "INSERT INTO ct_pluca (id, id_pacijenta, ct) VALUES (?, ?, ?)";
+		
+		System.out.println(template);
+	
+		try {
+			PreparedStatement preparedStatement = databaseConnection.prepareStatement(template);
+			preparedStatement.setInt(1, id);
+			preparedStatement.setInt(2, ct.getPatientId());
+			preparedStatement.setString(3, ct.getCt());
+			                               
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			throw new SQLException("");
+		}
+		
+	}
+	
+	/*
+	 * 
+	 * Metoda koja kreira ultrazvuk i ubacuje u bazu!
+	 * 
+	 * */
+	public void createUltraZvuk(UltraZvuk uz) throws SQLException{
+		int id = getId("ultra_zvuk");
+		String template = "INSERT INTO ultra_zvuk (id, id_pacijenta, dubina_izliva,visina_izliva,gustina_izliva,mesto_punkcije) VALUES (?, ?, ?, ?, ?, ?)";
+		
+		System.out.println(template);
+	
+		try {
+			PreparedStatement preparedStatement = databaseConnection.prepareStatement(template);
+			preparedStatement.setInt(1, id);
+			preparedStatement.setInt(2, uz.getPatientId());
+			preparedStatement.setString(3, uz.getDubina_izliva());
+			preparedStatement.setString(4, uz.getVisina_izliva());
+			preparedStatement.setString(5, uz.getGustina_izliva());
+			preparedStatement.setString(6, uz.getMesto_punkcije());
+			                               
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			throw new SQLException("");
+		}
+		
+	}
 
 	/**
 	 * Dobavljanje objekat Connection klase

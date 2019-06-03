@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Collection;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -23,12 +24,18 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.application.medCareApplication.connector.CbrApplication;
 import com.application.medCareApplication.model.Anamnesis;
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.utils.PopUpMenus;
 import com.application.medCareApplication.utils.handler.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
+import com.application.medCareApplication.view.dialog.AdditionalExaminationDialog;
 import com.application.medCareApplication.view.dialog.NewAnamnesisDialog;
+
+import ucm.gaia.jcolibri.cbrcore.CBRQuery;
+import ucm.gaia.jcolibri.exception.ExecutionException;
+import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
 
 public class ViewPatientAnamnesis extends JPanel {
 
@@ -40,11 +47,23 @@ public class ViewPatientAnamnesis extends JPanel {
 	private JList<Anamnesis> patientAnamnesisList;
 	private Patient patient;
 	
+	private Anamnesis patientAnamnesis = new Anamnesis(); //anamneza konkretnog pacijenta na osnovu koje cbr treba da nam da rezultat dopunskog pregleda
+	Collection<RetrievalResult> eval;
 	
 	
 	@SuppressWarnings("serial")
 	public ViewPatientAnamnesis(Patient p) {
+		MainFrame.getInstance().setIsAnamnesis(true);
 		this.patient = p;
+		DefaultListModel<Anamnesis> anamnesisListModel = new DefaultListModel<Anamnesis>();
+		DatabaseHandler dbHandler = MainFrame.getInstance().getDatabaseHandler();
+		List<Anamnesis> anemnesis = dbHandler.selectAllPatientAnamnesis(patient);
+		
+
+		for (Anamnesis a : anemnesis) {
+			 patientAnamnesis = a;
+			 anamnesisListModel.addElement(a);
+		}
 		
 		setLayout(new BorderLayout(0, 0));
 		
@@ -75,6 +94,50 @@ public class ViewPatientAnamnesis extends JPanel {
 		JButton recomendedButton = new JButton("Preporuci dopunska ispitivanja");
 		recomendedButton.setIcon(new ImageIcon("images/arrow_top_right_icon&24.png"));
 		toolBar.add(recomendedButton);
+		
+		recomendedButton.addActionListener(new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				
+				CbrApplication app = new CbrApplication();
+				try {
+					app.configure();
+					
+					app.preCycle();
+					
+					CBRQuery query = new CBRQuery();
+
+					Anamnesis anam = new Anamnesis();
+					anam.setAlcohol(patientAnamnesis.getAlcohol());
+					anam.setEmployed(patientAnamnesis.getEmployed());
+					anam.setLivingObject(patientAnamnesis.getLivingObject());
+					anam.setLivingPlace(patientAnamnesis.getLivingPlace());
+					anam.setPet(patientAnamnesis.getPet());
+					anam.setSmoking(patientAnamnesis.getSmoking());
+					anam.setWorkingCondition(patientAnamnesis.getWorkingCondition());
+					
+					
+					query.setDescription( anam );
+					
+					app.cycle(query);
+
+					app.postCycle();
+					
+					
+				} catch (ExecutionException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				AdditionalExaminationDialog dialog = new AdditionalExaminationDialog(patient);
+				dialog.setVisible(true);
+				
+				
+			}
+		});
 		
 		Component horizontalStrut = Box.createHorizontalStrut(50);
 		horizontalStrut.setBackground(Color.WHITE);
