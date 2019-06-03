@@ -30,6 +30,7 @@ import javax.swing.border.LineBorder;
 import com.application.medCareApplication.controller.NewPatientDialogAction;
 import com.application.medCareApplication.controller.ViewPatientDetailAction;
 import com.application.medCareApplication.controller.ViewPatientsAction;
+import com.application.medCareApplication.utils.PrologHandler;
 import com.application.medCareApplication.utils.handler.DatabaseHandler;
 
 import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
@@ -51,12 +52,16 @@ public class MainFrame extends JFrame {
 	private JPanel mainPanel;
 	
 	private DatabaseHandler databaseHandler;
+
 	
 	/*
 	 *  Boolean polje kao privremeno resenje za rad sa CBR-om u okviru modula za odredjivanje dopunskih ispitivanja
 	 * */
 	private Boolean isAnamnesis;
 	private Collection<RetrievalResult> eval;
+
+	private PrologHandler prologHandler;
+
 
 	/**
 	 * Launch the application.
@@ -206,6 +211,7 @@ public class MainFrame extends JFrame {
 		datePanel.add(dateLabel);
 		
 		databaseHandler = new DatabaseHandler();
+		prologHandler = new PrologHandler();
 		
 		addWindowListener(new WindowAdapter() {
         	@Override
@@ -282,6 +288,7 @@ public class MainFrame extends JFrame {
 		this.databaseHandler = databaseHandler;
 	}
 
+
 	public Boolean getIsAnamnesis() {
 		return isAnamnesis;
 	}
@@ -298,5 +305,13 @@ public class MainFrame extends JFrame {
 		this.eval = eval;
 	}
 	
-	
+
+	public PrologHandler getPrologHandler() {
+		return prologHandler;
+	}
+
+	public void setPrologHandler(PrologHandler prologHandler) {
+		this.prologHandler = prologHandler;
+	}
+
 }

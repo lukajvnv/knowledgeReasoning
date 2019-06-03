@@ -30,4 +30,10 @@ public class PatientsColumn {
 	public static String livingObject = "Stanuje";
 	public static String pet = "Ljubimci";
 	
+
+	// tabela svih resursa
+	public static String resourceId = "resource_id";
+	public static String resourceName = "resource_name";
+	public static String resourceType = "resource_type";
+
 }

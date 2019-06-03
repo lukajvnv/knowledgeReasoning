@@ -26,6 +26,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import com.application.medCareApplication.model.Patient;
+import com.application.medCareApplication.utils.RDFHandler;
 import com.application.medCareApplication.utils.Utils;
 import com.application.medCareApplication.utils.handler.DatabaseHandler;
 import com.application.medCareApplication.view.dialog.NewAnamnesisDialog;
@@ -34,6 +35,7 @@ import com.application.medCareApplication.view.dialog.NewPhysicalExaminationDial
 import com.application.medCareApplication.view.dialog.UpdatePatientDialog;
 import com.application.medCareApplication.view.displayExaminations.ViewPatientAnamnesis;
 import com.application.medCareApplication.view.displayExaminations.ViewPatientPhysicalExamination;
+import com.application.medCareApplication.view.recommendation.MedicamentsRecommendationFrame;
 import com.application.medCareApplication.view.utils.MyFieldFocusListener;
 
 @SuppressWarnings("serial")
@@ -137,6 +139,14 @@ public class PatientFrame extends JFrame {
 		
 		JButton refreshButton = new JButton("Osve\u017Ei");
 		refreshButton.setIcon(new ImageIcon("images/refresh_icon&24.png"));
+		refreshButton.addActionListener(new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		toolBar.add(refreshButton);
 		
 		JButton patientInfoButton = new JButton("Osnovni podaci");
@@ -154,12 +164,7 @@ public class PatientFrame extends JFrame {
 		
 		JButton symptomsButton = new JButton("Anamneze");
 		symptomsButton.addActionListener(new AbstractAction() {
-			/*@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				NewAnamnesisDialog p = new NewAnamnesisDialog();
-				p.setVisible(true);
-			}*/
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -176,12 +181,7 @@ public class PatientFrame extends JFrame {
 		physicalExaminationsButton.setToolTipText("Svi pregledi pacijenta");
 		physicalExaminationsButton.setIcon(new ImageIcon("images/folder_icon&24.png"));
 		physicalExaminationsButton.addActionListener(new AbstractAction() {	
-			/*@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				NewPhysicalExaminationDialog p = new NewPhysicalExaminationDialog();
-				p.setVisible(true);
-			}*/
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -204,6 +204,17 @@ public class PatientFrame extends JFrame {
 		JButton medicamentsButton = new JButton("Terapije");
 		medicamentsButton.setToolTipText("Sve terapije pacijenta");
 		medicamentsButton.setIcon(new ImageIcon("images/folder_icon&24.png"));
+		medicamentsButton.addActionListener(new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				/*RDFHandler rdfHandler = new RDFHandler("diagnosisMedicaments.ttl");
+				rdfHandler.findMedicaments("asthma");*/
+				MedicamentsRecommendationFrame f = new MedicamentsRecommendationFrame();
+				f.setVisible(true);
+			}
+		});
 		toolBar.add(medicamentsButton);
 		
 		JButton ewsButton = new JButton("EWS");
@@ -213,7 +224,7 @@ public class PatientFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				NewEwsScoreDialog p = new NewEwsScoreDialog();
+				NewEwsScoreDialog p = new NewEwsScoreDialog(patient);
 				p.setVisible(true);
 			}
 		});
@@ -222,6 +233,14 @@ public class PatientFrame extends JFrame {
 		JButton backButton = new JButton("Povratak");
 		backButton.setToolTipText("Povratak na tabelu sa pacijentima");
 		backButton.setIcon(new ImageIcon("images/playback_reload_icon&24.png"));
+		backButton.addActionListener(new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				dispose();
+			}
+		});
 		toolBar.add(backButton);
 		
 		JPanel mainPanel = new JPanel();

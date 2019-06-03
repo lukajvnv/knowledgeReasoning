@@ -20,8 +20,12 @@ import com.application.medCareApplication.model.CTpluca;
 import com.application.medCareApplication.model.KrvnaSlika;
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.PhysicalExamination;
+
 import com.application.medCareApplication.model.RTGPluca;
 import com.application.medCareApplication.model.UltraZvuk;
+
+import com.application.medCareApplication.model.Resources;
+
 import com.application.medCareApplication.utils.PatientsColumn;
 
 /**
@@ -475,6 +479,7 @@ public class DatabaseHandler implements IHandler {
 		}
 	}
 	
+
 	private PhysicalExamination makeOnePhysicalExamination(ResultSet resultSet) {
 		PhysicalExamination pe = null;
 		try {
@@ -686,7 +691,55 @@ public class DatabaseHandler implements IHandler {
 		} catch (SQLException e) {
 			throw new SQLException("");
 		}
+	}
+
+	public List<Resources> selectAllParticularResource(String resourceType) {
+		String sql = String.format("SELECT %s FROM %s WHERE resource_type = '%s';", "*", "resources", resourceType);
 		
+		System.out.println(sql);
+		
+		List<Resources> resources = new ArrayList<Resources>();
+		
+		try {
+			Statement stmt = databaseConnection.createStatement();			
+			ResultSet rset = stmt.executeQuery(sql);
+			
+			if(!rset.isBeforeFirst()) {
+				System.out.println("Nema podataka");
+			}
+			
+			while(rset.next()) {
+				Resources r = makeOneResource(rset);
+				if( r != null) {
+					resources.add(r);
+				}
+			}
+				
+			rset.close();
+			stmt.close();
+			
+			return resources;
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return null;
+		}
+	
+	}
+	
+	private Resources makeOneResource(ResultSet resultSet) {
+		Resources resource = null;
+		try {
+			Integer resourceId = resultSet.getInt(PatientsColumn.resourceId);
+			String resourceName = resultSet.getString(PatientsColumn.resourceName);
+			String resourceType = resultSet.getString(PatientsColumn.resourceType);
+			
+			resource = new Resources(resourceId, resourceName, resourceType);
+			return resource;
+		} catch (SQLException e) {
+			return resource;
+		}
+
 	}
 
 	/**
