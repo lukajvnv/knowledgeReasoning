@@ -30,6 +30,7 @@ import javax.swing.border.LineBorder;
 import com.application.medCareApplication.controller.NewPatientDialogAction;
 import com.application.medCareApplication.controller.ViewPatientDetailAction;
 import com.application.medCareApplication.controller.ViewPatientsAction;
+import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.utils.PrologHandler;
 import com.application.medCareApplication.utils.handler.DatabaseHandler;
 
@@ -52,6 +53,7 @@ public class MainFrame extends JFrame {
 	private JPanel mainPanel;
 	
 	private DatabaseHandler databaseHandler;
+	private Patient currentPatient; //sluzi za pretragu anemneza iz csvConnector-a kako bismo izbegli null
 
 	
 	/*
@@ -313,5 +315,15 @@ public class MainFrame extends JFrame {
 	public void setPrologHandler(PrologHandler prologHandler) {
 		this.prologHandler = prologHandler;
 	}
+
+	public Patient getCurrentPatient() {
+		return currentPatient;
+	}
+
+	public void setCurrentPatient(Patient currentPatient) {
+		this.currentPatient = currentPatient;
+	}
+	
+	
 
 }

@@ -80,6 +80,7 @@ public class CbrApplication implements StandardCBRApplication {
 			simConfig.addMapping(new Attribute("livingPlace", Anamnesis.class), new Equal());
 			simConfig.addMapping(new Attribute("livingObject", Anamnesis.class), new Equal());
 		} else {
+			System.out.println("Bio ovde?");
 			simConfig.addMapping(new Attribute("bodyTemperature", PhysicalExamination.class), new Equal());
 			simConfig.addMapping(new Attribute("respiratorySound", PhysicalExamination.class), new Equal());
 			simConfig.addMapping(new Attribute("respiratoryNoise", PhysicalExamination.class), new Equal());

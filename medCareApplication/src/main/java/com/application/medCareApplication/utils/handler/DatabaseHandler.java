@@ -543,6 +543,48 @@ public class DatabaseHandler implements IHandler {
 	
 	/**
 	 * 
+	 * Metoda koja vraca sve anamneze iz baze na osnovu koje realizujemo CBR OSIM MOJE TRENUTNE (KAKO NE BI VRATILO NULL)
+	 * 
+	 * */
+	
+	public List<Anamnesis> selectAllPatientAnamnesisWithoutCurrent(Patient p) {
+			
+			String sql = String.format("SELECT %s FROM %s WHERE %s != '%s' ;", "*", "anamnesis", PatientsColumn.patientId, p.getPatientId());
+			
+			System.out.println(sql);
+			
+			List<Anamnesis> anamnesis = new ArrayList<Anamnesis>();
+			
+			try {
+				Statement stmt = databaseConnection.createStatement();			
+				
+				ResultSet rset = stmt.executeQuery(sql);
+				
+				if(!rset.isBeforeFirst()) {
+					System.out.println("Nema podataka");
+				}
+				
+				while(rset.next()) {
+					Anamnesis a = makeOneAnamnesis(rset);
+					if( a != null) {
+						anamnesis.add(a);
+					}
+				}
+					
+				rset.close();
+				stmt.close();
+				
+				return anamnesis;
+				
+			} catch (SQLException e) {
+				//e.printStackTrace();
+				return null;
+			}
+		
+		}
+	
+	/**
+	 * 
 	 * Metoda koja vraca sve fizikalne preglede iz baze na osnovu koje realizujemo CBR
 	 * 
 	 * */
@@ -583,6 +625,49 @@ public class DatabaseHandler implements IHandler {
 		
 		}
 	
+	
+	/**
+	 * 
+	 * Metoda koja vraca sve fizikalne preglede iz baze na osnovu koje realizujemo CBR OSIM MOJE TRENUTNE (KAKO NE BI VRATILO NULL)
+	 * 
+	 * */
+	
+	public List<PhysicalExamination> selectAllPatientPhysicalExaminationWithoutCurrent(Patient p) {
+			
+
+			String sql = String.format("SELECT %s FROM %s WHERE %s != '%s' ;", "*", "physical_examination", PatientsColumn.patientId, p.getPatientId());
+			
+			System.out.println(sql);
+			
+			List<PhysicalExamination> pe = new ArrayList<PhysicalExamination>();
+			
+			try {
+				Statement stmt = databaseConnection.createStatement();			
+				
+				ResultSet rset = stmt.executeQuery(sql);
+				
+				if(!rset.isBeforeFirst()) {
+					System.out.println("Nema podataka");
+				}
+				
+				while(rset.next()) {
+					PhysicalExamination a = makeOnePhysicalExamination(rset);
+					if( a != null) {
+						pe.add(a);
+					}
+				}
+					
+				rset.close();
+				stmt.close();
+				
+				return pe;
+				
+			} catch (SQLException e) {
+				//e.printStackTrace();
+				return null;
+			}
+		
+		}
 	
 	/*
 	 * 

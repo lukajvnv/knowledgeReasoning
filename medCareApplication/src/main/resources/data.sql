@@ -8,15 +8,27 @@ insert into patient (Id_Pacijenta, Ime, Prezime, Jmbg, Telefon, Datum_rodjenja, 
 values (2, 'Scepan', 'Scekic', '1234996800005', '064/449-99-28', '05.03.1966.', 'Lovcenska 12');
 insert into patient (Id_Pacijenta, Ime, Prezime, Jmbg, Telefon, Datum_rodjenja, Adresa) 
 values (3, 'Mitar', 'Miric', '0703996800005', '064/555-86-28', '06.03.1980.', 'Bulevar revolucije 5');
+insert into patient (Id_Pacijenta, Ime, Prezime, Jmbg, Telefon, Datum_rodjenja, Adresa) 
+values (4, 'Petar', 'Petrovic', '0703996800005', '064/555-86-28', '06.03.1980.', 'Bulevar revolucije 5');
+insert into patient (Id_Pacijenta, Ime, Prezime, Jmbg, Telefon, Datum_rodjenja, Adresa) 
+values (5, 'Ana', 'Miric', '0703996800005', '064/555-86-28', '06.03.1980.', 'Bulevar revolucije 5');
+insert into patient (Id_Pacijenta, Ime, Prezime, Jmbg, Telefon, Datum_rodjenja, Adresa) 
+values (6, 'Marija', 'Petrovic', '0703996800005', '064/555-86-28', '06.03.1980.', 'Bulevar revolucije 5');
+insert into patient (Id_Pacijenta, Ime, Prezime, Jmbg, Telefon, Datum_rodjenja, Adresa) 
+values (7, 'Lana', 'Lekic', '0703996800005', '064/555-86-28', '06.03.1980.', 'Bulevar revolucije 5');
+insert into patient (Id_Pacijenta, Ime, Prezime, Jmbg, Telefon, Datum_rodjenja, Adresa) 
+values (8, 'Lana', 'Mikic', '0703996800005', '064/555-86-28', '06.03.1980.', 'Bulevar revolucije 5');
 
 
 /*Fizikalni pregled*/
 insert into physical_examination (physical_Examination_Id, Id_Pacijenta, Temperatura, Disajni_zvuk, Sumovi)
 values (1, 1, 'Normalna', 'Regularni', 'Zvizduci');
-insert into physical_examination (physical_Examination_Id, Id_Pacijenta, Temperatura, Disajni_zvuk, Sumovi)
-values (2, 2, 'Snizena', 'Patoloski', 'Pukoti');
-insert into physical_examination (physical_Examination_Id, Id_Pacijenta, Temperatura, Disajni_zvuk, Sumovi)
-values (3, 3, 'Povisena', 'Patoloski', 'Normalan');
+insert into physical_examination (physical_Examination_Id, Id_Pacijenta, Temperatura, Disajni_zvuk, Sumovi,dopunska_ispitivanja)
+values (2, 2, 'Snizena', 'Patoloski', 'Pukoti', 'KRVNA_SLIKA');
+insert into physical_examination (physical_Examination_Id, Id_Pacijenta, Temperatura, Disajni_zvuk, Sumovi,dopunska_ispitivanja)
+values (3, 3, 'Povisena', 'Patoloski', 'Normalan', 'RTG_PLUCA');
+insert into physical_examination (physical_Examination_Id, Id_Pacijenta, Temperatura, Disajni_zvuk, Sumovi,dopunska_ispitivanja)
+values (4, 4, 'Normalna', 'Regularni', 'Normalan', 'RTG_PLUCA');
 
 /*Anamneza*/
 insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja)
@@ -24,15 +36,15 @@ values (1, 1, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki lak posao', 'Grad', 'Stan', 'Ne
 insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja)
 values (2, 3, 'Da', 'Da', 'Zaposlen', 'Fizicki tezak posao', 'Grad', 'Kuca', 'Da', 'KRVNA_SLIKA');
 insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja)
-values (3, 2, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki lak posao', 'Grad', 'Stan', 'Ne', 'KRVNA_SLIKA');
+values (3, 2, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki lak posao', 'Grad', 'Stan', 'Ne', 'CT_PLUCA');
 insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja)
-values (4, 3, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki lak posao', 'Grad', 'Kuca', 'Da', 'KRVNA_SLIKA');
-/*insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci)
-values (4, 3, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki lak posao', 'Grad', 'Stan', 'Da');
-insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci)
-values (5, 1, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki lak posao', 'Grad', 'Stan', 'Da');
-insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci)
-values (6, 1, 'Da', 'Da', 'Zaposlen', 'Fizicki lak posao', 'Grad', 'Stan', 'Da');*/
+values (4, 5, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki lak posao', 'Grad', 'Kuca', 'Da', 'RTG_PLUCA');
+insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja)
+values (7, 4, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki tezak posao', 'Selo', 'Stan', 'Ne', 'CT_PLUCA');
+insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja)
+values (5, 7, 'Ne', 'Ne', 'Zaposlen', 'Fizicki tezak posao', 'Grad', 'Stan', 'Ne', 'RTG_PLUCA');
+insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja)
+values (6, 6, 'Da', 'Da', 'Zaposlen', 'Fizicki lak posao', 'Selo', 'Kuca', 'Ne', 'KRVNA_SLIKA');
 
 /*Svi relevantni podaci*/
 	/*Simptomi*/

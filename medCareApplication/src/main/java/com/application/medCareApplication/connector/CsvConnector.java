@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.application.medCareApplication.model.Anamnesis;
+import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.PhysicalExamination;
 import com.application.medCareApplication.utils.handler.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
@@ -19,15 +20,17 @@ import ucm.gaia.jcolibri.exception.InitializingException;
 public class CsvConnector implements Connector {
 	
 	private DatabaseHandler databaseHandler;
+	private Patient curPat;
 	
 	@Override
 	public Collection<CBRCase> retrieveAllCases() {
 		databaseHandler = MainFrame.getInstance().getDatabaseHandler();
+		curPat = MainFrame.getInstance().getCurrentPatient();
 		
 		if(MainFrame.getInstance().getIsAnamnesis()) {
 			//slucajevi anamneze
 			LinkedList<CBRCase> cases = new LinkedList<CBRCase>();
-			List<Anamnesis> anamnesis  = databaseHandler.selectAllPatientAnamnesis();
+			List<Anamnesis> anamnesis  = databaseHandler.selectAllPatientAnamnesisWithoutCurrent(curPat);
 					
 			for (Anamnesis a : anamnesis) {
 				CBRCase cbrCase = new CBRCase(); // OVDE JE BILA GRESKA!!!
@@ -40,7 +43,7 @@ public class CsvConnector implements Connector {
 		} else {
 			//slucajevi fizikalnog pregleda
 			LinkedList<CBRCase> cases = new LinkedList<CBRCase>();
-			List<PhysicalExamination> pe  = databaseHandler.selectAllPatientPhysicalExamination();
+			List<PhysicalExamination> pe  = databaseHandler.selectAllPatientPhysicalExaminationWithoutCurrent(curPat);
 			
 			for (PhysicalExamination physicalExamination : pe) {
 				CBRCase cbrCase = new CBRCase(); // OVDE JE BILA GRESKA!!!
