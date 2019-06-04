@@ -157,6 +157,21 @@ public class ViewPatientAnamnesis extends JPanel {
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
 		toolBar.add(lblNewLabel);
 		
+		JButton btnPregledDopunskiIspitivanja = new JButton("Pregled dopunski ispitivanja");
+		toolBar.add(btnPregledDopunskiIspitivanja);
+		btnPregledDopunskiIspitivanja.addActionListener(new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Anamnesis a = dbHandler.selectPatientAnamnesis(patient.getPatientId());
+			//	Patient pom = dbHandler.selectPatient(patient.getPatientId());
+				System.out.println("Pregled dopunskih ispitivanja: " + a.getAdditionalExamination());
+				Utils.info("Pregled dopunskih ispitivanja: " + a.getAdditionalExamination());
+				
+			}
+		});
+		
 		initList();
 		
 		System.out.println("Lista anamneza: " + anamnesisListModel.isEmpty());

@@ -131,7 +131,7 @@ public class AdditionalExaminationDialog extends JDialog {
 			//System.out.println("Da li sam ga dobro splitovao ? ? ? " + poslednji3 + " *** " + poslednji4);
 			
 			JTextArea textArea = new JTextArea();
-			textArea.setText(poslednji4);
+			textArea.setText(temp);
 			GridBagConstraints gbc_textArea = new GridBagConstraints();
 			gbc_textArea.gridwidth = 7;
 			gbc_textArea.insets = new Insets(0, 0, 5, 0);
