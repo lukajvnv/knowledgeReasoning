@@ -29,6 +29,7 @@ import com.application.medCareApplication.model.Anamnesis;
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.PhysicalExamination;
 import com.application.medCareApplication.utils.PopUpMenus;
+import com.application.medCareApplication.utils.Utils;
 import com.application.medCareApplication.utils.handler.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.dialog.AdditionalExaminationDialog;
@@ -47,6 +48,7 @@ public class ViewPatientPhysicalExamination extends JPanel {
 	
 	private JList<PhysicalExamination> patientPhysicalExaminatonList;
 	private Patient patient;
+	private DefaultListModel<PhysicalExamination> physicalExaminatinoListModel;
 	
 	private PhysicalExamination patientPhysicalExamination = new PhysicalExamination(); //PhysicalExamination konkretnog pacijenta na osnovu koje cbr treba da nam da rezultat dopunskog pregleda
 	Collection<RetrievalResult> eval;
@@ -54,7 +56,7 @@ public class ViewPatientPhysicalExamination extends JPanel {
 	@SuppressWarnings("serial")
 	public ViewPatientPhysicalExamination(Patient p) {
 		MainFrame.getInstance().setIsAnamnesis(false);
-		
+		MainFrame.getInstance().setCurrentPatient(p);
 		this.patient = p;
 		
 		setLayout(new BorderLayout(0, 0));
@@ -92,35 +94,41 @@ public class ViewPatientPhysicalExamination extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				
-				
-				CbrApplication app = new CbrApplication();
-				try {
-					app.configure();
-					
-					app.preCycle();
-					
-					CBRQuery query = new CBRQuery();
+				if(physicalExaminatinoListModel.isEmpty()) {
+					System.out.println("nema fizikalnog pregleda pa ne moze da se preporucuje!");
+					Utils.info("Nema fizikalnog pregleda pa ne mogu da se preporucuju dopunski pregledi!");	
+				} else {
+					CbrApplication app = new CbrApplication();
+					try {
+						app.configure();
+						
+						app.preCycle();
+						
+						CBRQuery query = new CBRQuery();
 
-					PhysicalExamination pe = new PhysicalExamination();
-					pe.setBodyTemperature(patientPhysicalExamination.getBodyTemperature());
-					pe.setRespiratoryNoise(patientPhysicalExamination.getRespiratoryNoise());
-					pe.setRespiratorySound(patientPhysicalExamination.getRespiratorySound());
-					
-					
-					query.setDescription( pe );
-					
-					app.cycle(query);
+						PhysicalExamination pe = new PhysicalExamination();
+						pe.setBodyTemperature(patientPhysicalExamination.getBodyTemperature());
+						pe.setRespiratoryNoise(patientPhysicalExamination.getRespiratoryNoise());
+						pe.setRespiratorySound(patientPhysicalExamination.getRespiratorySound());
+						
+						
+						query.setDescription( pe );
+						
+						app.cycle(query);
 
-					app.postCycle();
+						app.postCycle();
+						
+						//eval = MainFrame.getInstance().getEval();
+					} catch (ExecutionException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					
-					//eval = MainFrame.getInstance().getEval();
-				} catch (ExecutionException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					AdditionalExaminationDialog dialog = new AdditionalExaminationDialog(patient);
+					dialog.setVisible(true);
 				}
 				
-				AdditionalExaminationDialog dialog = new AdditionalExaminationDialog(patient);
-				dialog.setVisible(true);
+				
 				
 				
 			}
@@ -142,7 +150,7 @@ public class ViewPatientPhysicalExamination extends JPanel {
 	}
 	
 	private void initList() {
-		DefaultListModel<PhysicalExamination> physicalExaminatinoListModel = new DefaultListModel<PhysicalExamination>();
+		physicalExaminatinoListModel = new DefaultListModel<PhysicalExamination>();
 		
 		
 		DatabaseHandler dbHandler = MainFrame.getInstance().getDatabaseHandler();

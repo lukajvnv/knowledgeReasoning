@@ -28,6 +28,7 @@ import com.application.medCareApplication.connector.CbrApplication;
 import com.application.medCareApplication.model.Anamnesis;
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.utils.PopUpMenus;
+import com.application.medCareApplication.utils.Utils;
 import com.application.medCareApplication.utils.handler.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.dialog.AdditionalExaminationDialog;
@@ -46,6 +47,8 @@ public class ViewPatientAnamnesis extends JPanel {
 
 	private JList<Anamnesis> patientAnamnesisList;
 	private Patient patient;
+	private JScrollPane scrollPane;
+	private DefaultListModel<Anamnesis> anamnesisListModel;
 	
 	private Anamnesis patientAnamnesis = new Anamnesis(); //anamneza konkretnog pacijenta na osnovu koje cbr treba da nam da rezultat dopunskog pregleda
 	Collection<RetrievalResult> eval;
@@ -54,6 +57,7 @@ public class ViewPatientAnamnesis extends JPanel {
 	@SuppressWarnings("serial")
 	public ViewPatientAnamnesis(Patient p) {
 		MainFrame.getInstance().setIsAnamnesis(true);
+		MainFrame.getInstance().setCurrentPatient(p);
 		this.patient = p;
 		DefaultListModel<Anamnesis> anamnesisListModel = new DefaultListModel<Anamnesis>();
 		DatabaseHandler dbHandler = MainFrame.getInstance().getDatabaseHandler();
@@ -101,39 +105,44 @@ public class ViewPatientAnamnesis extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				
-				
-				CbrApplication app = new CbrApplication();
-				try {
-					app.configure();
-					
-					app.preCycle();
-					
-					CBRQuery query = new CBRQuery();
+				if(anamnesisListModel.isEmpty()) {
+					System.out.println("nema anamneza pa ne moze da se preporucuje!");
+					Utils.info("Nema anamneza pa ne mogu da se preporucuju dopunski pregledi!");		
+				} else {
+					CbrApplication app = new CbrApplication();
+					try {
+						app.configure();
+						
+						app.preCycle();
+						
+						CBRQuery query = new CBRQuery();
 
-					Anamnesis anam = new Anamnesis();
-					anam.setAlcohol(patientAnamnesis.getAlcohol());
-					anam.setEmployed(patientAnamnesis.getEmployed());
-					anam.setLivingObject(patientAnamnesis.getLivingObject());
-					anam.setLivingPlace(patientAnamnesis.getLivingPlace());
-					anam.setPet(patientAnamnesis.getPet());
-					anam.setSmoking(patientAnamnesis.getSmoking());
-					anam.setWorkingCondition(patientAnamnesis.getWorkingCondition());
-					
-					
-					query.setDescription( anam );
-					
-					app.cycle(query);
+						Anamnesis anam = new Anamnesis();
+						anam.setAlcohol(patientAnamnesis.getAlcohol());
+						anam.setEmployed(patientAnamnesis.getEmployed());
+						anam.setLivingObject(patientAnamnesis.getLivingObject());
+						anam.setLivingPlace(patientAnamnesis.getLivingPlace());
+						anam.setPet(patientAnamnesis.getPet());
+						anam.setSmoking(patientAnamnesis.getSmoking());
+						anam.setWorkingCondition(patientAnamnesis.getWorkingCondition());
+						
+						
+						query.setDescription( anam );
+						
+						app.cycle(query);
 
-					app.postCycle();
+						app.postCycle();
+						
+						
+					} catch (ExecutionException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					
-					
-				} catch (ExecutionException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					AdditionalExaminationDialog dialog = new AdditionalExaminationDialog(patient);
+					dialog.setVisible(true);
 				}
 				
-				AdditionalExaminationDialog dialog = new AdditionalExaminationDialog(patient);
-				dialog.setVisible(true);
 				
 				
 			}
@@ -150,12 +159,14 @@ public class ViewPatientAnamnesis extends JPanel {
 		
 		initList();
 		
-		JScrollPane scrollPane = new JScrollPane(patientAnamnesisList);
+		System.out.println("Lista anamneza: " + anamnesisListModel.isEmpty());
+		
+		scrollPane = new JScrollPane(patientAnamnesisList);
 		add(scrollPane, BorderLayout.CENTER);
 	}
 	
 	private void initList() {
-		DefaultListModel<Anamnesis> anamnesisListModel = new DefaultListModel<Anamnesis>();
+		anamnesisListModel = new DefaultListModel<Anamnesis>();
 		
 		
 		DatabaseHandler dbHandler = MainFrame.getInstance().getDatabaseHandler();
