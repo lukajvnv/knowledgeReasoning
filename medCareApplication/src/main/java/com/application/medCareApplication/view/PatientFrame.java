@@ -36,6 +36,7 @@ import com.application.medCareApplication.view.dialog.UpdatePatientDialog;
 import com.application.medCareApplication.view.displayExaminations.ViewPatientAnamnesis;
 import com.application.medCareApplication.view.displayExaminations.ViewPatientPhysicalExamination;
 import com.application.medCareApplication.view.recommendation.MedicamentsRecommendationFrame;
+import com.application.medCareApplication.view.recommendation.PreventionExaminationRecommendationFrame;
 import com.application.medCareApplication.view.utils.MyFieldFocusListener;
 
 @SuppressWarnings("serial")
@@ -137,14 +138,15 @@ public class PatientFrame extends JFrame {
 		});
 		toolBar.add(searchButton);
 		
-		JButton refreshButton = new JButton("Osve\u017Ei");
-		refreshButton.setIcon(new ImageIcon("images/refresh_icon&24.png"));
+		JButton refreshButton = new JButton("Preventivni");
+		refreshButton.setIcon(new ImageIcon("images/import_icon&24.png"));
 		refreshButton.addActionListener(new AbstractAction() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				PreventionExaminationRecommendationFrame f = new PreventionExaminationRecommendationFrame(patient);
+				f.setVisible(true);
 			}
 		});
 		toolBar.add(refreshButton);

@@ -89,7 +89,7 @@ public class DatabaseHandler implements IHandler {
 	public void createPatient(Patient patient) throws SQLException{
 		
 		int id = getId("patient");
-		String template = "INSERT INTO patient (Id, Ime, Prezime, Jmbg, Telefon, Datum_rodjenja, Adresa) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		String template = "INSERT INTO patient (Id_Pacijenta, Ime, Prezime, Jmbg, Telefon, Datum_rodjenja, Adresa) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		
 		System.out.println(template);
 	

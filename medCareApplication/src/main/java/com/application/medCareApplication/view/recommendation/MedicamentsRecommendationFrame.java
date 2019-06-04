@@ -181,7 +181,7 @@ public class MedicamentsRecommendationFrame extends JFrame {
 					List<String> medicamentsList = new ArrayList<String>();
 					if(reasoning.equals("Rule based")) {
 						PrologHandler prologHandler = MainFrame.getInstance().getPrologHandler();
-						String queryText = String.format("diagnose_medicaments(%s, M,	P)", diagnose);
+						String queryText = String.format("diagnose_medicaments(%s, Medicament,	Percentage)", diagnose);
 						try {
 							medicamentsList =  prologHandler.findResults("medicaments_facts.pl", queryText);
 						} catch (Exception e1) {

@@ -86,7 +86,7 @@ public class NewAnamnesisDialog extends JDialog {
 		setFocusable(true);		//focus da bi se mogao trigerovati keyListener
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setSize(600,550);
+		setSize(600,600);
 		
 		//setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
