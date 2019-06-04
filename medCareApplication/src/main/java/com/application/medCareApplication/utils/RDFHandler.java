@@ -75,6 +75,27 @@ public class RDFHandler {
 		return executeQuery(que, list3);
 	}
 	
+	public List<String> findPreventionExamination(String age, String personalAnamnesis, String earlyAnamnesis,  String familyAnamnesis) {
+		List<QueryVariableWrapper> list = new ArrayList<QueryVariableWrapper>();
+		list.add(new QueryVariableWrapper(QueryAnswerType.LITERAL, "imePreventivnogPregleda"));
+		list.add(new QueryVariableWrapper(QueryAnswerType.LITERAL, "brojPreskripcija"));
+	
+		String queryTemplate = "PREFIX medCare: <http://www.ftn.uns.ac.rs/medCare#> "
+				+ "PREFIX xsd:   <http://w3.org/2001/XMLSchema#> "
+				+ "SELECT ?imePreventivnogPregleda (count(?imePreventivnogPregleda) as ?brojPreskripcija) "
+				+ "WHERE { "
+				+ "    ?case medCare:personalAnamnesis \"%s\" ; "
+				+ "          medCare:earlyAnamnesis \"%s\" ; "
+				+ "          medCare:familyAnamnesis \"%s\" ;"
+				+ "			 medCare:preventExamination ?imePreventivnogPregleda. "
+				+ "} "
+				+ "group by ?imePreventivnogPregleda "  
+				+ "order by desc(?brojPreskripcija) ";
+		String queryText = String.format(queryTemplate, personalAnamnesis, earlyAnamnesis, familyAnamnesis);
+		
+		return executeQuery(queryText, list);
+	}
+	
 	private List<String> executeQuery(String queryString, List<QueryVariableWrapper> list) {
 		List<String> answer = new ArrayList<String>();
 		

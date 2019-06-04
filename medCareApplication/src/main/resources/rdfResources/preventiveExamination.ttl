@@ -1,0 +1,86 @@
+@base <http://www.ftn.uns.ac.rs/medCare> .
+@prefix medCare:    <http://www.ftn.uns.ac.rs/medCare#> .
+@prefix xsd: <http://w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<#C1>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "cancer";
+	medCare:preventExamination "x_ray".
+	
+<#C2>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "streptococcus_pneumoniae_vaccination".
+
+
+<#C3>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "correct_diet".
+
+<#C4>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "breathe_exercises".
+
+<#C5>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "smoking_rehab".
+
+<#C6>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "asthma";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "spirometry".
+
+<#C7>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "influenza_vaccination".
+
+<#C8>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "spirometry".
+
+<#C9>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "asthma"; 
+	medCare:preventExamination "spirometry".
+
+<#C10>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "alergy"; 
+ 	medCare:preventExamination "spirometry".
+ 	

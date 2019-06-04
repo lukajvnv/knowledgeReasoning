@@ -62,16 +62,16 @@ public class PrologHandler {
 			while ( (solution = query.nextSolution()) != null) {
 				++i;
 				System.out.println("solution: " + solution);
-				StringBuilder stBuilder = new StringBuilder(oneAnswer);
+				StringBuilder stBuilder = new StringBuilder(solution.toString());
 				for (JIPVariable var: solution.getVariables()) {
 					System.out.println(var.getName() + "=" + var.getValue());
-					stBuilder.append(var.getName() + " = " + var.getValue());
+					stBuilder.append( " " + var.getName() + " ==> " + var.getValue());
 				}
 				if( i > 1) {
 					System.out.println("Vise resenja!!!");
 				}
 				//answer.add(stBuilder.toString());
-				answer.add(solution.toString());
+				answer.add(stBuilder.toString());
 			}
 		} catch (Exception e) {
 			throw new Exception(e);
