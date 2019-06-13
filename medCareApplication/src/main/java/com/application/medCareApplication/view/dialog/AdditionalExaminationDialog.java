@@ -17,6 +17,7 @@ import org.hibernate.query.criteria.internal.expression.function.AbsFunction;
 import com.application.medCareApplication.connector.CbrApplication;
 import com.application.medCareApplication.model.Anamnesis;
 import com.application.medCareApplication.model.Patient;
+import com.application.medCareApplication.model.PhysicalExamination;
 import com.application.medCareApplication.model.Resources;
 import com.application.medCareApplication.utils.AdditionalExaminationEnum;
 import com.application.medCareApplication.utils.PopUpMenus;
@@ -54,6 +55,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -88,6 +90,7 @@ public class AdditionalExaminationDialog extends JDialog {
 	private JList<Anamnesis> patientAnamnesisList;
 	
 	private Anamnesis patientAnamnesis = new Anamnesis(); //anamneza konkretnog pacijenta na osnovu koje cbr treba da nam da rezultat dopunskog pregleda
+	private PhysicalExamination patientPhysicalExamination = new PhysicalExamination(); // fiz pregled konkretnog pacijenta
 	
 	private JComboBox<String> combo;
 	private JList<String> solutionList = new JList<String>();
@@ -96,12 +99,16 @@ public class AdditionalExaminationDialog extends JDialog {
 	private AdditionalExaminationEnum addEnum;
 	private String poslednji4 = "";
 	
+	private Boolean vrsta; // vrsta ili ti da li je anamneza(true) ili fizikalni pregled (false) u pitanju
 	
-	public AdditionalExaminationDialog(Patient p) {
-		
+	
+	public AdditionalExaminationDialog(Patient p,Boolean v) {
+		this.vrsta = v;
 		this.patient = p;
 		this.patientAnamnesisList = new JList<>();
 		
+		
+		//za anamnezu
 		DefaultListModel<Anamnesis> anamnesisListModel = new DefaultListModel<Anamnesis>();
 		DatabaseHandler dbHandler = MainFrame.getInstance().getDatabaseHandler();
 		List<Anamnesis> anemnesis = dbHandler.selectAllPatientAnamnesis(patient);
@@ -111,6 +118,17 @@ public class AdditionalExaminationDialog extends JDialog {
 			 patientAnamnesis = a;
 			 anamnesisListModel.addElement(a);
 		}
+		
+		//za fizikalni pregled
+		DefaultListModel<PhysicalExamination> physicalListModel = new DefaultListModel<PhysicalExamination>();
+		List<PhysicalExamination> physical = dbHandler.selectAllPatientPhysicalExamination(patient);
+		
+
+		for (PhysicalExamination a : physical) {
+			patientPhysicalExamination = a;
+			physicalListModel.addElement(a);
+		}
+		
 		
 		
 		String titleText = String.format("Predlog dopunskih ispitivanja na osnovu anamneze: %s %s", patient.getFirstName(), patient.getLastName());
@@ -232,262 +250,448 @@ public class AdditionalExaminationDialog extends JDialog {
 				// TODO Auto-generated method stub
 				String reasoning = (String) combo.getSelectedItem();
 				List<String> solutionList = new ArrayList<String>();
-				if(reasoning.equals("Rule based")) {
-					///RULE BASE
-					
-					System.out.println("Tu smo 1");
-					
-					
-					ProbabilisticNetwork net = new ProbabilisticNetwork("example");
-					// loading from file
-					 BaseIO io = new NetIO();
-					 try {
-						net = (ProbabilisticNetwork)io.load(new File("dopunska_ispitivanja.net"));
-					} catch (LoadException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					 
-					 System.out.println("STa se desava?? : " + net.getEdge(net.getNode("Smoking"), net.getNode("solution")));
-					 Node n1 = net.getNode("solution");
-					 System.out.println("STa se desava?? : " + n1.getStateAt(0));
-					 
-					 
-					 Node n2 = net.getNode("Smoking");
-					 System.out.println("Sta je ovo sad ? ? ? : " + n2.getStateAt(0));
-					 n2.setStateAt("No", 0);
-					 System.out.println("Sta je ovo sad ? ? ? : " + n2.getStateAt(0));
-					 
 				
-					 n2.setStateAt("Yes", 0);
-					 
-					 System.out.println("Sta je ovo sad ? ? ? : "+ n2.getStateAt(0));
-					 
-					 System.out.println("***** COMPAILING *****");
-					 IInferenceAlgorithm algorithm = new JunctionTreeAlgorithm();
-					 algorithm.setNetwork(net);
-					 algorithm.run();
-					 System.out.println("****** END COMPAILING ******");
-					 
-					 ProbabilisticNode factNode1 = (ProbabilisticNode)net.getNode("pet");
-					 int stateIndex1;
-					 if(patientAnamnesis.getPet().equals("Da")) {
-						 stateIndex1 = 0; // index of state ""
-					 } else {
-						 stateIndex1 = 1; // index of state ""
-					 }
-					 factNode1.addFinding(stateIndex1);
-					 
-					 
-					 
-					 
-					 
-					 
-					 ProbabilisticNode factNode2 = (ProbabilisticNode)net.getNode("living_object");
-					 int stateIndex2;
-					 if(patientAnamnesis.getLivingObject().equals("Stan")) {
-						 stateIndex2 = 0; // index of state ""
-					 } else {
-						 stateIndex2 = 1; // index of state ""
-					 }		 
-					 factNode2.addFinding(stateIndex2);
-					 
-					 ProbabilisticNode factNode3 = (ProbabilisticNode)net.getNode("living_place");
-					 int stateIndex3;
-					 if(patientAnamnesis.getLivingPlace().equals("Grad")) {
-						 stateIndex3 = 0; // index of state ""
-					 } else {
-						 stateIndex3 = 1; // index of state ""
-					 }		 
-					 factNode3.addFinding(stateIndex3);
-					 
-					 ProbabilisticNode factNode4 = (ProbabilisticNode)net.getNode("working_condition");
-					 int stateIndex4;
-					 if(patientAnamnesis.getWorkingCondition().equals("Fizicki lak posao")) {
-						 stateIndex4 = 0; // index of state ""
-					 } else {
-						 stateIndex4 = 1; // index of state ""
-					 }		
-					 factNode4.addFinding(stateIndex4);
-					 
-					 
-					 
-					 ProbabilisticNode factNode5 = (ProbabilisticNode)net.getNode("Employed");
-					 int stateIndex5;
-					 if(patientAnamnesis.getEmployed().equals("Zaposlen")) {
-						 stateIndex5 = 0; // index of state ""
-					 } else {
-						 stateIndex5 = 1; // index of state ""
-					 }		
-					 factNode5.addFinding(stateIndex5);
-					 
-					 ProbabilisticNode factNode6 = (ProbabilisticNode)net.getNode("Alcohol");
-					 int stateIndex6;
-					 if(patientAnamnesis.getAlcohol().equals("Da")) {
-						 stateIndex6 = 0; // index of state ""
-					 } else {
-						 stateIndex6 = 1; // index of state ""
-					 }		
-					 factNode6.addFinding(stateIndex6);
-					 
-					 ProbabilisticNode factNode7 = (ProbabilisticNode)net.getNode("Smoking");
-					 int stateIndex7 ;
-					 if(patientAnamnesis.getSmoking().equals("Da")) {
-						 stateIndex7 = 0; // index of state ""
-					 } else {
-						 stateIndex7 = 1; // index of state ""
-					 }		
-					 factNode7.addFinding(stateIndex7);
-					 
-					 
-					 HashMap<Integer, Integer> mapa = dbHandler.selectAllRanijeBolesti(patient);
-					 int diagnosisId = 0;
-					 Resources resource = null;
-					 
-					 if(mapa.containsKey(patientAnamnesis.getPatientId())) {
-						 
-						 diagnosisId = mapa.get(patientAnamnesis.getPatientId());
-						 System.out.println("? ---> " + diagnosisId);
-						 
-						 resource = dbHandler.selectResourceById(diagnosisId);
-		 
-					 } else {
-						 System.out.println("Ne postoji ranija bolest, ne moze se tumaciti na osnovu toga");
-						 
-					 }
-					 
-					 ProbabilisticNode factNode8 = (ProbabilisticNode)net.getNode("ranije_bolesti");
-					 int stateIndex8;
-					 if(resource.getResourceName().equals("acute_bronchitis")) {
-						 stateIndex8 = 0;
-					 } else if(resource.getResourceName().equals("acute_sinusitis")) {
-						 stateIndex8 = 1;
-					 } else if(resource.getResourceName().equals("alergy")) {
-						 stateIndex8 = 2;
-					 } else if(resource.getResourceName().equals("asthma")) {
-						 stateIndex8 = 3;
-					 } else if(resource.getResourceName().equals("chronic_sinusitis")) {
-						 stateIndex8 = 4;
-					 } else if(resource.getResourceName().equals("common_cold")) {
-						 stateIndex8 = 5;
-					 } else if(resource.getResourceName().equals("copd")) {
-						 stateIndex8 = 6;
-					 } else if(resource.getResourceName().equals("lung_cancer")) {
-						 stateIndex8 = 7;
-					 } else if(resource.getResourceName().equals("pleural_efusion")) {
-						 stateIndex8 = 8;
-					 } else if(resource.getResourceName().equals("pneumonia")) {
-						 stateIndex8 = 9;
-					 } else if(resource.getResourceName().equals("pneumothorax")) {
-						 stateIndex8 = 10;
-					 } else if(resource.getResourceName().equals("smoking_addiction")) {
-						 stateIndex8 = 11;
-					 } else if(resource.getResourceName().equals("otitis_media")) {
-						 stateIndex8 = 12;
-					 } else if(resource.getResourceName().equals("seasonal_allergies")) {
-						 stateIndex8 = 13;
-					 } else if(resource.getResourceName().equals("flu")) {
-						 stateIndex8 = 14;
-					 } else {
-						 //ako nema raniju bolest bice stanje u bajesu NONE
-						 stateIndex8 = 15;
-					 }
-					 
-					 factNode8.addFinding(stateIndex8);
-					 
-					 try {
-				        	net.updateEvidences();
-				        } catch (Exception e2) {
-				        	System.out.println(e2.getMessage());               	
-				        }
-				        
-					 List<Node> nodeList = net.getNodes();
-				        // states overview after propagation
-						for (Node node : nodeList) {
-							System.out.println(node.getName());
-							for (int i = 0; i < node.getStatesSize(); i++) {
-								System.out.println(node.getStateAt(i) + ": " + ((ProbabilisticNode)node).getMarginalAt(i));
-							}
+				if(vrsta) { // RADICE SE ZA ANAMNEZU
+					
+					if(reasoning.equals("Rule based")) {
+						///RULE BASE
+						
+						System.out.println("Tu smo 1");
+						
+						
+						ProbabilisticNetwork net = new ProbabilisticNetwork("example");
+						// loading from file
+						 BaseIO io = new NetIO();
+						 try {
+							net = (ProbabilisticNetwork)io.load(new File("dopunska_ispitivanja.net"));
+						} catch (LoadException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						}
+						 
+						 System.out.println("STa se desava?? : " + net.getEdge(net.getNode("Smoking"), net.getNode("solution")));
+						 Node n1 = net.getNode("solution");
+						 System.out.println("STa se desava?? : " + n1.getStateAt(0));
+						 
+						 
+						 Node n2 = net.getNode("Smoking");
+						 System.out.println("Sta je ovo sad ? ? ? : " + n2.getStateAt(0));
+						 n2.setStateAt("No", 0);
+						 System.out.println("Sta je ovo sad ? ? ? : " + n2.getStateAt(0));
+						 
 					
+						 n2.setStateAt("Yes", 0);
+						 
+						 System.out.println("Sta je ovo sad ? ? ? : "+ n2.getStateAt(0));
+						 
+						 System.out.println("***** COMPAILING *****");
+						 IInferenceAlgorithm algorithm = new JunctionTreeAlgorithm();
+						 algorithm.setNetwork(net);
+						 algorithm.run();
+						 System.out.println("****** END COMPAILING ******");
+						 
+						 ProbabilisticNode factNode1 = (ProbabilisticNode)net.getNode("pet");
+						 int stateIndex1;
+						 if(patientAnamnesis.getPet().equals("Da")) {
+							 stateIndex1 = 0; // index of state ""
+						 } else {
+							 stateIndex1 = 1; // index of state ""
+						 }
+						 factNode1.addFinding(stateIndex1);
+						 
+						 
+						 
+						 
+						 
+						 
+						 ProbabilisticNode factNode2 = (ProbabilisticNode)net.getNode("living_object");
+						 int stateIndex2;
+						 if(patientAnamnesis.getLivingObject().equals("Stan")) {
+							 stateIndex2 = 0; // index of state ""
+						 } else {
+							 stateIndex2 = 1; // index of state ""
+						 }		 
+						 factNode2.addFinding(stateIndex2);
+						 
+						 ProbabilisticNode factNode3 = (ProbabilisticNode)net.getNode("living_place");
+						 int stateIndex3;
+						 if(patientAnamnesis.getLivingPlace().equals("Grad")) {
+							 stateIndex3 = 0; // index of state ""
+						 } else {
+							 stateIndex3 = 1; // index of state ""
+						 }		 
+						 factNode3.addFinding(stateIndex3);
+						 
+						 ProbabilisticNode factNode4 = (ProbabilisticNode)net.getNode("working_condition");
+						 int stateIndex4;
+						 if(patientAnamnesis.getWorkingCondition().equals("Fizicki lak posao")) {
+							 stateIndex4 = 0; // index of state ""
+						 } else {
+							 stateIndex4 = 1; // index of state ""
+						 }		
+						 factNode4.addFinding(stateIndex4);
+						 
+						 
+						 
+						 ProbabilisticNode factNode5 = (ProbabilisticNode)net.getNode("Employed");
+						 int stateIndex5;
+						 if(patientAnamnesis.getEmployed().equals("Zaposlen")) {
+							 stateIndex5 = 0; // index of state ""
+						 } else {
+							 stateIndex5 = 1; // index of state ""
+						 }		
+						 factNode5.addFinding(stateIndex5);
+						 
+						 ProbabilisticNode factNode6 = (ProbabilisticNode)net.getNode("Alcohol");
+						 int stateIndex6;
+						 if(patientAnamnesis.getAlcohol().equals("Da")) {
+							 stateIndex6 = 0; // index of state ""
+						 } else {
+							 stateIndex6 = 1; // index of state ""
+						 }		
+						 factNode6.addFinding(stateIndex6);
+						 
+						 ProbabilisticNode factNode7 = (ProbabilisticNode)net.getNode("Smoking");
+						 int stateIndex7 ;
+						 if(patientAnamnesis.getSmoking().equals("Da")) {
+							 stateIndex7 = 0; // index of state ""
+						 } else {
+							 stateIndex7 = 1; // index of state ""
+						 }		
+						 factNode7.addFinding(stateIndex7);
+						 
+						 
+						 HashMap<Integer, Integer> mapa = dbHandler.selectAllRanijeBolesti(patient);
+						 int diagnosisId = 0;
+						 Resources resource = null;
+						 
+						 if(mapa.containsKey(patientAnamnesis.getPatientId())) {
+							 
+							 diagnosisId = mapa.get(patientAnamnesis.getPatientId());
+							 System.out.println("? ---> " + diagnosisId);
+							 
+							 resource = dbHandler.selectResourceById(diagnosisId);
+			 
+						 } else {
+							 System.out.println("Ne postoji ranija bolest, ne moze se tumaciti na osnovu toga");
+							 
+						 }
+						 
+						 ProbabilisticNode factNode8 = (ProbabilisticNode)net.getNode("ranije_bolesti");
+						 int stateIndex8;
+						 if(resource.getResourceName().equals("acute_bronchitis")) {
+							 stateIndex8 = 0;
+						 } else if(resource.getResourceName().equals("acute_sinusitis")) {
+							 stateIndex8 = 1;
+						 } else if(resource.getResourceName().equals("alergy")) {
+							 stateIndex8 = 2;
+						 } else if(resource.getResourceName().equals("asthma")) {
+							 stateIndex8 = 3;
+						 } else if(resource.getResourceName().equals("chronic_sinusitis")) {
+							 stateIndex8 = 4;
+						 } else if(resource.getResourceName().equals("common_cold")) {
+							 stateIndex8 = 5;
+						 } else if(resource.getResourceName().equals("copd")) {
+							 stateIndex8 = 6;
+						 } else if(resource.getResourceName().equals("lung_cancer")) {
+							 stateIndex8 = 7;
+						 } else if(resource.getResourceName().equals("pleural_efusion")) {
+							 stateIndex8 = 8;
+						 } else if(resource.getResourceName().equals("pneumonia")) {
+							 stateIndex8 = 9;
+						 } else if(resource.getResourceName().equals("pneumothorax")) {
+							 stateIndex8 = 10;
+						 } else if(resource.getResourceName().equals("smoking_addiction")) {
+							 stateIndex8 = 11;
+						 } else if(resource.getResourceName().equals("otitis_media")) {
+							 stateIndex8 = 12;
+						 } else if(resource.getResourceName().equals("seasonal_allergies")) {
+							 stateIndex8 = 13;
+						 } else if(resource.getResourceName().equals("flu")) {
+							 stateIndex8 = 14;
+						 } else {
+							 //ako nema raniju bolest bice stanje u bajesu NONE
+							 stateIndex8 = 15;
+						 }
+						 
+						 factNode8.addFinding(stateIndex8);
+						 
+						 try {
+					        	net.updateEvidences();
+					        } catch (Exception e2) {
+					        	System.out.println(e2.getMessage());               	
+					        }
+					        
+						 List<Node> nodeList = net.getNodes();
+					        // states overview after propagation
+							for (Node node : nodeList) {
+								System.out.println(node.getName());
+								for (int i = 0; i < node.getStatesSize(); i++) {
+									System.out.println(node.getStateAt(i) + ": " + ((ProbabilisticNode)node).getMarginalAt(i));
+								}
+							}
 						
-					System.out.println("*************\n");
-					String temp="";
-					Node solution = net.getNode("solution");
-					System.out.println("Solution: " + solution.getName());
-					temp+= "Solution: " + solution.getName() + "\n";
-					for(int i = 0; i < solution.getStatesSize(); i++) {
-						temp += solution.getStateAt(i) + ": " +  ((ProbabilisticNode)solution).getMarginalAt(i) + "\n";
-						System.out.println(solution.getStateAt(i) + ": " +  ((ProbabilisticNode)solution).getMarginalAt(i));
-					}
-					solutionList.add(temp);
-					
-					System.out.println("*************\n" + temp);
-					
-					
-					
-					
-				} else {
-					System.out.println("Tu smo 2");
-					
-					CbrApplication app = new CbrApplication();
-					try {
-						app.configure();
+							
+						System.out.println("*************\n");
+						List<Float> listaVerovatnoca = new ArrayList<Float>();
 						
-						app.preCycle();
+						String temp="";
+						Node solution = net.getNode("solution");
+						System.out.println("Solution: " + solution.getName());
+						temp+= "Solution: " + solution.getName() + "\n";
+						for(int i = 0; i < solution.getStatesSize(); i++) {
+							
+							listaVerovatnoca.add(((ProbabilisticNode)solution).getMarginalAt(i));
+							
+						}
+						Collections.sort(listaVerovatnoca);
+						Collections.reverse(listaVerovatnoca);
+						temp="";
+						for(int i = 0; i < solution.getStatesSize(); i++) {
+							temp += solution.getStateAt(i) + ": " +  ((ProbabilisticNode)solution).getMarginalAt(i) + "\n";
+							System.out.println(solution.getStateAt(i) + ": " +  ((ProbabilisticNode)solution).getMarginalAt(i));
+							solutionList.add(temp);
+							temp="";
+						}
 						
-						CBRQuery query = new CBRQuery();
+						
+						System.out.println("*************\n" + temp);
+						
+						
+						
+						
+					} else {
+						System.out.println("Tu smo 2");
+						
+						CbrApplication app = new CbrApplication();
+						try {
+							app.configure();
+							
+							app.preCycle();
+							
+							CBRQuery query = new CBRQuery();
 
-						Anamnesis anam = new Anamnesis();
-						anam.setAlcohol(patientAnamnesis.getAlcohol());
-						anam.setEmployed(patientAnamnesis.getEmployed());
-						anam.setLivingObject(patientAnamnesis.getLivingObject());
-						anam.setLivingPlace(patientAnamnesis.getLivingPlace());
-						anam.setPet(patientAnamnesis.getPet());
-						anam.setSmoking(patientAnamnesis.getSmoking());
-						anam.setWorkingCondition(patientAnamnesis.getWorkingCondition());
-						
-						
-						
-						query.setDescription( anam );
-						
-						app.cycle(query);
+							Anamnesis anam = new Anamnesis();
+							anam.setAlcohol(patientAnamnesis.getAlcohol());
+							anam.setEmployed(patientAnamnesis.getEmployed());
+							anam.setLivingObject(patientAnamnesis.getLivingObject());
+							anam.setLivingPlace(patientAnamnesis.getLivingPlace());
+							anam.setPet(patientAnamnesis.getPet());
+							anam.setSmoking(patientAnamnesis.getSmoking());
+							anam.setWorkingCondition(patientAnamnesis.getWorkingCondition());
+							
+							
+							
+							query.setDescription( anam );
+							
+							app.cycle(query);
 
-						app.postCycle();
+							app.postCycle();
+							
+							
+						} catch (ExecutionException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
 						
+						String temp = "";
+						String temp2 = "";
+						CBRCase cbr = new CBRCase();
+						for (RetrievalResult retrievalResult : MainFrame.getInstance().getEval()) {
+							cbr = retrievalResult.get_case();
+							temp2 = retrievalResult.get_case().getDescription().toString();
+							temp = retrievalResult.get_case().getDescription().toString() + " -> " + retrievalResult.getEval();
+							break; // za sad cu uzimati samo jedan predlog
+						}
 						
-					} catch (ExecutionException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						String[] prvi = temp2.split(",");
+						
+						for (String s : prvi) {
+							solutionList.add(s);
+						}
+						
+						String poslednji = prvi[prvi.length-3];
+						poslednji = poslednji.trim();
+						
+						String[] poslednji2 = poslednji.split("=");
+						String poslednji3 = poslednji2[1];
+						
+						poslednji4 = poslednji3.substring(0, poslednji3.length());
+						System.out.println("Poslednji : " + poslednji4);
+						//solutionList.add(temp);
+					
 					}
+					displaySolutions(solutionList);
+					
 
 					
-					String temp = "";
-					String temp2 = "";
-					CBRCase cbr = new CBRCase();
-					for (RetrievalResult retrievalResult : MainFrame.getInstance().getEval()) {
-						cbr = retrievalResult.get_case();
-						temp2 = retrievalResult.get_case().getDescription().toString();
-						temp = retrievalResult.get_case().getDescription().toString() + " -> " + retrievalResult.getEval();
-						break; // za sad cu uzimati samo jedan predlog
+				} else { // RADICE SE ZA FIZIKALNI PREGLED
+					
+					if(reasoning.equals("Rule based")) { //RULE BASED
+						
+						ProbabilisticNetwork net = new ProbabilisticNetwork("example");
+						// loading from file
+						 BaseIO io = new NetIO();
+						 try {
+							net = (ProbabilisticNetwork)io.load(new File("dopunska_ispitivanja_fiz_preg.net"));
+						} catch (LoadException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						 
+						 System.out.println("STa se desava?? : " + net.getEdge(net.getNode("Smoking"), net.getNode("solution")));
+						 Node n1 = net.getNode("solution");
+						 System.out.println("STa se desava?? : " + n1.getStateAt(0));
+						 
+
+						 
+						 System.out.println("***** COMPAILING *****");
+						 IInferenceAlgorithm algorithm = new JunctionTreeAlgorithm();
+						 algorithm.setNetwork(net);
+						 algorithm.run();
+						 System.out.println("****** END COMPAILING ******");
+						 
+						 ProbabilisticNode factNode1 = (ProbabilisticNode)net.getNode("respiratoryNoise");
+						 int stateIndex1;
+						 if(patientPhysicalExamination.getRespiratoryNoise().equals("Normalan")) {
+							 stateIndex1 = 0; // index of state ""
+						 } else if(patientPhysicalExamination.getRespiratoryNoise().equals("Pukoti")) {
+							 stateIndex1 = 1; // index of state ""
+						 } else {
+							 stateIndex1 = 2;
+						 }
+						 factNode1.addFinding(stateIndex1);
+						 
+						 ProbabilisticNode factNode2 = (ProbabilisticNode)net.getNode("respiratorySound");
+						 int stateIndex2;
+						 if(patientPhysicalExamination.getRespiratorySound().equals("Regularni")) {
+							 stateIndex2 = 0; // index of state ""
+						 } else {
+							 stateIndex2 = 1;
+						 }
+						 factNode2.addFinding(stateIndex2);
+						 
+						 
+						 ProbabilisticNode factNode3 = (ProbabilisticNode)net.getNode("bodyTemperature");
+						 int stateIndex3;
+						 if(patientPhysicalExamination.getBodyTemperature().equals("Normalna")) {
+							 stateIndex3 = 0; // index of state ""
+						 } else if(patientPhysicalExamination.getBodyTemperature().equals("Povisena")) {
+							 stateIndex3 = 1; // index of state ""
+						 } else {
+							 stateIndex3 = 2;
+						 }
+						 factNode3.addFinding(stateIndex3);
+						 
+						 try {
+					        	net.updateEvidences();
+					        } catch (Exception e2) {
+					        	System.out.println(e2.getMessage());               	
+					        }
+					        
+						 List<Node> nodeList = net.getNodes();
+					        // states overview after propagation
+							for (Node node : nodeList) {
+								System.out.println(node.getName());
+								for (int i = 0; i < node.getStatesSize(); i++) {
+									System.out.println(node.getStateAt(i) + ": " + ((ProbabilisticNode)node).getMarginalAt(i));
+								}
+							}
+						
+							
+						System.out.println("*************\n");
+						List<Float> listaVerovatnoca = new ArrayList<Float>();
+						
+						String temp="";
+						Node solution = net.getNode("solution");
+						System.out.println("Solution: " + solution.getName());
+						temp+= "Solution: " + solution.getName() + "\n";
+						for(int i = 0; i < solution.getStatesSize(); i++) {
+							
+							listaVerovatnoca.add(((ProbabilisticNode)solution).getMarginalAt(i));
+							
+						}
+						Collections.sort(listaVerovatnoca);
+						Collections.reverse(listaVerovatnoca);
+						temp="";
+						for(int i = 0; i < solution.getStatesSize(); i++) {
+							temp += solution.getStateAt(i) + ": " +  ((ProbabilisticNode)solution).getMarginalAt(i) + "\n";
+							System.out.println(solution.getStateAt(i) + ": " +  ((ProbabilisticNode)solution).getMarginalAt(i));
+							solutionList.add(temp);
+							temp="";
+						}
+						
+						
+						System.out.println("*************\n" + temp);
+						
+						
+						
+						
+					} else { // CASED BASED
+						
+						CbrApplication app = new CbrApplication();
+						try {
+							app.configure();
+							
+							app.preCycle();
+							
+							CBRQuery query = new CBRQuery();
+
+							PhysicalExamination pe = new PhysicalExamination();
+							pe.setBodyTemperature(patientPhysicalExamination.getBodyTemperature());
+							pe.setRespiratoryNoise(patientPhysicalExamination.getRespiratoryNoise());
+							pe.setRespiratorySound(patientPhysicalExamination.getRespiratorySound());
+							
+							
+							query.setDescription( pe );
+							
+							app.cycle(query);
+
+							app.postCycle();
+							
+							//eval = MainFrame.getInstance().getEval();
+						} catch (ExecutionException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+						String temp = "";
+						String temp2 = "";
+						CBRCase cbr = new CBRCase();
+						for (RetrievalResult retrievalResult : MainFrame.getInstance().getEval()) {
+							cbr = retrievalResult.get_case();
+							temp2 = retrievalResult.get_case().getDescription().toString();
+							temp = retrievalResult.get_case().getDescription().toString() + " -> " + retrievalResult.getEval();
+							break; // za sad cu uzimati samo jedan predlog
+						}
+						
+						String[] prvi = temp2.split(",");
+						
+						for (String s : prvi) {
+							solutionList.add(s);
+						}
+						
+						String poslednji = prvi[prvi.length-3];
+						poslednji = poslednji.trim();
+						
+						String[] poslednji2 = poslednji.split("=");
+						String poslednji3 = poslednji2[1];
+						
+						poslednji4 = poslednji3.substring(0, poslednji3.length());
+						System.out.println("Poslednji : " + poslednji4);
+						//solutionList.add(temp);
+						
 					}
-					
-					String[] prvi = temp2.split(",");
-					String poslednji = prvi[prvi.length-3];
-					poslednji = poslednji.trim();
-					
-					String[] poslednji2 = poslednji.split("=");
-					String poslednji3 = poslednji2[1];
-					
-					poslednji4 = poslednji3.substring(0, poslednji3.length());
-					System.out.println("Poslednji : " + poslednji4);
-					solutionList.add(temp);
-				
+					displaySolutions(solutionList);
 				}
-				displaySolutions(solutionList);
+				
 				
 			}
 		});

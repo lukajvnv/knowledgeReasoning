@@ -1,0 +1,73 @@
+net
+{
+     node_size = (0 0);
+     name = "New BN";
+     UnBBayes_Color_Probabilistic_Description = "-256";
+     UnBBayes_Color_Probabilistic_Explanation = "-16711936";
+}
+
+node bodyTemperature
+{
+     label = "C1";
+     position = (142 65);
+     states = ("normalna" "povisena" "snizena");
+}
+
+node respiratorySound
+{
+     label = "C2";
+     position = (393 69);
+     states = ("regularni" "patoloski");
+}
+
+node respiratoryNoise
+{
+     label = "C3";
+     position = (639 69);
+     states = ("normalan" "pukoti" "zvizduci");
+}
+
+node solution
+{
+     label = "C4";
+     position = (389 374);
+     states = ("rtg_pluca" "ct_pluca" "ultrazvuk" "krvna_slika");
+}
+
+potential (bodyTemperature)
+{
+ data = ( 0.3 0.4 0.3 );
+}
+
+potential (respiratorySound)
+{
+ data = ( 0.5 0.5 );
+}
+
+potential (respiratoryNoise)
+{
+ data = ( 0.2 0.4 0.4 );
+}
+
+potential (solution | respiratoryNoise respiratorySound bodyTemperature)
+{
+ data = (((( 0.4 0.25 0.15 0.2 )
+( 0.25 0.15 0.2 0.4 )
+( 0.15 0.4 0.25 0.2 ))
+(( 0.4 0.25 0.15 0.2 )
+( 0.25 0.15 0.2 0.4 )
+( 0.15 0.4 0.25 0.2 )))
+((( 0.4 0.25 0.15 0.2 )
+( 0.25 0.15 0.2 0.4 )
+( 0.25 0.15 0.4 0.2 ))
+(( 0.4 0.25 0.15 0.2 )
+( 0.25 0.15 0.2 0.4 )
+( 0.25 0.15 0.4 0.2 )))
+((( 0.25 0.15 0.4 0.2 )
+( 0.25 0.15 0.2 0.4 )
+( 0.25 0.15 0.4 0.2 ))
+(( 0.4 0.25 0.15 0.2 )
+( 0.4 0.25 0.15 0.2 )
+( 0.4 0.25 0.15 0.2 ))));
+}
+

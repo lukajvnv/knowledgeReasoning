@@ -111,7 +111,7 @@ public class ViewPatientAnamnesis extends JPanel {
 				} else {
 					
 					
-					AdditionalExaminationDialog dialog = new AdditionalExaminationDialog(patient);
+					AdditionalExaminationDialog dialog = new AdditionalExaminationDialog(patient,true);
 					dialog.setVisible(true);
 				}
 				

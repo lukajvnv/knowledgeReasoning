@@ -109,33 +109,9 @@ public class ViewPatientPhysicalExamination extends JPanel {
 					System.out.println("nema fizikalnog pregleda pa ne moze da se preporucuje!");
 					Utils.info("Nema fizikalnog pregleda pa ne mogu da se preporucuju dopunski pregledi!");	
 				} else {
-					CbrApplication app = new CbrApplication();
-					try {
-						app.configure();
-						
-						app.preCycle();
-						
-						CBRQuery query = new CBRQuery();
-
-						PhysicalExamination pe = new PhysicalExamination();
-						pe.setBodyTemperature(patientPhysicalExamination.getBodyTemperature());
-						pe.setRespiratoryNoise(patientPhysicalExamination.getRespiratoryNoise());
-						pe.setRespiratorySound(patientPhysicalExamination.getRespiratorySound());
-						
-						
-						query.setDescription( pe );
-						
-						app.cycle(query);
-
-						app.postCycle();
-						
-						//eval = MainFrame.getInstance().getEval();
-					} catch (ExecutionException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
 					
-					AdditionalExaminationDialog dialog = new AdditionalExaminationDialog(patient);
+					
+					AdditionalExaminationDialog dialog = new AdditionalExaminationDialog(patient,false);
 					dialog.setVisible(true);
 				}
 				
