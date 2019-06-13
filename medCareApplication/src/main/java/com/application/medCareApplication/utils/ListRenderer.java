@@ -7,8 +7,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JList;
 
 import com.application.medCareApplication.model.Patient;
+import com.application.medCareApplication.model.Resources;
 
 public class ListRenderer extends DefaultListCellRenderer {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,
@@ -16,7 +22,7 @@ public class ListRenderer extends DefaultListCellRenderer {
 		// TODO Auto-generated method stub
 		super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 		
-		Patient p = (Patient)value;
+		Resources p = (Resources)value;
 		
 		setIcon(new ImageIcon("images/home_icon&16.png"));
 		setText(p.toString());

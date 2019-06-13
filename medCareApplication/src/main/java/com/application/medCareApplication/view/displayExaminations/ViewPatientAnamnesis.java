@@ -109,35 +109,7 @@ public class ViewPatientAnamnesis extends JPanel {
 					System.out.println("nema anamneza pa ne moze da se preporucuje!");
 					Utils.info("Nema anamneza pa ne mogu da se preporucuju dopunski pregledi!");		
 				} else {
-					CbrApplication app = new CbrApplication();
-					try {
-						app.configure();
-						
-						app.preCycle();
-						
-						CBRQuery query = new CBRQuery();
-
-						Anamnesis anam = new Anamnesis();
-						anam.setAlcohol(patientAnamnesis.getAlcohol());
-						anam.setEmployed(patientAnamnesis.getEmployed());
-						anam.setLivingObject(patientAnamnesis.getLivingObject());
-						anam.setLivingPlace(patientAnamnesis.getLivingPlace());
-						anam.setPet(patientAnamnesis.getPet());
-						anam.setSmoking(patientAnamnesis.getSmoking());
-						anam.setWorkingCondition(patientAnamnesis.getWorkingCondition());
-						
-						
-						query.setDescription( anam );
-						
-						app.cycle(query);
-
-						app.postCycle();
-						
-						
-					} catch (ExecutionException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					
 					
 					AdditionalExaminationDialog dialog = new AdditionalExaminationDialog(patient);
 					dialog.setVisible(true);
@@ -164,10 +136,10 @@ public class ViewPatientAnamnesis extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				Anamnesis a = dbHandler.selectPatientAnamnesis(patient.getPatientId());
+				Anamnesis a = dbHandler.selectPatientAnamnesis(patientAnamnesis.getAnamnesisId());
 			//	Patient pom = dbHandler.selectPatient(patient.getPatientId());
 				System.out.println("Pregled dopunskih ispitivanja: " + a.getAdditionalExamination());
-				Utils.info("Pregled dopunskih ispitivanja: " + a.getAdditionalExamination());
+				Utils.info("Pregled dopunskih ispitivanja: " + patientAnamnesis.getAdditionalExamination());
 				
 			}
 		});

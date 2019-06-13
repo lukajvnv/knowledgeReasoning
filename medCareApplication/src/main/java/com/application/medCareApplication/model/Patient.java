@@ -1,12 +1,23 @@
 package com.application.medCareApplication.model;
-	import java.util.Vector;
+	import java.util.HashSet;
+import java.util.Set;
+import java.util.Vector;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 	@Entity
 	@Table(name = "patient")
@@ -33,6 +44,27 @@ import javax.persistence.Transient;
 		
 		@Column(name = "Telefon")
 		private String telephoneNumber;
+		
+		//mapiranje pacijenata i ranijih bolesti
+		@ManyToMany(fetch = FetchType.LAZY)
+	    @JoinTable(name = "ranije_bolesti", 
+	    	joinColumns = @JoinColumn(name = "patient_id"), 
+	    	inverseJoinColumns = @JoinColumn(name = "diagnosis_id"))
+		@OnDelete(action = OnDeleteAction.CASCADE) 
+	    private Set<Resources> ranijeBolesti = new HashSet<>();
+		
+		//mapiranje pacijenata i bolesti iz porodice
+		@ManyToMany(fetch = FetchType.LAZY)
+		@JoinTable(name = "porodicne_bolesti", 
+		joinColumns = @JoinColumn(name = "patient_id"), 
+		inverseJoinColumns = @JoinColumn(name = "diagnosis_id"))
+		@OnDelete(action = OnDeleteAction.CASCADE) 
+		private Set<Resources> porodicneBolesti = new HashSet<>();
+		
+		@OneToMany(mappedBy = "patient")
+		private Set<Anamnesis> anamnesis = new HashSet<Anamnesis>();
+		
+		
 		
 		@Transient
 		private Vector<Object> structuredData;
@@ -136,7 +168,8 @@ import javax.persistence.Transient;
 		public String toString() {
 			return "Patient [patientId=" + patientId + ", firstName=" + firstName + ", lastName=" + lastName + ", jmbg="
 					+ jmbg + ", dateOfBirth=" + dateOfBirth + ", address=" + address + ", telephoneNumber="
-					+ telephoneNumber + "]";
+					+ telephoneNumber + ", ranijeBolesti=" + ranijeBolesti + ", porodicneBolesti=" + porodicneBolesti
+					+ "]";
 		}
 		
 		

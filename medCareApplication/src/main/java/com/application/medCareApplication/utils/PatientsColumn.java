@@ -35,5 +35,10 @@ public class PatientsColumn {
 	public static String resourceId = "resource_id";
 	public static String resourceName = "resource_name";
 	public static String resourceType = "resource_type";
+	
+	
+	// ranije bolesti
+	public static String patientIdRanije = "patient_id";
+	public static String diagnosisId = "diagnosis_id";
 
 }

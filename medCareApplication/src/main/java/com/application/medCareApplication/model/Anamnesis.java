@@ -1,9 +1,20 @@
 package com.application.medCareApplication.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import ucm.gaia.jcolibri.cbrcore.Attribute;
 import ucm.gaia.jcolibri.cbrcore.CaseComponent;
@@ -43,9 +54,52 @@ public class Anamnesis implements CaseComponent {
 	@Column(name = "dopunska_ispitivanja")
 	private String additionalExamination;
 	
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private Patient patient;
+	
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	private Set<Resources> bolesti = new HashSet<Resources>();
+
+	
 	public Anamnesis() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public Anamnesis(int anamnesisId, int patientId, String smoking, String alcohol, String employed,
+			String workingCondition, String livingPlace, String livingObject, String pet, String additionalExamination,
+			Patient patient, Set<Resources> bolesti) {
+		super();
+		this.anamnesisId = anamnesisId;
+		this.patientId = patientId;
+		this.smoking = smoking;
+		this.alcohol = alcohol;
+		this.employed = employed;
+		this.workingCondition = workingCondition;
+		this.livingPlace = livingPlace;
+		this.livingObject = livingObject;
+		this.pet = pet;
+		this.additionalExamination = additionalExamination;
+		this.patient = patient;
+		this.bolesti = bolesti;
+	}
+
+	public Anamnesis(int anamnesisId, int patientId, String smoking, String alcohol, String employed,
+			String workingCondition, String livingPlace, String livingObject, String pet, String additionalExamination,
+			Patient patient) {
+		super();
+		this.anamnesisId = anamnesisId;
+		this.patientId = patientId;
+		this.smoking = smoking;
+		this.alcohol = alcohol;
+		this.employed = employed;
+		this.workingCondition = workingCondition;
+		this.livingPlace = livingPlace;
+		this.livingObject = livingObject;
+		this.pet = pet;
+		this.additionalExamination = additionalExamination;
+		this.patient = patient;
 	}
 
 	public Anamnesis(int anamnesisId, int patientId, String smoking, String alcohol, String employed,
@@ -76,6 +130,22 @@ public class Anamnesis implements CaseComponent {
 		this.livingPlace = livingPlace;
 		this.livingObject = livingObject;
 		this.pet = pet;
+	}
+
+	public Set<Resources> getBolesti() {
+		return bolesti;
+	}
+
+	public void setBolesti(Set<Resources> bolesti) {
+		this.bolesti = bolesti;
+	}
+
+	public Patient getPatient() {
+		return patient;
+	}
+
+	public void setPatient(Patient patient) {
+		this.patient = patient;
 	}
 
 	public String getAdditionalExamination() {
@@ -163,7 +233,8 @@ public class Anamnesis implements CaseComponent {
 		return "Anamnesis [anamnesisId=" + anamnesisId + ", patientId=" + patientId + ", smoking=" + smoking
 				+ ", alcohol=" + alcohol + ", employed=" + employed + ", workingCondition=" + workingCondition
 				+ ", livingPlace=" + livingPlace + ", livingObject=" + livingObject + ", pet=" + pet
-				+ ", additionalExamination=" + additionalExamination + "]";
+				+ ", additionalExamination=" + additionalExamination + ", patient=" + patient + ", bolesti=" + bolesti
+				+ "]";
 	}
 
 	@Override

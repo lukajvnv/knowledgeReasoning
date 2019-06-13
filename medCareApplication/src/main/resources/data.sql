@@ -31,21 +31,27 @@ insert into physical_examination (physical_Examination_Id, Id_Pacijenta, Tempera
 values (4, 4, 'Normalna', 'Regularni', 'Normalan', 'RTG_PLUCA');
 
 /*Anamneza*/
-insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja)
-values (1, 1, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki lak posao', 'Grad', 'Stan', 'Ne', 'UZ_PLUCNE_MARAMICE');
-insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja)
-values (2, 3, 'Da', 'Da', 'Zaposlen', 'Fizicki tezak posao', 'Grad', 'Kuca', 'Da', 'KRVNA_SLIKA');
-insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja)
-values (3, 2, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki lak posao', 'Grad', 'Stan', 'Ne', 'CT_PLUCA');
-insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja)
-values (4, 5, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki lak posao', 'Grad', 'Kuca', 'Da', 'RTG_PLUCA');
-insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja)
-values (7, 4, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki tezak posao', 'Selo', 'Stan', 'Ne', 'CT_PLUCA');
-insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja)
-values (5, 7, 'Ne', 'Ne', 'Zaposlen', 'Fizicki tezak posao', 'Grad', 'Stan', 'Ne', 'RTG_PLUCA');
-insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja)
-values (6, 6, 'Da', 'Da', 'Zaposlen', 'Fizicki lak posao', 'Selo', 'Kuca', 'Ne', 'KRVNA_SLIKA');
+insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta)
+values (1, 1, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki lak posao', 'Grad', 'Stan', 'Ne', 'UZ_PLUCNE_MARAMICE', 1);
+insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta)
+values (2, 3, 'Da', 'Da', 'Zaposlen', 'Fizicki tezak posao', 'Grad', 'Kuca', 'Da', 'KRVNA_SLIKA', 3);
+insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta)
+values (3, 2, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki lak posao', 'Grad', 'Stan', 'Ne', 'CT_PLUCA', 2);
+insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta)
+values (4, 5, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki lak posao', 'Grad', 'Kuca', 'Da', 'RTG_PLUCA', 5);
+insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta)
+values (7, 4, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki tezak posao', 'Selo', 'Stan', 'Ne', 'CT_PLUCA', 4);
+insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta)
+values (5, 7, 'Ne', 'Ne', 'Zaposlen', 'Fizicki tezak posao', 'Grad', 'Stan', 'Ne', 'RTG_PLUCA', 7);
+insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta)
+values (6, 6, 'Da', 'Da', 'Zaposlen', 'Fizicki lak posao', 'Selo', 'Kuca', 'Ne', 'KRVNA_SLIKA', 6);
 
+/* Ranije bolesti*/
+INSERT INTO ranije_bolesti (patient_id, diagnosis_id)
+values (1, 38);
+/* Porodicne bolesti*/
+INSERT INTO porodicne_bolesti (patient_id, diagnosis_id)
+values (1, 43);
 /*Svi relevantni podaci*/
 	/*Simptomi*/
 insert into resources (resource_id, resource_name, resource_type) values (1, 'congestion_in_chest', 'symptom');
@@ -153,3 +159,4 @@ insert into resources (resource_id, resource_name, resource_type) values (97, 'v
 insert into resources (resource_id, resource_name, resource_type) values (98, 'oxygen', 'medicaments');
 insert into resources (resource_id, resource_name, resource_type) values (99, 'chantix', 'medicaments');
 insert into resources (resource_id, resource_name, resource_type) values (100, 'nicotine', 'medicaments');
+

@@ -10,6 +10,11 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Parameter;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -26,7 +31,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.application.medCareApplication.model.Patient;
+import com.application.medCareApplication.model.Resources;
 import com.application.medCareApplication.utils.ListRenderer;
+import com.application.medCareApplication.utils.handler.DatabaseHandler;
+import com.application.medCareApplication.view.MainFrame;
 
 public class SelectAnamnesisDialog extends JDialog {
 
@@ -35,17 +43,22 @@ public class SelectAnamnesisDialog extends JDialog {
 	 */
 	private static final long serialVersionUID = 1173485553968123148L;
 	private final JPanel contentPanel = new JPanel();
-	private JList<Patient>  possibleValuesList;
+	private JList<Resources>  possibleValuesList;
 	private JScrollPane possibleValuesScrollPane;
-	private JList<Patient>  selectedValuesList;
+	private JList<Resources>  selectedValuesList;
 	private JScrollPane selectedValuesScrollPane;
+	private DatabaseHandler db = MainFrame.getInstance().getDatabaseHandler();
+	
+	private JList<String>  rightValuesList;
+	private Boolean ranijeBolesti;
+
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			SelectAnamnesisDialog dialog = new SelectAnamnesisDialog();
+			SelectAnamnesisDialog dialog = new SelectAnamnesisDialog(true);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -55,8 +68,10 @@ public class SelectAnamnesisDialog extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * ------------------------------ vrsta: da li je za ranije bolesti(true) ili porodicnu anamnezu(false)
 	 */
-	public SelectAnamnesisDialog() {
+	public SelectAnamnesisDialog(Boolean vrsta) {
+		this.ranijeBolesti = vrsta;
 		possibleValuesList = initList(possibleValuesList, true);
 		selectedValuesList = initList(selectedValuesList, false);
 		
@@ -117,12 +132,15 @@ public class SelectAnamnesisDialog extends JDialog {
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								// TODO Auto-generated method stub
-								List<Patient> selectedPatients = possibleValuesList.getSelectedValuesList();
-				            	DefaultListModel<Patient> possibleValuesListModel = (DefaultListModel<Patient>) possibleValuesList.getModel();
-				            	DefaultListModel<Patient> selectedValuesListModel = (DefaultListModel<Patient>) selectedValuesList.getModel();
-				            	for(Patient p : selectedPatients) {
+								// TODO Auto-generated method stub/*
+								List<Resources> selectedPatients = possibleValuesList.getSelectedValuesList();
+				            	DefaultListModel<Resources> possibleValuesListModel = (DefaultListModel<Resources>) possibleValuesList.getModel();
+				            	DefaultListModel<Resources> selectedValuesListModel = (DefaultListModel<Resources>) selectedValuesList.getModel();
+				            	//DefaultListModel<String> rightValuesListModel = (DefaultListModel<String>) rightValuesList.getModel();
+				            	
+				            	for(Resources p : selectedPatients) {
 									selectedValuesListModel.addElement(p);
+									//rightValuesListModel.addElement(p);
 									possibleValuesListModel.removeElement(p);
 								}
 				            	possibleValuesList.clearSelection();
@@ -148,10 +166,10 @@ public class SelectAnamnesisDialog extends JDialog {
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								// TODO Auto-generated method stub
-								List<Patient> selectedPatients = selectedValuesList.getSelectedValuesList();
-				            	DefaultListModel<Patient> possibleValuesListModel = (DefaultListModel<Patient>) possibleValuesList.getModel();
-				            	DefaultListModel<Patient> selectedValuesListModel = (DefaultListModel<Patient>) selectedValuesList.getModel();
-				            	for(Patient p : selectedPatients) {
+								List<Resources> selectedPatients = selectedValuesList.getSelectedValuesList();
+				            	DefaultListModel<Resources> possibleValuesListModel = (DefaultListModel<Resources>) possibleValuesList.getModel();
+				            	DefaultListModel<Resources> selectedValuesListModel = (DefaultListModel<Resources>) selectedValuesList.getModel();
+				            	for(Resources p : selectedPatients) {
 									possibleValuesListModel.addElement(p);
 									selectedValuesListModel.removeElement(p);
 								}
@@ -203,11 +221,40 @@ public class SelectAnamnesisDialog extends JDialog {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
-						System.out.println("add action button");
-						DefaultListModel<Patient> s = (DefaultListModel<Patient>) possibleValuesList.getModel();
-		            	s.addElement(new Patient(1, "ime", "prezime", "jmbg", "15.5.2018", "adresa", "telefon"));
+						// TODO OVDE TREBA UBACITI U MAPU PACIJENTOV ID I RANIJE BOLESTI ITD
+						DefaultListModel<Resources>  lista = (DefaultListModel<Resources>) selectedValuesList.getModel();
+						List<Resources> rightList = new ArrayList<Resources>();
+						for(int i = 0; i < lista.getSize(); i++) {
+							rightList.add(lista.getElementAt(i));
+						}
+						
+						
+						
+						for (Resources string : rightList) {
+							System.out.println("DEsava se: " + string.getResourceId());
+							try {
+								if(ranijeBolesti) {
+									db.createRanijeBolesti(MainFrame.getInstance().getCurrentPatient().getPatientId(), string.getResourceId());
+								} else {
+									db.createPorodicneBolesti(MainFrame.getInstance().getCurrentPatient().getPatientId(), string.getResourceId());
+								}
+								
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+						
+						
+						dispose();
+						
+						
+						
+					/*	System.out.println("add action button");
+						DefaultListModel<String> s = (DefaultListModel<String>) possibleValuesList.getModel();
+		            	s.addElement(new String("Nisam skontao sta ovo predstavlja ???"));
 		          
-		            	possibleValuesList.clearSelection();
+		            	possibleValuesList.clearSelection();*/
 					}
 				});
 				buttonPane.add(okButton);
@@ -299,18 +346,23 @@ public class SelectAnamnesisDialog extends JDialog {
 		
 	}*/
 	
-	private JList<Patient> initList(JList<Patient> list, boolean shouldRetrieveData) {
-		DefaultListModel<Patient> possibleValuesListModel = new DefaultListModel<Patient>();
-		
+	private JList<Resources> initList(JList<Resources> list, boolean shouldRetrieveData) {
+		DefaultListModel<Resources> possibleValuesListModel = new DefaultListModel<Resources>();
+		List<Resources> bolesti = db.selectAllParticularResource("diagnosis");
 		
 		if (shouldRetrieveData) {
-			for (int i = 0; i < 15; i++) {
+			for (Resources resources : bolesti) {
+				possibleValuesListModel.addElement(resources);
+			}
+			
+			/*for (int i = 0; i < 15; i++) {
+				
 				Patient p = new Patient(i, "ime" + i, "prezime" + i, "jmbg" + i, "15.5.2018", "adresa" + i,
 						"telefon" + i);
 				possibleValuesListModel.addElement(p);
-			} 
+			} */
 		}
-		list = new JList<Patient>(possibleValuesListModel);
+		list = new JList<Resources>(possibleValuesListModel);
 		list.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override

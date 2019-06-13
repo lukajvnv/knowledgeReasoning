@@ -409,6 +409,17 @@ public class NewAnamnesisDialog extends JDialog {
 			olderPersonalAnamnesisPanel.add(lblNewLabel, gbc_lblNewLabel);
 			
 			JButton btnNewButton = new JButton("Odaberi");
+			
+			btnNewButton.addActionListener(new AbstractAction() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					SelectAnamnesisDialog d = new SelectAnamnesisDialog(true);
+					d.setVisible(true);
+					
+				}
+			});
 			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			btnNewButton.setIcon(new ImageIcon("images/arrow_top_right_icon&24.png"));
 			GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
@@ -476,7 +487,7 @@ public class NewAnamnesisDialog extends JDialog {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					SelectAnamnesisDialog d = new SelectAnamnesisDialog();
+					SelectAnamnesisDialog d = new SelectAnamnesisDialog(false);
 					d.setVisible(true);
 				}
 			});

@@ -59,6 +59,17 @@ public class ViewPatientPhysicalExamination extends JPanel {
 		MainFrame.getInstance().setCurrentPatient(p);
 		this.patient = p;
 		
+		DefaultListModel<PhysicalExamination> physicalExaminatinoListModel = new DefaultListModel<PhysicalExamination>();
+		DatabaseHandler dbHandler = MainFrame.getInstance().getDatabaseHandler();
+		List<PhysicalExamination> anemnesis = dbHandler.selectAllPatientPhysicalExamination(patient);
+		
+
+		for (PhysicalExamination a : anemnesis) {
+			patientPhysicalExamination = a;
+			physicalExaminatinoListModel.addElement(a);
+		}
+		
+		
 		setLayout(new BorderLayout(0, 0));
 		
 		JToolBar toolBar = new JToolBar();

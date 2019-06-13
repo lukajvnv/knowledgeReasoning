@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -288,6 +289,58 @@ public class DatabaseHandler implements IHandler {
 		
 	}
 	
+	/**
+	 * 
+	 * Ubacivanje u posebnu tabelu za porodicne bolesti
+	 * 
+	 * */
+	
+	public void createPorodicneBolesti(Integer patientId, Integer resource) throws SQLException{
+			
+			String template = "INSERT INTO porodicne_bolesti (patient_id, diagnosis_id) VALUES (?, ?)";
+			
+			System.out.println(template);
+		
+			try {
+				PreparedStatement preparedStatement = databaseConnection.prepareStatement(template);
+				preparedStatement.setInt(1, patientId); 
+				preparedStatement.setInt(2, resource);
+
+				
+				preparedStatement.executeUpdate();
+				preparedStatement.close();
+			} catch (SQLException e) {
+				throw new SQLException("");
+			}
+			
+		}
+	
+	/**
+	 * 
+	 * Ubacivanje u posebnu tabelu za ranije bolesti
+	 * 
+	 * */
+	
+	public void createRanijeBolesti(Integer patientId, Integer resource) throws SQLException{
+			
+			String template = "INSERT INTO ranije_bolesti (patient_id, diagnosis_id) VALUES (?, ?)";
+			
+			System.out.println(template);
+		
+			try {
+				PreparedStatement preparedStatement = databaseConnection.prepareStatement(template);
+				preparedStatement.setInt(1, patientId); 
+				preparedStatement.setInt(2, resource);
+
+				
+				preparedStatement.executeUpdate();
+				preparedStatement.close();
+			} catch (SQLException e) {
+				throw new SQLException("");
+			}
+			
+		}
+	
 	public PhysicalExamination selectPatientPhysicalExamination(int physicalExaminationId) {
 		String sql = String.format("SELECT %s FROM %s WHERE %s = '%s';", "*", "physical_examination", PatientsColumn.physicalExaminationId, physicalExaminationId);
 		System.out.println(sql);
@@ -457,6 +510,46 @@ public class DatabaseHandler implements IHandler {
 		}
 	
 	}
+	
+	/*
+	 * NOVO - VRATI MI SVE FIZIKALNE PREGLEDE ZA KONKRETNOG PACIJENTA
+	 * */
+	public List<PhysicalExamination> selectAllPatientPhysicalExamination(Patient p) {
+			
+			String sql = String.format("SELECT %s FROM %s WHERE Id_Pacijenta = '%s';", "*", "physical_examination", p.getPatientId());
+			
+			System.out.println(sql);
+			
+			List<PhysicalExamination> anamnesis = new ArrayList<PhysicalExamination>();
+			
+			try {
+				Statement stmt = databaseConnection.createStatement();			
+				
+				ResultSet rset = stmt.executeQuery(sql);
+				
+				if(!rset.isBeforeFirst()) {
+					System.out.println("Nema podataka");
+				}
+				
+				while(rset.next()) {
+					PhysicalExamination a = makeOnePhysicalExamination(rset);
+					if( a != null) {
+						anamnesis.add(a);
+					}
+				}
+					
+				rset.close();
+				stmt.close();
+				
+				return anamnesis;
+				
+			} catch (SQLException e) {
+				//e.printStackTrace();
+				return null;
+			}
+		
+		}
+	
 	
 	private Anamnesis makeOneAnamnesis(ResultSet resultSet) {
 		Anamnesis anamnesis = null;
@@ -777,6 +870,62 @@ public class DatabaseHandler implements IHandler {
 			throw new SQLException("");
 		}
 	}
+	
+	/**
+	 * 
+	 * 
+	 * 
+	 * */
+	
+	private HashMap<Integer, Integer> makeOneRanijaBolest(ResultSet resultSet) {
+		HashMap<Integer, Integer> mapa = new HashMap<>();
+		try {
+			Integer patientId = resultSet.getInt(PatientsColumn.patientIdRanije);
+			Integer diagnosisId = resultSet.getInt(PatientsColumn.diagnosisId);
+
+			mapa.put(patientId, diagnosisId);
+			return mapa;
+		} catch (SQLException e) {
+			return null;
+		}
+
+	}
+	
+	public HashMap<Integer,Integer> selectAllRanijeBolesti(Patient p) {
+		
+		String sql = String.format("SELECT %s FROM %s WHERE patient_id = %s;", "*", "ranije_bolesti", p.getPatientId());
+		
+		System.out.println(sql);
+		
+		HashMap<Integer, Integer> mapa = new HashMap<>();
+		
+		try {
+			Statement stmt = databaseConnection.createStatement();			
+			
+			ResultSet rset = stmt.executeQuery(sql);
+			
+			if(!rset.isBeforeFirst()) {
+				System.out.println("Nema podataka");
+			}
+			
+			while(rset.next()) {
+				System.out.println("Kako se ovo vraca uopste ? " + rset);
+				mapa = makeOneRanijaBolest(rset);
+				
+			}
+			
+			
+			rset.close();
+			stmt.close();
+			
+			return mapa;
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return null;
+		}
+	
+	}
 
 	public List<Resources> selectAllParticularResource(String resourceType) {
 		String sql = String.format("SELECT %s FROM %s WHERE resource_type = '%s';", "*", "resources", resourceType);
@@ -804,6 +953,37 @@ public class DatabaseHandler implements IHandler {
 			stmt.close();
 			
 			return resources;
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return null;
+		}
+	
+	}
+	
+	public Resources selectResourceById(Integer resourceId) {
+		String sql = String.format("SELECT %s FROM %s WHERE resource_id = %s;", "*", "resources", resourceId);
+		
+		System.out.println(sql);
+		Resources r = null;
+		
+		try {
+			Statement stmt = databaseConnection.createStatement();			
+			ResultSet rset = stmt.executeQuery(sql);
+
+			if(!rset.isBeforeFirst()) {
+				System.out.println("Nema podataka");
+			}
+			
+			while(rset.next()) {
+				r = makeOneResource(rset);
+
+			}
+				
+			rset.close();
+			stmt.close();
+			
+			return r;
 			
 		} catch (SQLException e) {
 			//e.printStackTrace();
