@@ -1,4 +1,4 @@
-package com.application.medCareApplication.view.dialog;
+package com.application.medCareApplication.view.dialog.addNewExamination;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -27,14 +27,14 @@ import javax.swing.border.TitledBorder;
 
 import com.application.medCareApplication.model.Anamnesis;
 import com.application.medCareApplication.model.Patient;
-import com.application.medCareApplication.model.RTGPluca;
+import com.application.medCareApplication.model.examination.CTpluca;
 import com.application.medCareApplication.utils.Utils;
-import com.application.medCareApplication.utils.handler.DatabaseHandler;
+import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.displayExaminations.ViewPatientAnamnesis;
 
 
-public class NewRTGPlucaDialog extends JDialog {
+public class NewCTDialog extends JDialog {
 
 	/**
 	 * 
@@ -52,13 +52,12 @@ public class NewRTGPlucaDialog extends JDialog {
 	private ButtonGroup petButtonGroup;
 	
 	private Patient patient;
-	private Boolean patoloski;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			NewRTGPlucaDialog dialog = new NewRTGPlucaDialog(new Patient());
+			NewCTDialog dialog = new NewCTDialog(new Patient());
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -74,21 +73,22 @@ public class NewRTGPlucaDialog extends JDialog {
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public NewRTGPlucaDialog(Patient patient, ViewPatientAnamnesis p) {
+	public NewCTDialog(Patient patient, ViewPatientAnamnesis p) {
 		this(patient);
 		this.panel = p;
 	}
 	
-	public NewRTGPlucaDialog(Patient p) {
+	public NewCTDialog(Patient p) {
 		this.patient = p;
-		this.patoloski = false;
-		String titleText = String.format("RTG pluca za pacijenta: %s %s", patient.getFirstName(), patient.getLastName());
+		
+		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
+		String titleText = String.format("CT pluca za pacijenta: %s %s", patient.getFirstName(), patient.getLastName());
 		setTitle(titleText);
 		setModal(true);
 		setFocusable(true);		//focus da bi se mogao trigerovati keyListener
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setSize(723,253);
+		setSize(701,243);
 		
 		//setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -100,13 +100,9 @@ public class NewRTGPlucaDialog extends JDialog {
 		gbl_contentPanel.columnWeights = new double[]{1.0};
 		gbl_contentPanel.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0};
 		contentPanel.setLayout(gbl_contentPanel);
-		
-		
-		
-		
 		{
 			personalAnamnesisPanel = new JPanel();
-			personalAnamnesisPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Rentgen pluca:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 255)));
+			personalAnamnesisPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Dodatni pregled", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 255)));
 			GridBagConstraints gbc_personalAnamnesisPanel = new GridBagConstraints();
 			gbc_personalAnamnesisPanel.insets = new Insets(0, 0, 5, 0);
 			gbc_personalAnamnesisPanel.fill = GridBagConstraints.BOTH;
@@ -120,7 +116,7 @@ public class NewRTGPlucaDialog extends JDialog {
 			gbl_personalAnamnesisPanel.rowWeights = new double[]{1.0, 1.0};
 			personalAnamnesisPanel.setLayout(gbl_personalAnamnesisPanel);
 			{
-				JLabel smokingLabel = new JLabel("RTG:");
+				JLabel smokingLabel = new JLabel("CT pluca:");
 				GridBagConstraints gbc_smokingLabel = new GridBagConstraints();
 				gbc_smokingLabel.fill = GridBagConstraints.BOTH;
 				gbc_smokingLabel.anchor = GridBagConstraints.WEST;
@@ -152,55 +148,8 @@ public class NewRTGPlucaDialog extends JDialog {
 				smokingButtonGroup.add(smokingYesRadioButton);
 				smokingButtonGroup.add(smokingNoRadioButton);
 				
-				smokingNoRadioButton.addActionListener(new AbstractAction() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// TODO Auto-generated method stub
-						// TODO NAPRAVITI DA SE POJAVI SLEDECI RED SAMO NA OVAJ RADIO BUTTON
-						patoloski = true;
-					}
-				});
-				
-			
-				
 			}
 			
-
-			{
-				JLabel alcoholLabel = new JLabel("Patoloski rentgen:");
-				GridBagConstraints gbc_alcoholLabel = new GridBagConstraints();
-				gbc_alcoholLabel.fill = GridBagConstraints.BOTH;
-				gbc_alcoholLabel.anchor = GridBagConstraints.WEST;
-				gbc_alcoholLabel.insets = new Insets(0, 0, 0, 5);
-				gbc_alcoholLabel.gridx = 2;
-				gbc_alcoholLabel.gridy = 1;
-				personalAnamnesisPanel.add(alcoholLabel, gbc_alcoholLabel);
-			}
-			{
-				JPanel alcoholPanel = new JPanel();
-				GridBagConstraints gbc_alcoholPanel = new GridBagConstraints();
-				gbc_alcoholPanel.fill = GridBagConstraints.BOTH;
-				gbc_alcoholPanel.gridx = 6;
-				gbc_alcoholPanel.gridy = 1;
-				personalAnamnesisPanel.add(alcoholPanel, gbc_alcoholPanel);
-				alcoholPanel.setLayout(new GridLayout(1, 2, 5, 5));
-				
-					JRadioButton alcoholYesRadioButton = new JRadioButton("Homogene lezije");
-					alcoholYesRadioButton.setActionCommand("Homogene lezije");
-					alcoholYesRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
-					alcoholPanel.add(alcoholYesRadioButton);
-				
-				
-					JRadioButton alcoholNoRadioButton = new JRadioButton("Inhomogene lezije");
-					alcoholNoRadioButton.setActionCommand("Inhomogene lezije");
-					alcoholNoRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
-					alcoholPanel.add(alcoholNoRadioButton);
-					
-				    alcoholButtonGroup = new ButtonGroup();
-					alcoholButtonGroup.add(alcoholYesRadioButton);
-					alcoholButtonGroup.add(alcoholNoRadioButton);
-			}
 		}
 		{
 			{
@@ -243,7 +192,7 @@ public class NewRTGPlucaDialog extends JDialog {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
-					/*	System.out.println("add action button");
+						/*System.out.println("add action button");
 						String alcohol = Utils.getSelectedButtonText(alcoholButtonGroup);
 						alcohol = (alcohol != null) ? alcohol : "Ne";
 						String smoking = Utils.getSelectedButtonText(smokingButtonGroup);
@@ -252,22 +201,21 @@ public class NewRTGPlucaDialog extends JDialog {
 						pet = (pet != null) ? pet : "Ne";	
 						
 						System.out.println("preko selection ");*/
-						int patientId = patient.getPatientId();/*
-						String employed = employedButtonGroup.getSelection().getActionCommand();
+						int patientId = patient.getPatientId();
+						/*String employed = employedButtonGroup.getSelection().getActionCommand();
 						String workingCondition = workingConditionButtonGroup.getSelection().getActionCommand();
 						String livingObject = livingObjectButtonGroup.getSelection().getActionCommand();
 						String livingPlace = livingPlaceButtonGroup.getSelection().getActionCommand();*/
 						
-						String rtgPluca = smokingButtonGroup.getSelection().getActionCommand();
-						String lezije = alcoholButtonGroup.getSelection().getActionCommand();
+						String ct_pluca = smokingButtonGroup.getSelection().getActionCommand();
 	
-						RTGPluca rtg = new RTGPluca(-1, patientId, rtgPluca, lezije);
+						CTpluca ct = new CTpluca(-1, patientId, ct_pluca);
 					
 						DatabaseHandler dbHandler = MainFrame.getInstance().getDatabaseHandler();
 						try {
-							dbHandler.createRTGPluca(rtg);
+							dbHandler.createCTPluca(ct);
 							//DefaultListModel<Anamnesis> model =  (DefaultListModel<Anamnesis>) panel.getPatientAnamnesisList().getModel();
-						//	model.addElement(anamnesis);
+							//model.addElement(anamnesis);
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();

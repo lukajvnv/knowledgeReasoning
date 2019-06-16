@@ -1,8 +1,9 @@
-package com.application.medCareApplication.view.dialog;
+package com.application.medCareApplication.view.recommendation;
 
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -22,8 +23,12 @@ import com.application.medCareApplication.model.Resources;
 import com.application.medCareApplication.utils.AdditionalExaminationEnum;
 import com.application.medCareApplication.utils.PopUpMenus;
 import com.application.medCareApplication.utils.Utils;
-import com.application.medCareApplication.utils.handler.DatabaseHandler;
+import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
+import com.application.medCareApplication.view.dialog.addNewExamination.NewCTDialog;
+import com.application.medCareApplication.view.dialog.addNewExamination.NewKrvnaSlikaDialog;
+import com.application.medCareApplication.view.dialog.addNewExamination.NewRTGPlucaDialog;
+import com.application.medCareApplication.view.dialog.addNewExamination.NewUltraZvukDialog;
 
 import ucm.gaia.jcolibri.cbrcore.CBRCase;
 import ucm.gaia.jcolibri.cbrcore.CBRQuery;
@@ -130,7 +135,7 @@ public class AdditionalExaminationDialog extends JDialog {
 		}
 		
 		
-		
+		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
 		String titleText = String.format("Predlog dopunskih ispitivanja na osnovu anamneze: %s %s", patient.getFirstName(), patient.getLastName());
 		setTitle(titleText);
 		setModal(true);

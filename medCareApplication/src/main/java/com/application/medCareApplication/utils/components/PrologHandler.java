@@ -1,4 +1,4 @@
-package com.application.medCareApplication.utils;
+package com.application.medCareApplication.utils.components;
 
 import java.io.File;
 import java.util.ArrayList;

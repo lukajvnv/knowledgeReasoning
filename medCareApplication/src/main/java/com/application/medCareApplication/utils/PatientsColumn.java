@@ -40,5 +40,14 @@ public class PatientsColumn {
 	// ranije bolesti
 	public static String patientIdRanije = "patient_id";
 	public static String diagnosisId = "diagnosis_id";
+	
+	// dijagnoza pacijenta
+	public static String diagnosis_Id = "diagnosis_Id";
+	public static String diagnose = "Dijagnoza";
+	public static String date = "Datum";
+	
+	// dijagnoza pacijenta + diagnose + date odgore
+	public static String therapyId = "therapy_Id";
+	public static String therapy = "Terapija";
 
 }

@@ -27,14 +27,16 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import com.application.medCareApplication.controller.AboutActionDialog;
 import com.application.medCareApplication.controller.NewPatientDialogAction;
 import com.application.medCareApplication.controller.ViewPatientDetailAction;
 import com.application.medCareApplication.controller.ViewPatientsAction;
 import com.application.medCareApplication.model.Patient;
-import com.application.medCareApplication.utils.PrologHandler;
-import com.application.medCareApplication.utils.handler.DatabaseHandler;
+import com.application.medCareApplication.utils.components.DatabaseHandler;
+import com.application.medCareApplication.utils.components.PrologHandler;
 
 import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
+import java.awt.Font;
 
 
 public class MainFrame extends JFrame {
@@ -64,33 +66,6 @@ public class MainFrame extends JFrame {
 
 	private PrologHandler prologHandler;
 
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		/*EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainFrame frame = new MainFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});*/
-		
-		try {
-			UIManager.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaBlackEyeLookAndFeel");
-			UIManager.put("Synthetica.tabbedPane.keepOpacity", true);
-		} catch (ClassNotFoundException | InstantiationException
-				| IllegalAccessException | UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
-		MainFrame frame = new MainFrame();
-		frame.setVisible(true);
-	}
-	
 	public static MainFrame getInstance() {
 		if(instance == null) {
 			instance = new MainFrame();
@@ -109,8 +84,7 @@ public class MainFrame extends JFrame {
         Dimension screenSize = kit.getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
-        //setSize(screenWidth/2 + 100, screenHeight/2 + 130);
-        setSize(screenWidth/2 + 300, screenHeight/2 + 250);
+        setSize(screenWidth/2 + 400, screenHeight/2 + 250);
         setLocationRelativeTo(null);
 		
 		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
@@ -131,18 +105,13 @@ public class MainFrame extends JFrame {
 		newPatientMenuItem.setIcon(new ImageIcon("images/create_icon&24.png"));
 		patientsMenu.add(newPatientMenuItem);
 		
-		JMenu mnNewMenu_1 = new JMenu("New menu");
-		menuBar.add(mnNewMenu_1);
-		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("New menu item");
-		mnNewMenu_1.add(mntmNewMenuItem_1);
-		
 		JMenu helpMenu = new JMenu("Pomo\u0107");
 		menuBar.add(helpMenu);
 		
-		JMenuItem aboutMenuItem = new JMenuItem("O aplikaciji");
+		JMenuItem aboutMenuItem = new JMenuItem(new AboutActionDialog("O aplikaciji"));
 		aboutMenuItem.setIcon(new ImageIcon("images/info_icon&24.png"));
 		helpMenu.add(aboutMenuItem);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -198,7 +167,8 @@ public class MainFrame extends JFrame {
 		infoPanel.setBackground(new Color(240, 248, 255));
 		statusPanel.add(infoPanel, BorderLayout.CENTER);
 		
-		JLabel infoLabel = new JLabel("Dobrodo\u0161li u medCare aplikaciju");
+		JLabel infoLabel = new JLabel("Dobrodo\u0161li u medCare aplikaciju!");
+		infoLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		infoLabel.setForeground(new Color(0, 128, 0));
 		infoPanel.add(infoLabel);
 		
@@ -210,6 +180,9 @@ public class MainFrame extends JFrame {
 		LocalDate localDate = LocalDate.now();
 		
 		JLabel dateLabel = new JLabel(dtf.format(localDate));
+		dateLabel.setHorizontalAlignment(JLabel.CENTER);
+		dateLabel.setVerticalAlignment(JLabel.CENTER);
+		dateLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		datePanel.add(dateLabel);
 		
 		databaseHandler = new DatabaseHandler();
@@ -232,24 +205,7 @@ public class MainFrame extends JFrame {
 					e1.printStackTrace();
 				}
         	}
-		});
-		
-		/*EventQueue.invokeLater(new Runnable() {
-		public void run() {
-			try {
-				UIManager.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaBlackEyeLookAndFeel");
-				UIManager.put("Synthetica.tabbedPane.keepOpacity", true);
-					
-				MainFrame.getInstance().setVisible(true);
-			}catch (ClassNotFoundException | InstantiationException
-					| IllegalAccessException | UnsupportedLookAndFeelException e) {
-				e.printStackTrace();
-			} catch (Exception eo) {
-				eo.printStackTrace();
-			}
-		}
-		});*/
-		
+		});		
 	}
 	
 	public void updateMainPanel() {

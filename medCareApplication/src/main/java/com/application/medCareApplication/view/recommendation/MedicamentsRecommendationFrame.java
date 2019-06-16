@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -31,11 +32,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.application.medCareApplication.model.Resources;
-import com.application.medCareApplication.utils.ListRenderer;
-import com.application.medCareApplication.utils.PrologHandler;
-import com.application.medCareApplication.utils.RDFHandler;
 import com.application.medCareApplication.utils.Utils;
-import com.application.medCareApplication.utils.handler.DatabaseHandler;
+import com.application.medCareApplication.utils.components.DatabaseHandler;
+import com.application.medCareApplication.utils.components.PrologHandler;
+import com.application.medCareApplication.utils.components.RDFHandler;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.utils.AutoComplete;
 
@@ -78,6 +78,7 @@ public class MedicamentsRecommendationFrame extends JFrame {
 	public MedicamentsRecommendationFrame() {
 		initList();
 		
+		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
 		setTitle("Preporucivanje terapije za pacijenta");
 		/*setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);*/

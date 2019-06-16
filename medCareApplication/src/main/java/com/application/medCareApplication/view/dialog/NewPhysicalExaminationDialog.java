@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -27,7 +28,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.PhysicalExamination;
-import com.application.medCareApplication.utils.handler.DatabaseHandler;
+import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.displayExaminations.ViewPatientPhysicalExamination;
 
@@ -86,6 +87,7 @@ public class NewPhysicalExaminationDialog extends JDialog {
 	public NewPhysicalExaminationDialog(Patient p) {
 		this.patient = p;
 		
+		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
 		setTitle("Dodavanje fizikalnog pregleda");
 		setModal(true);
 		setFocusable(true);		//focus da bi se mogao trigerovati keyListener

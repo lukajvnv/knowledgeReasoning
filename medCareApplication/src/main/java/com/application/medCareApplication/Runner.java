@@ -11,7 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.application.medCareApplication.model.Patient;
-import com.application.medCareApplication.utils.handler.DatabaseHandler;
+import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 
 @Component
@@ -38,16 +38,6 @@ public class Runner implements CommandLineRunner {
         		}
             	
                 MainFrame.getInstance().setVisible(true);
-               /* DatabaseHandler dh = new DatabaseHandler();
-                dh.select();
-                try {
-					dh.create(new Patient());
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-                dh.select();*/
-               
             }
         });
 

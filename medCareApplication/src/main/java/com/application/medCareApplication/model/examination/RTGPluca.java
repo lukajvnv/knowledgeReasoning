@@ -1,4 +1,4 @@
-package com.application.medCareApplication.model;
+package com.application.medCareApplication.model.examination;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,4 +1,4 @@
-package com.application.medCareApplication.view.dialog;
+package com.application.medCareApplication.view.dialog.addNewExamination;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -26,10 +26,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import com.application.medCareApplication.model.Anamnesis;
-import com.application.medCareApplication.model.KrvnaSlika;
 import com.application.medCareApplication.model.Patient;
+import com.application.medCareApplication.model.examination.KrvnaSlika;
 import com.application.medCareApplication.utils.Utils;
-import com.application.medCareApplication.utils.handler.DatabaseHandler;
+import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.displayExaminations.ViewPatientAnamnesis;
 
@@ -80,6 +80,7 @@ public class NewKrvnaSlikaDialog extends JDialog {
 	public NewKrvnaSlikaDialog(Patient p) {
 		this.patient = p;
 		
+		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
 		String titleText = String.format("Dodavanje krvne slike za pacijenta: %s %s", patient.getFirstName(), patient.getLastName());
 		setTitle(titleText);
 		setModal(true);

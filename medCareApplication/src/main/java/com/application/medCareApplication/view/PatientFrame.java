@@ -2,22 +2,20 @@ package com.application.medCareApplication.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
-import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
@@ -26,18 +24,16 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import com.application.medCareApplication.model.Patient;
-import com.application.medCareApplication.utils.RDFHandler;
 import com.application.medCareApplication.utils.Utils;
-import com.application.medCareApplication.utils.handler.DatabaseHandler;
-import com.application.medCareApplication.view.dialog.NewAnamnesisDialog;
+import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.dialog.NewEwsScoreDialog;
-import com.application.medCareApplication.view.dialog.NewPhysicalExaminationDialog;
 import com.application.medCareApplication.view.dialog.UpdatePatientDialog;
 import com.application.medCareApplication.view.displayExaminations.ViewPatientAnamnesis;
+import com.application.medCareApplication.view.displayExaminations.ViewPatientDiagnosis;
 import com.application.medCareApplication.view.displayExaminations.ViewPatientPhysicalExamination;
+import com.application.medCareApplication.view.displayExaminations.ViewPatientTherapy;
 import com.application.medCareApplication.view.recommendation.MedicamentsRecommendationFrame;
 import com.application.medCareApplication.view.recommendation.PreventionExaminationRecommendationFrame;
-import com.application.medCareApplication.view.utils.MyFieldFocusListener;
 
 @SuppressWarnings("serial")
 public class PatientFrame extends JFrame {
@@ -73,18 +69,22 @@ public class PatientFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public PatientFrame(Patient p) {
+		// setovanje pacijenta
 		databaseHandler = MainFrame.getInstance().getDatabaseHandler();
 		setPatient(p);
 		
+		//osnovna podesavanja prozora pacijenta
+		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
+		setTitle("Profil pacijenta");
+		
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		//setBounds(100, 100, 450, 300);
 		
 		Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
-        //setSize(screenWidth/2 + 100, screenHeight/2 + 130);
-        setSize(screenWidth/2 + 300, screenHeight/2 + 250);
+        setSize(screenWidth/2 + 400, screenHeight/2 + 250);
         setLocationRelativeTo(null);
 		
 		
@@ -93,6 +93,7 @@ public class PatientFrame extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
+		// podesavanja toolbara prozora
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		contentPane.add(toolBar, BorderLayout.NORTH);
@@ -101,7 +102,7 @@ public class PatientFrame extends JFrame {
 		toolBar.add(patientIdLabel);
 		
 		patientIdtextField = new JTextField(10);
-		patientIdtextField.addFocusListener(new MyFieldFocusListener());
+		//patientIdtextField.addFocusListener(new MyFieldFocusListener());
 		//textField.setPreferredSize(new Dimension(50,25));
 		patientIdtextField.setMaximumSize(patientIdtextField.getPreferredSize());
 
@@ -122,9 +123,7 @@ public class PatientFrame extends JFrame {
 					
 					if(p != null) {
 						patient = p;
-						/*String patientInfoText = String.format("%s %s, ID: %s, (%s)", patient.getLastName(), patient.getFirstName(), patient.getPatientId(), patient.getDateOfBirth());
-						patientInfoLabel.setText(patientInfoText);*/
-						setPatientInfoLabel();
+						refreshFrame();
 					}else {
 						Utils.error("Pacijent sa unetim id ne postoji!");
 					}
@@ -139,6 +138,7 @@ public class PatientFrame extends JFrame {
 		toolBar.add(searchButton);
 		
 		JButton refreshButton = new JButton("Preventivni");
+		refreshButton.setToolTipText("Preporuka preventivnog pregleda za pacijenta");
 		refreshButton.setIcon(new ImageIcon("images/import_icon&24.png"));
 		refreshButton.addActionListener(new AbstractAction() {
 			
@@ -152,6 +152,7 @@ public class PatientFrame extends JFrame {
 		toolBar.add(refreshButton);
 		
 		JButton patientInfoButton = new JButton("Osnovni podaci");
+		patientInfoButton.setToolTipText("Osnovni podaci pacijenta");
 		patientInfoButton.setIcon(new ImageIcon("images/contact_card_icon&24.png"));
 		patientInfoButton.addActionListener(new AbstractAction() {
 			
@@ -171,7 +172,8 @@ public class PatientFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				ViewPatientAnamnesis p = new ViewPatientAnamnesis(patient);
-				splitPane.setLeftComponent(p);
+				leftPanel = p;
+				splitPane.setLeftComponent(leftPanel);
 			}
 		});
 		
@@ -200,6 +202,15 @@ public class PatientFrame extends JFrame {
 		
 		JButton diagnosisButton = new JButton("Dijagnoze");
 		diagnosisButton.setToolTipText("Sve dijagnoze pacijenta");
+		diagnosisButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				ViewPatientDiagnosis p = new ViewPatientDiagnosis(patient);
+				splitPane.setLeftComponent(p);
+			}
+		});
 		diagnosisButton.setIcon(new ImageIcon("images/folder_icon&24.png"));
 		toolBar.add(diagnosisButton);
 		
@@ -211,15 +222,14 @@ public class PatientFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				/*RDFHandler rdfHandler = new RDFHandler("diagnosisMedicaments.ttl");
-				rdfHandler.findMedicaments("asthma");*/
-				MedicamentsRecommendationFrame f = new MedicamentsRecommendationFrame();
-				f.setVisible(true);
+				ViewPatientTherapy p = new ViewPatientTherapy(patient);
+				splitPane.setLeftComponent(p);
 			}
 		});
 		toolBar.add(medicamentsButton);
 		
 		JButton ewsButton = new JButton("EWS");
+		ewsButton.setToolTipText("Unos rezultata ews pregleda!");
 		ewsButton.setIcon(new ImageIcon("images/shield_icon&24.png"));
 		ewsButton.addActionListener(new AbstractAction() {
 			
@@ -245,6 +255,7 @@ public class PatientFrame extends JFrame {
 		});
 		toolBar.add(backButton);
 		
+		//podesavanje glavnog panela koji cine 2 panela
 		JPanel mainPanel = new JPanel();
 		contentPane.add(mainPanel, BorderLayout.CENTER);
 		mainPanel.setLayout(new BorderLayout(0, 0));
@@ -254,8 +265,8 @@ public class PatientFrame extends JFrame {
 		
 		// Divider postavljen da bude nevidljiv
 		//splitPane.setDividerSize(0);
-				
-		splitPane.setResizeWeight(0.5);
+//		splitPane.setDividerLocation(0.5); //????? kako da bude uvek na pola				
+		splitPane.setResizeWeight(0.5d);
 		
 		
 		rightPanel = new JPanel();
@@ -264,49 +275,8 @@ public class PatientFrame extends JFrame {
 		
 		leftPanel = new JPanel();
 		splitPane.setLeftComponent(leftPanel);
-		leftPanel.setLayout(new BorderLayout(0, 0));
 		
-		/*JToolBar toolBar_1 = new JToolBar();
-		leftPanel.add(toolBar_1, BorderLayout.NORTH);
-		
-		JButton btnNewButton_8 = new JButton("Novi");
-		btnNewButton_8.setIcon(new ImageIcon("images\\doc_new_icon&24.png"));
-		toolBar_1.add(btnNewButton_8);
-		
-		JButton btnNewButton_9 = new JButton("Obir\u0161i");
-		btnNewButton_9.setIcon(new ImageIcon("images\\delete_icon&24.png"));
-		toolBar_1.add(btnNewButton_9);
-		
-		JButton btnNewButton_10 = new JButton("New button");
-		toolBar_1.add(btnNewButton_10);
-		
-		JButton btnNewButton_11 = new JButton("New button");
-		toolBar_1.add(btnNewButton_11);
-		
-		JButton btnDopunskaIspitivanja = new JButton("Dopunska ispitivanja");
-		toolBar_1.add(btnDopunskaIspitivanja);
-		btnDopunskaIspitivanja.addActionListener(new AbstractAction() {
 			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Pozivace se csv connector kako bi se na osnovu anamneze i fiz pregleda konkretnog pacijenta ponudilo koja ispitivanja jos treba da uradi
-				
-				
-			}
-		});
-		
-		Component horizontalStrut = Box.createHorizontalStrut(100);
-		horizontalStrut.setBackground(Color.WHITE);
-		toolBar_1.add(horizontalStrut);
-		
-		JLabel lblNewLabel = new JLabel("Sve anamneze");
-		lblNewLabel.setForeground(Color.RED);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
-		toolBar_1.add(lblNewLabel);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		leftPanel.add(scrollPane, BorderLayout.CENTER);*/
-		
 		//Prikaz najosnovnijih podataka o pacijentu
 		JPanel patientInfoPanel = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) patientInfoPanel.getLayout();
@@ -324,6 +294,17 @@ public class PatientFrame extends JFrame {
 	public void setPatientInfoLabel() {
 		String patientInfoText = String.format("%s %s, ID: %s, (%s)", patient.getLastName(), patient.getFirstName(), patient.getPatientId(), patient.getDateOfBirth());
 		patientInfoLabel.setText(patientInfoText);
+	}
+	
+	public void refreshFrame() {
+		setPatientInfoLabel();
+		rightPanel = new JPanel();
+		rightPanel.setBorder(new TitledBorder(null, "Detalji", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		splitPane.setRightComponent(rightPanel);
+		
+		leftPanel = new JPanel();
+		splitPane.setLeftComponent(leftPanel);
+	
 	}
 	
 	public Patient getPatient() {

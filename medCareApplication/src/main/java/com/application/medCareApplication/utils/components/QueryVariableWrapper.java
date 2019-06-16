@@ -1,4 +1,4 @@
-package com.application.medCareApplication.utils;
+package com.application.medCareApplication.utils.components;
 
 public class QueryVariableWrapper {
 	

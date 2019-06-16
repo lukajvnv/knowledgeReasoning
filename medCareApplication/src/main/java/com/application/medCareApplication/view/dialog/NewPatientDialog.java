@@ -13,6 +13,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -23,7 +24,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.utils.Utils;
-import com.application.medCareApplication.utils.handler.DatabaseHandler;
+import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.utils.MyDateField;
 import com.application.medCareApplication.view.utils.MyFieldFocusListener;
@@ -120,6 +121,7 @@ public class NewPatientDialog extends JDialog {
 	public void initComponents() {
 		setModal(true);
 		setLocationRelativeTo(null);
+		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
 		setTitle("Dodavanje novog pacijenta");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setSize(600,450);
@@ -147,7 +149,7 @@ public class NewPatientDialog extends JDialog {
 		}
 		{
 			firstNameTextField = new JTextField();
-			firstNameTextField.addFocusListener(new MyFieldFocusListener());
+			//firstNameTextField.addFocusListener(new MyFieldFocusListener());
 			firstNameLabel.setLabelFor(firstNameTextField);
 			GridBagConstraints gbc_firstNameTextField = new GridBagConstraints();
 			gbc_firstNameTextField.insets = new Insets(0, 0, 5, 0);

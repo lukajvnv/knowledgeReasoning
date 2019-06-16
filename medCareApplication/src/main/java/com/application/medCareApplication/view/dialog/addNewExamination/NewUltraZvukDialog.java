@@ -1,4 +1,4 @@
-package com.application.medCareApplication.view.dialog;
+package com.application.medCareApplication.view.dialog.addNewExamination;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -22,9 +23,9 @@ import javax.swing.border.EmptyBorder;
 
 import com.application.medCareApplication.model.Anamnesis;
 import com.application.medCareApplication.model.Patient;
-import com.application.medCareApplication.model.UltraZvuk;
+import com.application.medCareApplication.model.examination.UltraZvuk;
 import com.application.medCareApplication.utils.Utils;
-import com.application.medCareApplication.utils.handler.DatabaseHandler;
+import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 
 public class NewUltraZvukDialog extends JDialog {
@@ -63,7 +64,8 @@ public class NewUltraZvukDialog extends JDialog {
 	 */
 	public NewUltraZvukDialog(Patient p) {
 		this.patient = p;
-		setTitle("Dodavanje ews scora za pacijenta");
+		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
+		setTitle("Dodavanje ultrazvuka pregleda");
 		setModal(true);
 		setFocusable(true);		//focus da bi se mogao trigerovati keyListener
 		setLocationRelativeTo(null);

@@ -9,7 +9,7 @@ import javax.swing.JList;
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.Resources;
 
-public class ListRenderer extends DefaultListCellRenderer {
+public class ResourcesListRenderer extends DefaultListCellRenderer {
 
 	/**
 	 * 

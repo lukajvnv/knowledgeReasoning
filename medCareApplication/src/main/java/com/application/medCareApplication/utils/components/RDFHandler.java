@@ -1,4 +1,4 @@
-package com.application.medCareApplication.utils;
+package com.application.medCareApplication.utils.components;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,7 +24,7 @@ import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.springframework.util.ResourceUtils;
 
-import com.application.medCareApplication.utils.QueryVariableWrapper.QueryAnswerType;
+import com.application.medCareApplication.utils.components.QueryVariableWrapper.QueryAnswerType;
 
 public class RDFHandler {
 

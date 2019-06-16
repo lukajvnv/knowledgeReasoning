@@ -10,11 +10,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Parameter;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -30,10 +27,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.Resources;
-import com.application.medCareApplication.utils.ListRenderer;
-import com.application.medCareApplication.utils.handler.DatabaseHandler;
+import com.application.medCareApplication.utils.ResourcesListRenderer;
+import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 
 public class SelectAnamnesisDialog extends JDialog {
@@ -75,7 +71,8 @@ public class SelectAnamnesisDialog extends JDialog {
 		possibleValuesList = initList(possibleValuesList, true);
 		selectedValuesList = initList(selectedValuesList, false);
 		
-		setTitle("Dodavanje anamneze za pacijenta: Luka Jovanovic");
+		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
+		setTitle("Dodavanje anamneze za pacijenta:");
 		setModal(true);
 		setFocusable(true);		//focus da bi se mogao trigerovati keyListener
 		setLocationRelativeTo(null);
@@ -377,7 +374,7 @@ public class SelectAnamnesisDialog extends JDialog {
 		
 		
 		
-		list.setCellRenderer(new ListRenderer());
+		list.setCellRenderer(new ResourcesListRenderer());
 		       
 	    //enter pokrece mehanizam deljenja
 		/*possibleValuesList.addKeyListener(new KeyAdapter() {

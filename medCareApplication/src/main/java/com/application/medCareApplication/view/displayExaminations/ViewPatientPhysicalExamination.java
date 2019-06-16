@@ -30,10 +30,10 @@ import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.PhysicalExamination;
 import com.application.medCareApplication.utils.PopUpMenus;
 import com.application.medCareApplication.utils.Utils;
-import com.application.medCareApplication.utils.handler.DatabaseHandler;
+import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
-import com.application.medCareApplication.view.dialog.AdditionalExaminationDialog;
 import com.application.medCareApplication.view.dialog.NewPhysicalExaminationDialog;
+import com.application.medCareApplication.view.recommendation.AdditionalExaminationDialog;
 
 import ucm.gaia.jcolibri.cbrcore.CBRQuery;
 import ucm.gaia.jcolibri.exception.ExecutionException;

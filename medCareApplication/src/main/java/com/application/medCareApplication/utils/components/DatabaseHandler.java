@@ -1,4 +1,4 @@
-package com.application.medCareApplication.utils.handler;
+package com.application.medCareApplication.utils.components;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,16 +17,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.application.medCareApplication.model.Anamnesis;
-import com.application.medCareApplication.model.CTpluca;
-import com.application.medCareApplication.model.KrvnaSlika;
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.PhysicalExamination;
-
-import com.application.medCareApplication.model.RTGPluca;
-import com.application.medCareApplication.model.UltraZvuk;
-
 import com.application.medCareApplication.model.Resources;
-
+import com.application.medCareApplication.model.examination.CTpluca;
+import com.application.medCareApplication.model.examination.KrvnaSlika;
+import com.application.medCareApplication.model.examination.RTGPluca;
+import com.application.medCareApplication.model.examination.UltraZvuk;
 import com.application.medCareApplication.utils.PatientsColumn;
 
 /**
@@ -34,7 +31,7 @@ import com.application.medCareApplication.utils.PatientsColumn;
  * Konkretizacija Ihandler interfejsa koja rukuje sa podacima dobijenim sa skladi�ta podataka.
  *
  */
-public class DatabaseHandler implements IHandler {
+public class DatabaseHandler {
 
 	final static String DB_URL= "jdbc:mysql://localhost:3306/medcare_db?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true";
 	
@@ -69,7 +66,7 @@ public class DatabaseHandler implements IHandler {
 		}
 	}*/
 	
-	@Override
+	
 	public void connect() throws SQLException, FileNotFoundException, IOException{
 		Properties p = new Properties();
 		p.load(new FileInputStream("src/main/resources/application.properties"));
@@ -80,7 +77,7 @@ public class DatabaseHandler implements IHandler {
 		databaseConnection = DriverManager.getConnection(DB_URL, username, password);
 	}
 		
-	@Override
+	
 	public void close() throws SQLException{
 		if(databaseConnection != null)
 			databaseConnection.close();

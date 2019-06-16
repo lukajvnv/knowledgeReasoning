@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.utils.PatientsColumn;
-import com.application.medCareApplication.utils.handler.DatabaseHandler;
+import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 
 public class PatientsTableModel extends DefaultTableModel {

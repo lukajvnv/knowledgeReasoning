@@ -9,9 +9,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -20,16 +19,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import org.springframework.util.ResourceUtils;
-
 import com.application.medCareApplication.model.Patient;
-import com.application.medCareApplication.utils.PrologHandler;
 import com.application.medCareApplication.utils.Utils;
+import com.application.medCareApplication.utils.components.PrologHandler;
 import com.application.medCareApplication.view.MainFrame;
-import com.ugos.jiprolog.engine.JIPEngine;
-import com.ugos.jiprolog.engine.JIPQuery;
-import com.ugos.jiprolog.engine.JIPTerm;
-import com.ugos.jiprolog.engine.JIPVariable;
 
 public class NewEwsScoreDialog extends JDialog {
 
@@ -56,24 +49,12 @@ public class NewEwsScoreDialog extends JDialog {
 	private Patient patient;
 	
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			NewEwsScoreDialog dialog = new NewEwsScoreDialog(new Patient());
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public NewEwsScoreDialog(Patient p) {
 		this.patient = p;
 		
+		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
 		setTitle("Dodavanje ews scora za pacijenta");
 		setModal(true);
 		setFocusable(true);		//focus da bi se mogao trigerovati keyListener

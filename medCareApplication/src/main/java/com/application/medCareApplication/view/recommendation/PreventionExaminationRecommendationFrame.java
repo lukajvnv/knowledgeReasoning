@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -24,9 +25,9 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.application.medCareApplication.model.Patient;
-import com.application.medCareApplication.utils.PrologHandler;
-import com.application.medCareApplication.utils.RDFHandler;
 import com.application.medCareApplication.utils.Utils;
+import com.application.medCareApplication.utils.components.PrologHandler;
+import com.application.medCareApplication.utils.components.RDFHandler;
 import com.application.medCareApplication.view.MainFrame;
 
 public class PreventionExaminationRecommendationFrame extends JFrame {
@@ -74,6 +75,7 @@ public class PreventionExaminationRecommendationFrame extends JFrame {
 	public PreventionExaminationRecommendationFrame(Patient p) {
 		this.patient = p;
 		
+		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
 		setTitle("Preporuka preventivnog pregleda za pacijenta");
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//setBounds(100, 100, 450, 300);

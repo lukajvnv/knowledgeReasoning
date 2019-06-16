@@ -28,7 +28,7 @@ import javax.swing.border.TitledBorder;
 import com.application.medCareApplication.model.Anamnesis;
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.utils.Utils;
-import com.application.medCareApplication.utils.handler.DatabaseHandler;
+import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.displayExaminations.ViewPatientAnamnesis;
 
@@ -80,6 +80,7 @@ public class NewAnamnesisDialog extends JDialog {
 	public NewAnamnesisDialog(Patient p) {
 		this.patient = p;
 		
+		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
 		String titleText = String.format("Dodavanje anamneze za pacijenta: %s %s", patient.getFirstName(), patient.getLastName());
 		setTitle(titleText);
 		setModal(true);

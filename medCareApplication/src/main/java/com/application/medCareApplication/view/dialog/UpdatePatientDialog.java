@@ -4,8 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
+import javax.swing.ImageIcon;
+
 import com.application.medCareApplication.model.Patient;
-import com.application.medCareApplication.utils.handler.DatabaseHandler;
+import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.PatientFrame;
 
@@ -22,7 +24,8 @@ public class UpdatePatientDialog extends NewPatientDialog {
 		this.patient = patient;
 		this.frame = frame;
 		
-		setTitle("Izmena pacijenta");
+		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
+		setTitle("Izmena pacijenta informacija o pacijentu");
 		
 		//initComponents();
 		setTextFields();

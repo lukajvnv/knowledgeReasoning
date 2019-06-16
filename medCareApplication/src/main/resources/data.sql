@@ -1,6 +1,3 @@
-insert into student (student_id, student_age, student_name) values (1, 21, 'marko');
-
-
 /*Pacijent*/
 insert into patient (Id_Pacijenta, Ime, Prezime, Jmbg, Telefon, Datum_rodjenja, Adresa)
 values (1, 'Luka', 'Jovanovic', '2903996800005', '064/449-86-28', '29.03.1996.', 'Drage Spasic 7');
@@ -52,6 +49,7 @@ values (1, 38);
 /* Porodicne bolesti*/
 INSERT INTO porodicne_bolesti (patient_id, diagnosis_id)
 values (1, 43);
+
 /*Svi relevantni podaci*/
 	/*Simptomi*/
 insert into resources (resource_id, resource_name, resource_type) values (1, 'congestion_in_chest', 'symptom');
