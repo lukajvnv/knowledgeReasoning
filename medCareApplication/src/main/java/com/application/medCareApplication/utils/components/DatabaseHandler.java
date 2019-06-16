@@ -56,17 +56,6 @@ public class DatabaseHandler {
 		}
 	}
 	
-	/*public DatabaseHandler(String address, String dbName, String username, String password) throws SQLException{
-		try {
-			connect(address, dbName, username, password);
-			log.log(Level.INFO, "Connection with database established");
-		} catch (SQLException e) {
-			log.log(Level.SEVERE, "Failed to connect with database");
-			throw new SQLException();
-		}
-	}*/
-	
-	
 	public void connect() throws SQLException, FileNotFoundException, IOException{
 		Properties p = new Properties();
 		p.load(new FileInputStream("src/main/resources/application.properties"));
@@ -84,6 +73,38 @@ public class DatabaseHandler {
 		log.log(Level.INFO, "Closing database connection");
 	}
 	
+	/**
+	 * Metoda koja broji broj torki odredjene tabele radi generisanje id za novokreiranu torku
+	 * @param tableName - ima tabele cije se torke broje
+	 * @return
+	 */
+	private int getId(String tableName) {
+		String sql = String.format("SELECT %s FROM %s;", "*", tableName);
+		StringBuilder st = new StringBuilder(sql);
+		
+		System.out.println(st);
+		
+		try {
+			Statement stmt = databaseConnection.createStatement();			
+			
+			ResultSet rset = stmt.executeQuery(st.toString());
+						
+			rset.last(); // moves cursor to the last row
+			int size = rset.getRow(); // get row id 
+			
+			rset.close();
+			stmt.close();
+			
+			return size + 1;
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return -1;
+		}
+	}
+	
+	
+	/** --------------BEGIN: Operacije za pacijenta ------------------------------- */
 	public void createPatient(Patient patient) throws SQLException{
 		
 		int id = getId("patient");
@@ -212,38 +233,6 @@ public class DatabaseHandler {
 		}
 	}
 	
-	private int getId(String tableName) {
-		String sql = String.format("SELECT %s FROM %s;", "*", tableName);
-		StringBuilder st = new StringBuilder(sql);
-		
-		System.out.println(st);
-		
-		try {
-			Statement stmt = databaseConnection.createStatement();			
-			
-			ResultSet rset = stmt.executeQuery(st.toString());
-						
-			rset.last();
-			int size = rset.getRow();
-			
-			/*int size =0;
-			if (rs != null) 
-			{
-			  rs.last();    // moves cursor to the last row
-			  size = rs.getRow(); // get row id 
-			}*/
-
-			rset.close();
-			stmt.close();
-			
-			return size + 1;
-			
-		} catch (SQLException e) {
-			//e.printStackTrace();
-			return -1;
-		}
-	}
-	
 	private Patient makeOnePatient(ResultSet resultSet) {
 		Patient patient = null;
 		try {
@@ -261,7 +250,10 @@ public class DatabaseHandler {
 			return patient;
 		}
 	}
+	/** --------------END: Operacije za pacijenta ------------------------------- */
+
 	
+	/** --------------BEGIN: Operacije za fizikalni pregled ------------------------------- */
 	public void createPhysicalExamination(PhysicalExamination ex) throws SQLException{
 		
 		int id = getId("physical_examination");
@@ -288,56 +280,87 @@ public class DatabaseHandler {
 	
 	/**
 	 * 
-	 * Ubacivanje u posebnu tabelu za porodicne bolesti
+	 * Metoda koja vraca sve fizikalne preglede iz baze na osnovu koje realizujemo CBR
 	 * 
 	 * */
-	
-	public void createPorodicneBolesti(Integer patientId, Integer resource) throws SQLException{
+	public List<PhysicalExamination> selectAllPatientPhysicalExamination() {
 			
-			String template = "INSERT INTO porodicne_bolesti (patient_id, diagnosis_id) VALUES (?, ?)";
+			String sql = String.format("SELECT %s FROM %s ;", "*", "physical_examination");
 			
-			System.out.println(template);
-		
+			System.out.println(sql);
+			
+			List<PhysicalExamination> pe = new ArrayList<PhysicalExamination>();
+			
 			try {
-				PreparedStatement preparedStatement = databaseConnection.prepareStatement(template);
-				preparedStatement.setInt(1, patientId); 
-				preparedStatement.setInt(2, resource);
-
+				Statement stmt = databaseConnection.createStatement();			
 				
-				preparedStatement.executeUpdate();
-				preparedStatement.close();
+				ResultSet rset = stmt.executeQuery(sql);
+				
+				if(!rset.isBeforeFirst()) {
+					System.out.println("Nema podataka");
+				}
+				
+				while(rset.next()) {
+					PhysicalExamination a = makeOnePhysicalExamination(rset);
+					if( a != null) {
+						pe.add(a);
+					}
+				}
+					
+				rset.close();
+				stmt.close();
+				
+				return pe;
+				
 			} catch (SQLException e) {
-				throw new SQLException("");
+				//e.printStackTrace();
+				return null;
 			}
-			
+		
 		}
+	
 	
 	/**
 	 * 
-	 * Ubacivanje u posebnu tabelu za ranije bolesti
+	 * Metoda koja vraca sve fizikalne preglede iz baze na osnovu koje realizujemo CBR OSIM MOJE TRENUTNE (KAKO NE BI VRATILO NULL)
 	 * 
 	 * */
-	
-	public void createRanijeBolesti(Integer patientId, Integer resource) throws SQLException{
+	public List<PhysicalExamination> selectAllPatientPhysicalExaminationWithoutCurrent(Patient p) {
 			
-			String template = "INSERT INTO ranije_bolesti (patient_id, diagnosis_id) VALUES (?, ?)";
-			
-			System.out.println(template);
-		
-			try {
-				PreparedStatement preparedStatement = databaseConnection.prepareStatement(template);
-				preparedStatement.setInt(1, patientId); 
-				preparedStatement.setInt(2, resource);
 
-				
-				preparedStatement.executeUpdate();
-				preparedStatement.close();
-			} catch (SQLException e) {
-				throw new SQLException("");
-			}
+			String sql = String.format("SELECT %s FROM %s WHERE %s != '%s' ;", "*", "physical_examination", PatientsColumn.patientId, p.getPatientId());
 			
+			System.out.println(sql);
+			
+			List<PhysicalExamination> pe = new ArrayList<PhysicalExamination>();
+			
+			try {
+				Statement stmt = databaseConnection.createStatement();			
+				
+				ResultSet rset = stmt.executeQuery(sql);
+				
+				if(!rset.isBeforeFirst()) {
+					System.out.println("Nema podataka");
+				}
+				
+				while(rset.next()) {
+					PhysicalExamination a = makeOnePhysicalExamination(rset);
+					if( a != null) {
+						pe.add(a);
+					}
+				}
+					
+				rset.close();
+				stmt.close();
+				
+				return pe;
+				
+			} catch (SQLException e) {
+				//e.printStackTrace();
+				return null;
+			}
+		
 		}
-	
 	public PhysicalExamination selectPatientPhysicalExamination(int physicalExaminationId) {
 		String sql = String.format("SELECT %s FROM %s WHERE %s = '%s';", "*", "physical_examination", PatientsColumn.physicalExaminationId, physicalExaminationId);
 		System.out.println(sql);
@@ -402,23 +425,116 @@ public class DatabaseHandler {
 	
 	}
 	
-	/*private PhysicalExamination makeOnePhysicalExamination(ResultSet resultSet) {
-		PhysicalExamination physicalExamination = null;
+	/*
+	 * NOVO - VRATI MI SVE FIZIKALNE PREGLEDE ZA KONKRETNOG PACIJENTA
+	 * */
+	public List<PhysicalExamination> selectAllPatientPhysicalExamination(Patient p) {
+			
+			String sql = String.format("SELECT %s FROM %s WHERE Id_Pacijenta = '%s';", "*", "physical_examination", p.getPatientId());
+			
+			System.out.println(sql);
+			
+			List<PhysicalExamination> anamnesis = new ArrayList<PhysicalExamination>();
+			
+			try {
+				Statement stmt = databaseConnection.createStatement();			
+				
+				ResultSet rset = stmt.executeQuery(sql);
+				
+				if(!rset.isBeforeFirst()) {
+					System.out.println("Nema podataka");
+				}
+				
+				while(rset.next()) {
+					PhysicalExamination a = makeOnePhysicalExamination(rset);
+					if( a != null) {
+						anamnesis.add(a);
+					}
+				}
+					
+				rset.close();
+				stmt.close();
+				
+				return anamnesis;
+				
+			} catch (SQLException e) {
+				//e.printStackTrace();
+				return null;
+			}
+		
+		}
+	
+	
+	
+	
+
+	private PhysicalExamination makeOnePhysicalExamination(ResultSet resultSet) {
+		PhysicalExamination pe = null;
 		try {
 			Integer physicalExaminationId = resultSet.getInt(PatientsColumn.physicalExaminationId);
 			Integer patientId = resultSet.getInt(PatientsColumn.patientId);
 			String bodyTemperature = resultSet.getString(PatientsColumn.bodyTemperature);
 			String respiratorySound = resultSet.getString(PatientsColumn.respiratorySound);
 			String respiratoryNoise = resultSet.getString(PatientsColumn.respiratoryNoise);
+			String additionalExamination = resultSet.getString(PatientsColumn.additionalExamination);
 			
-			physicalExamination = new PhysicalExamination(physicalExaminationId, patientId, bodyTemperature, respiratorySound, respiratoryNoise);
-			
-			return physicalExamination;
+			pe = new PhysicalExamination(physicalExaminationId, patientId, bodyTemperature, respiratorySound, respiratoryNoise,
+					additionalExamination);
+			return pe;
 		} catch (SQLException e) {
-			return physicalExamination;
+			return pe;
 		}
-	}*/
+	}
 	
+	/*private PhysicalExamination makeOnePhysicalExamination(ResultSet resultSet) {
+	PhysicalExamination physicalExamination = null;
+	try {
+		Integer physicalExaminationId = resultSet.getInt(PatientsColumn.physicalExaminationId);
+		Integer patientId = resultSet.getInt(PatientsColumn.patientId);
+		String bodyTemperature = resultSet.getString(PatientsColumn.bodyTemperature);
+		String respiratorySound = resultSet.getString(PatientsColumn.respiratorySound);
+		String respiratoryNoise = resultSet.getString(PatientsColumn.respiratoryNoise);
+		
+		physicalExamination = new PhysicalExamination(physicalExaminationId, patientId, bodyTemperature, respiratorySound, respiratoryNoise);
+		
+		return physicalExamination;
+	} catch (SQLException e) {
+		return physicalExamination;
+	}
+}*/
+	
+	/** --------------END: Operacije za fizikalni pregled ------------------------------- */
+
+	/** --------------BEGIN: Operacije za porodicne bolesti ------------------------------- */
+	/**
+	 * 
+	 * Ubacivanje u posebnu tabelu za porodicne bolesti
+	 * 
+	 * */
+	public void createPorodicneBolesti(Integer patientId, Integer resource) throws SQLException{
+			
+			String template = "INSERT INTO porodicne_bolesti (patient_id, diagnosis_id) VALUES (?, ?)";
+			
+			System.out.println(template);
+		
+			try {
+				PreparedStatement preparedStatement = databaseConnection.prepareStatement(template);
+				preparedStatement.setInt(1, patientId); 
+				preparedStatement.setInt(2, resource);
+
+				
+				preparedStatement.executeUpdate();
+				preparedStatement.close();
+			} catch (SQLException e) {
+				throw new SQLException("");
+			}
+			
+		}
+	/** --------------END: Operacije za porodicne bolesti ------------------------------- */
+
+	
+
+	/** --------------BEGIN: Operacije za anamneze ------------------------------- */
 	public void createAnamnesis(Anamnesis anamnesis) throws SQLException{
 		int id = getId("anamnesis");
 		String template = "INSERT INTO anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -508,46 +624,6 @@ public class DatabaseHandler {
 	
 	}
 	
-	/*
-	 * NOVO - VRATI MI SVE FIZIKALNE PREGLEDE ZA KONKRETNOG PACIJENTA
-	 * */
-	public List<PhysicalExamination> selectAllPatientPhysicalExamination(Patient p) {
-			
-			String sql = String.format("SELECT %s FROM %s WHERE Id_Pacijenta = '%s';", "*", "physical_examination", p.getPatientId());
-			
-			System.out.println(sql);
-			
-			List<PhysicalExamination> anamnesis = new ArrayList<PhysicalExamination>();
-			
-			try {
-				Statement stmt = databaseConnection.createStatement();			
-				
-				ResultSet rset = stmt.executeQuery(sql);
-				
-				if(!rset.isBeforeFirst()) {
-					System.out.println("Nema podataka");
-				}
-				
-				while(rset.next()) {
-					PhysicalExamination a = makeOnePhysicalExamination(rset);
-					if( a != null) {
-						anamnesis.add(a);
-					}
-				}
-					
-				rset.close();
-				stmt.close();
-				
-				return anamnesis;
-				
-			} catch (SQLException e) {
-				//e.printStackTrace();
-				return null;
-			}
-		
-		}
-	
-	
 	private Anamnesis makeOneAnamnesis(ResultSet resultSet) {
 		Anamnesis anamnesis = null;
 		try {
@@ -569,24 +645,7 @@ public class DatabaseHandler {
 		}
 	}
 	
-
-	private PhysicalExamination makeOnePhysicalExamination(ResultSet resultSet) {
-		PhysicalExamination pe = null;
-		try {
-			Integer physicalExaminationId = resultSet.getInt(PatientsColumn.physicalExaminationId);
-			Integer patientId = resultSet.getInt(PatientsColumn.patientId);
-			String bodyTemperature = resultSet.getString(PatientsColumn.bodyTemperature);
-			String respiratorySound = resultSet.getString(PatientsColumn.respiratorySound);
-			String respiratoryNoise = resultSet.getString(PatientsColumn.respiratoryNoise);
-			String additionalExamination = resultSet.getString(PatientsColumn.additionalExamination);
-			
-			pe = new PhysicalExamination(physicalExaminationId, patientId, bodyTemperature, respiratorySound, respiratoryNoise,
-					additionalExamination);
-			return pe;
-		} catch (SQLException e) {
-			return pe;
-		}
-	}
+	
 	
 	
 	/**
@@ -673,92 +732,10 @@ public class DatabaseHandler {
 		
 		}
 	
-	/**
-	 * 
-	 * Metoda koja vraca sve fizikalne preglede iz baze na osnovu koje realizujemo CBR
-	 * 
-	 * */
-	
-	public List<PhysicalExamination> selectAllPatientPhysicalExamination() {
-			
-			String sql = String.format("SELECT %s FROM %s ;", "*", "physical_examination");
-			
-			System.out.println(sql);
-			
-			List<PhysicalExamination> pe = new ArrayList<PhysicalExamination>();
-			
-			try {
-				Statement stmt = databaseConnection.createStatement();			
-				
-				ResultSet rset = stmt.executeQuery(sql);
-				
-				if(!rset.isBeforeFirst()) {
-					System.out.println("Nema podataka");
-				}
-				
-				while(rset.next()) {
-					PhysicalExamination a = makeOnePhysicalExamination(rset);
-					if( a != null) {
-						pe.add(a);
-					}
-				}
-					
-				rset.close();
-				stmt.close();
-				
-				return pe;
-				
-			} catch (SQLException e) {
-				//e.printStackTrace();
-				return null;
-			}
-		
-		}
-	
-	
-	/**
-	 * 
-	 * Metoda koja vraca sve fizikalne preglede iz baze na osnovu koje realizujemo CBR OSIM MOJE TRENUTNE (KAKO NE BI VRATILO NULL)
-	 * 
-	 * */
-	
-	public List<PhysicalExamination> selectAllPatientPhysicalExaminationWithoutCurrent(Patient p) {
-			
+	/** --------------END: Operacije za anamneze ------------------------------- */
 
-			String sql = String.format("SELECT %s FROM %s WHERE %s != '%s' ;", "*", "physical_examination", PatientsColumn.patientId, p.getPatientId());
-			
-			System.out.println(sql);
-			
-			List<PhysicalExamination> pe = new ArrayList<PhysicalExamination>();
-			
-			try {
-				Statement stmt = databaseConnection.createStatement();			
-				
-				ResultSet rset = stmt.executeQuery(sql);
-				
-				if(!rset.isBeforeFirst()) {
-					System.out.println("Nema podataka");
-				}
-				
-				while(rset.next()) {
-					PhysicalExamination a = makeOnePhysicalExamination(rset);
-					if( a != null) {
-						pe.add(a);
-					}
-				}
-					
-				rset.close();
-				stmt.close();
-				
-				return pe;
-				
-			} catch (SQLException e) {
-				//e.printStackTrace();
-				return null;
-			}
-		
-		}
 	
+	/** --------------BEGIN: Operacije za dopunska ispitivanja ------------------------------- */
 	/*
 	 * 
 	 * Metoda koja kreira krvnu sliku i ubacuje u bazu!
@@ -867,13 +844,14 @@ public class DatabaseHandler {
 			throw new SQLException("");
 		}
 	}
+	/** --------------END: Operacije za dopunska ispitivanja ------------------------------- */
 	
 	/**
 	 * 
 	 * 
 	 * 
 	 * */
-	
+	/** --------------BEGIN: Operacije za ranije bolesti ------------------------------- */
 	private HashMap<Integer, Integer> makeOneRanijaBolest(ResultSet resultSet) {
 		HashMap<Integer, Integer> mapa = new HashMap<>();
 		try {
@@ -887,6 +865,31 @@ public class DatabaseHandler {
 		}
 
 	}
+	
+	/**
+	 * 
+	 * Ubacivanje u posebnu tabelu za ranije bolesti
+	 * 
+	 * */
+	public void createRanijeBolesti(Integer patientId, Integer resource) throws SQLException{
+			
+			String template = "INSERT INTO ranije_bolesti (patient_id, diagnosis_id) VALUES (?, ?)";
+			
+			System.out.println(template);
+		
+			try {
+				PreparedStatement preparedStatement = databaseConnection.prepareStatement(template);
+				preparedStatement.setInt(1, patientId); 
+				preparedStatement.setInt(2, resource);
+
+				
+				preparedStatement.executeUpdate();
+				preparedStatement.close();
+			} catch (SQLException e) {
+				throw new SQLException("");
+			}
+			
+		}
 	
 	public HashMap<Integer,Integer> selectAllRanijeBolesti(Patient p) {
 		
@@ -923,7 +926,255 @@ public class DatabaseHandler {
 		}
 	
 	}
+	/** --------------END: Operacije za ranije bolesti ------------------------------- */
+	
+	/** --------------BEGIN: Operacije za dijagnoze ------------------------------- */
+	public void createDiagnosis(Patient patient) throws SQLException{
+		
+		int id = getId("patient");
+		String template = "INSERT INTO patient (Id_Pacijenta, Ime, Prezime, Jmbg, Telefon, Datum_rodjenja, Adresa) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		
+		System.out.println(template);
+	
+		try {
+			/*Statement stmt = databaseConnection.createStatement();
+			stmt.execute(template);
+			
+			stmt.close();*/
+			
+			PreparedStatement preparedStatement = databaseConnection.prepareStatement(template);
+			preparedStatement.setInt(1, id);
+			preparedStatement.setString(2, patient.getFirstName());
+			preparedStatement.setString(3, patient.getLastName());
+			preparedStatement.setString(4, patient.getJmbg());
+			preparedStatement.setString(5, patient.getTelephoneNumber());
+			preparedStatement.setString(6, patient.getDateOfBirth());
+			preparedStatement.setString(7, patient.getAddress());
+			
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			throw new SQLException("");
+		}
+		
+	}
+	
+	public List<PhysicalExamination> selectPatientDiagnosis(Patient p) {
+		
+		String sql = String.format("SELECT %s FROM %s WHERE Id_Pacijenta = '%s';", "*", "physical_examination", p.getPatientId());
+		
+		System.out.println(sql);
+		
+		List<PhysicalExamination> physicalExaminatino = new ArrayList<PhysicalExamination>();
+		
+		try {
+			Statement stmt = databaseConnection.createStatement();			
+			
+			ResultSet rset = stmt.executeQuery(sql);
+			
+			if(!rset.isBeforeFirst()) {
+				System.out.println("Nema podataka");
+			}
+			
+			while(rset.next()) {
+				PhysicalExamination pE = makeOnePhysicalExamination(rset);
+				if(pE != null) {
+					physicalExaminatino.add(pE);
+				}
+			}
+			
+			
+			rset.close();
+			stmt.close();
+			
+			return physicalExaminatino;
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return null;
+		}
+	
+	}
+	
+	public Patient selectDiagnosis(int patientId) {
+		
+		String sql = String.format("SELECT %s FROM %s WHERE %s = '%s';", "*", "patient", PatientsColumn.patientId, patientId);
+		
+		System.out.println(sql);
+		
+		
+		try {
+			Patient patient = null;
 
+			
+			Statement stmt = databaseConnection.createStatement();			
+			
+			ResultSet rset = stmt.executeQuery(sql);
+			
+			if(!rset.isBeforeFirst()) {
+				System.out.println("Nevalidan id");
+			}
+			
+			while(rset.next()) {
+				patient = makeOnePatient(rset);
+			}
+			
+			
+			rset.close();
+			stmt.close();
+			
+			return patient;
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	private Patient makeOneDiagnosis(ResultSet resultSet) {
+		Patient patient = null;
+		try {
+			Integer id = resultSet.getInt(PatientsColumn.patientId);
+			String firstName = resultSet.getString(PatientsColumn.firstNameColumn);
+			String lastName = resultSet.getString(PatientsColumn.lastNameColumn);
+			String address = resultSet.getString(PatientsColumn.addressColumn);
+			String jmbg = resultSet.getString(PatientsColumn.jmbgColumn);
+			String telephoneNumber = resultSet.getString(PatientsColumn.telephoneNumberColumn);
+			String dateOfBirth = resultSet.getString(PatientsColumn.dateOfBirthColumn);
+			patient = new Patient(id, firstName, lastName, jmbg, dateOfBirth, address, telephoneNumber);
+			
+			return patient;
+		} catch (SQLException e) {
+			return patient;
+		}
+	}
+	/** --------------END: Operacije za dijagnoze ------------------------------- */
+
+	/** --------------BEGIN: Operacije za terapije ------------------------------- */
+	public void createTherapy(Patient patient) throws SQLException{
+		
+		int id = getId("patient");
+		String template = "INSERT INTO patient (Id_Pacijenta, Ime, Prezime, Jmbg, Telefon, Datum_rodjenja, Adresa) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		
+		System.out.println(template);
+	
+		try {
+			/*Statement stmt = databaseConnection.createStatement();
+			stmt.execute(template);
+			
+			stmt.close();*/
+			
+			PreparedStatement preparedStatement = databaseConnection.prepareStatement(template);
+			preparedStatement.setInt(1, id);
+			preparedStatement.setString(2, patient.getFirstName());
+			preparedStatement.setString(3, patient.getLastName());
+			preparedStatement.setString(4, patient.getJmbg());
+			preparedStatement.setString(5, patient.getTelephoneNumber());
+			preparedStatement.setString(6, patient.getDateOfBirth());
+			preparedStatement.setString(7, patient.getAddress());
+			
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			throw new SQLException("");
+		}
+		
+	}
+	
+	public List<PhysicalExamination> selectPatientTherapies(Patient p) {
+		
+		String sql = String.format("SELECT %s FROM %s WHERE Id_Pacijenta = '%s';", "*", "physical_examination", p.getPatientId());
+		
+		System.out.println(sql);
+		
+		List<PhysicalExamination> physicalExaminatino = new ArrayList<PhysicalExamination>();
+		
+		try {
+			Statement stmt = databaseConnection.createStatement();			
+			
+			ResultSet rset = stmt.executeQuery(sql);
+			
+			if(!rset.isBeforeFirst()) {
+				System.out.println("Nema podataka");
+			}
+			
+			while(rset.next()) {
+				PhysicalExamination pE = makeOnePhysicalExamination(rset);
+				if(pE != null) {
+					physicalExaminatino.add(pE);
+				}
+			}
+			
+			
+			rset.close();
+			stmt.close();
+			
+			return physicalExaminatino;
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return null;
+		}
+	
+	}
+	
+	public Patient selectTherapy(int patientId) {
+		
+		String sql = String.format("SELECT %s FROM %s WHERE %s = '%s';", "*", "patient", PatientsColumn.patientId, patientId);
+		
+		System.out.println(sql);
+		
+		
+		try {
+			Patient patient = null;
+
+			
+			Statement stmt = databaseConnection.createStatement();			
+			
+			ResultSet rset = stmt.executeQuery(sql);
+			
+			if(!rset.isBeforeFirst()) {
+				System.out.println("Nevalidan id");
+			}
+			
+			while(rset.next()) {
+				patient = makeOnePatient(rset);
+			}
+			
+			
+			rset.close();
+			stmt.close();
+			
+			return patient;
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	private Patient makeOneTherapy(ResultSet resultSet) {
+		Patient patient = null;
+		try {
+			Integer id = resultSet.getInt(PatientsColumn.patientId);
+			String firstName = resultSet.getString(PatientsColumn.firstNameColumn);
+			String lastName = resultSet.getString(PatientsColumn.lastNameColumn);
+			String address = resultSet.getString(PatientsColumn.addressColumn);
+			String jmbg = resultSet.getString(PatientsColumn.jmbgColumn);
+			String telephoneNumber = resultSet.getString(PatientsColumn.telephoneNumberColumn);
+			String dateOfBirth = resultSet.getString(PatientsColumn.dateOfBirthColumn);
+			patient = new Patient(id, firstName, lastName, jmbg, dateOfBirth, address, telephoneNumber);
+			
+			return patient;
+		} catch (SQLException e) {
+			return patient;
+		}
+	}
+	/** --------------END: Operacije za terapije ------------------------------- */
+	
+	/** --------------BEGIN: Operacije za resurse koji se koriste u aplikaciji ------------------------------- */
 	public List<Resources> selectAllParticularResource(String resourceType) {
 		String sql = String.format("SELECT %s FROM %s WHERE resource_type = '%s';", "*", "resources", resourceType);
 		
@@ -1004,20 +1255,6 @@ public class DatabaseHandler {
 
 	}
 
-	/**
-	 * Dobavljanje objekat Connection klase
-	 * @return - objekat koji pretdstavlja konekciju sa bazom podataka
-	 */
-	public Connection getDatabaseConnection() {
-		return databaseConnection;
-	}
-
-	/**
-	 * Postavljanje konekcije ka bazi sa objektom Connection klase
-	 * @param databaseConnection - objekat koji pretdstavlja konekciju sa bazom podataka
-	 */
-	public void setDatabaseConnection(Connection databaseConnection) {
-		this.databaseConnection = databaseConnection;
-	}
+	/** --------------END: Operacije za resurse koji se koriste u aplikaciji ------------------------------- */
 
 }
