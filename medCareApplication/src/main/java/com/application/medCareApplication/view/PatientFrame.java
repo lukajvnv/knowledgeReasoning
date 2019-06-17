@@ -28,11 +28,11 @@ import com.application.medCareApplication.utils.Utils;
 import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.dialog.NewEwsScoreDialog;
 import com.application.medCareApplication.view.dialog.UpdatePatientDialog;
+import com.application.medCareApplication.view.displayExaminations.DisplayInfo;
 import com.application.medCareApplication.view.displayExaminations.ViewPatientAnamnesis;
 import com.application.medCareApplication.view.displayExaminations.ViewPatientDiagnosis;
 import com.application.medCareApplication.view.displayExaminations.ViewPatientPhysicalExamination;
 import com.application.medCareApplication.view.displayExaminations.ViewPatientTherapy;
-import com.application.medCareApplication.view.recommendation.MedicamentsRecommendationFrame;
 import com.application.medCareApplication.view.recommendation.PreventionExaminationRecommendationFrame;
 
 @SuppressWarnings("serial")
@@ -207,7 +207,7 @@ public class PatientFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				ViewPatientDiagnosis p = new ViewPatientDiagnosis(patient);
+				ViewPatientDiagnosis p = new ViewPatientDiagnosis(patient, PatientFrame.this);
 				splitPane.setLeftComponent(p);
 			}
 		});
@@ -222,7 +222,7 @@ public class PatientFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				ViewPatientTherapy p = new ViewPatientTherapy(patient);
+				ViewPatientTherapy p = new ViewPatientTherapy(patient, PatientFrame.this);
 				splitPane.setLeftComponent(p);
 			}
 		});
@@ -305,6 +305,12 @@ public class PatientFrame extends JFrame {
 		leftPanel = new JPanel();
 		splitPane.setLeftComponent(leftPanel);
 	
+	}
+	
+	public void setRightPaneComponent(Object objectToDisplay) {
+		rightPanel = new DisplayInfo(objectToDisplay);
+		rightPanel.setBorder(new TitledBorder(null, "Detail", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		splitPane.setRightComponent(rightPanel);
 	}
 	
 	public Patient getPatient() {

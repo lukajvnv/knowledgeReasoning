@@ -8,7 +8,11 @@ import javax.swing.JFormattedTextField.AbstractFormatter;
 
 public class DateLabelFormatter extends AbstractFormatter {
 
-    private String datePattern = "dd.MM.yyyy.";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7139173294361634834L;
+	private String datePattern = "dd.MM.yyyy.";
     private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
 
     @Override
@@ -25,5 +29,13 @@ public class DateLabelFormatter extends AbstractFormatter {
 
         return "";
     }
+
+	public SimpleDateFormat getDateFormatter() {
+		return dateFormatter;
+	}
+
+	public void setDateFormatter(SimpleDateFormat dateFormatter) {
+		this.dateFormatter = dateFormatter;
+	}
 
 }

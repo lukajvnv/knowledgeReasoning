@@ -17,9 +17,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.application.medCareApplication.model.Anamnesis;
+import com.application.medCareApplication.model.Diagnosis;
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.PhysicalExamination;
 import com.application.medCareApplication.model.Resources;
+import com.application.medCareApplication.model.Therapy;
 import com.application.medCareApplication.model.examination.CTpluca;
 import com.application.medCareApplication.model.examination.KrvnaSlika;
 import com.application.medCareApplication.model.examination.RTGPluca;
@@ -929,10 +931,10 @@ public class DatabaseHandler {
 	/** --------------END: Operacije za ranije bolesti ------------------------------- */
 	
 	/** --------------BEGIN: Operacije za dijagnoze ------------------------------- */
-	public void createDiagnosis(Patient patient) throws SQLException{
+	public void createDiagnosis(Diagnosis diagnosis) throws SQLException{
 		
-		int id = getId("patient");
-		String template = "INSERT INTO patient (Id_Pacijenta, Ime, Prezime, Jmbg, Telefon, Datum_rodjenja, Adresa) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		int id = getId("diagnosis");
+		String template = "INSERT INTO diagnosis (diagnosis_Id, Id_Pacijenta, Dijagnoza, Datum) VALUES (?, ?, ?, ?)";
 		
 		System.out.println(template);
 	
@@ -944,12 +946,9 @@ public class DatabaseHandler {
 			
 			PreparedStatement preparedStatement = databaseConnection.prepareStatement(template);
 			preparedStatement.setInt(1, id);
-			preparedStatement.setString(2, patient.getFirstName());
-			preparedStatement.setString(3, patient.getLastName());
-			preparedStatement.setString(4, patient.getJmbg());
-			preparedStatement.setString(5, patient.getTelephoneNumber());
-			preparedStatement.setString(6, patient.getDateOfBirth());
-			preparedStatement.setString(7, patient.getAddress());
+			preparedStatement.setInt(2, diagnosis.getPatientId());
+			preparedStatement.setString(3, diagnosis.getDiagnose());
+			preparedStatement.setString(4, diagnosis.getDate());
 			
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -959,13 +958,13 @@ public class DatabaseHandler {
 		
 	}
 	
-	public List<PhysicalExamination> selectPatientDiagnosis(Patient p) {
+	public List<Diagnosis> selectAllPatientDiagnosis(Patient p) {
 		
-		String sql = String.format("SELECT %s FROM %s WHERE Id_Pacijenta = '%s';", "*", "physical_examination", p.getPatientId());
+		String sql = String.format("SELECT %s FROM %s WHERE Id_Pacijenta = '%s';", "*", "diagnosis", p.getPatientId());
 		
 		System.out.println(sql);
 		
-		List<PhysicalExamination> physicalExaminatino = new ArrayList<PhysicalExamination>();
+		List<Diagnosis> diagnosis = new ArrayList<Diagnosis>();
 		
 		try {
 			Statement stmt = databaseConnection.createStatement();			
@@ -977,17 +976,16 @@ public class DatabaseHandler {
 			}
 			
 			while(rset.next()) {
-				PhysicalExamination pE = makeOnePhysicalExamination(rset);
-				if(pE != null) {
-					physicalExaminatino.add(pE);
+				Diagnosis d = makeOneDiagnosis(rset);
+				if(d != null) {
+					diagnosis.add(d);
 				}
 			}
-			
 			
 			rset.close();
 			stmt.close();
 			
-			return physicalExaminatino;
+			return diagnosis;
 			
 		} catch (SQLException e) {
 			//e.printStackTrace();
@@ -996,19 +994,16 @@ public class DatabaseHandler {
 	
 	}
 	
-	public Patient selectDiagnosis(int patientId) {
+	public Diagnosis selectDiagnosis(int diagnosisId) {
 		
-		String sql = String.format("SELECT %s FROM %s WHERE %s = '%s';", "*", "patient", PatientsColumn.patientId, patientId);
+		String sql = String.format("SELECT %s FROM %s WHERE %s = '%s';", "*", "patient", PatientsColumn.diagnosis_Id, diagnosisId);
 		
 		System.out.println(sql);
 		
 		
 		try {
-			Patient patient = null;
-
-			
-			Statement stmt = databaseConnection.createStatement();			
-			
+			Diagnosis d = null;
+			Statement stmt = databaseConnection.createStatement();				
 			ResultSet rset = stmt.executeQuery(sql);
 			
 			if(!rset.isBeforeFirst()) {
@@ -1016,14 +1011,13 @@ public class DatabaseHandler {
 			}
 			
 			while(rset.next()) {
-				patient = makeOnePatient(rset);
+				d = makeOneDiagnosis(rset);
 			}
-			
 			
 			rset.close();
 			stmt.close();
 			
-			return patient;
+			return d;
 			
 		} catch (SQLException e) {
 			//e.printStackTrace();
@@ -1032,30 +1026,28 @@ public class DatabaseHandler {
 		
 	}
 	
-	private Patient makeOneDiagnosis(ResultSet resultSet) {
-		Patient patient = null;
+	private Diagnosis makeOneDiagnosis(ResultSet resultSet) {
+		Diagnosis d = null;
 		try {
-			Integer id = resultSet.getInt(PatientsColumn.patientId);
-			String firstName = resultSet.getString(PatientsColumn.firstNameColumn);
-			String lastName = resultSet.getString(PatientsColumn.lastNameColumn);
-			String address = resultSet.getString(PatientsColumn.addressColumn);
-			String jmbg = resultSet.getString(PatientsColumn.jmbgColumn);
-			String telephoneNumber = resultSet.getString(PatientsColumn.telephoneNumberColumn);
-			String dateOfBirth = resultSet.getString(PatientsColumn.dateOfBirthColumn);
-			patient = new Patient(id, firstName, lastName, jmbg, dateOfBirth, address, telephoneNumber);
+			Integer id = resultSet.getInt(PatientsColumn.diagnosis_Id);
+			int patientId = resultSet.getInt(PatientsColumn.patientId);
+			String diagnose = resultSet.getString(PatientsColumn.diagnose);
+			String date = resultSet.getString(PatientsColumn.date);
 			
-			return patient;
+			d = new Diagnosis(id, patientId, diagnose, date);
+			
+			return d;
 		} catch (SQLException e) {
-			return patient;
+			return d;
 		}
 	}
 	/** --------------END: Operacije za dijagnoze ------------------------------- */
 
 	/** --------------BEGIN: Operacije za terapije ------------------------------- */
-	public void createTherapy(Patient patient) throws SQLException{
+	public void createTherapy(Therapy therapy) throws SQLException{
 		
-		int id = getId("patient");
-		String template = "INSERT INTO patient (Id_Pacijenta, Ime, Prezime, Jmbg, Telefon, Datum_rodjenja, Adresa) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		int id = getId("therapy");
+		String template = "INSERT INTO therapy (therapy_id, Id_Pacijenta, Dijagnoza, Terapija, Datum) VALUES (?, ?, ?, ?, ?)";
 		
 		System.out.println(template);
 	
@@ -1067,12 +1059,10 @@ public class DatabaseHandler {
 			
 			PreparedStatement preparedStatement = databaseConnection.prepareStatement(template);
 			preparedStatement.setInt(1, id);
-			preparedStatement.setString(2, patient.getFirstName());
-			preparedStatement.setString(3, patient.getLastName());
-			preparedStatement.setString(4, patient.getJmbg());
-			preparedStatement.setString(5, patient.getTelephoneNumber());
-			preparedStatement.setString(6, patient.getDateOfBirth());
-			preparedStatement.setString(7, patient.getAddress());
+			preparedStatement.setInt(2, therapy.getPatientId());
+			preparedStatement.setString(3, therapy.getDiagnose());
+			preparedStatement.setString(4, therapy.getTherapy());
+			preparedStatement.setString(5, therapy.getDate());
 			
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -1082,13 +1072,13 @@ public class DatabaseHandler {
 		
 	}
 	
-	public List<PhysicalExamination> selectPatientTherapies(Patient p) {
+	public List<Therapy> selectAllPatientTherapies(Patient p) {
 		
-		String sql = String.format("SELECT %s FROM %s WHERE Id_Pacijenta = '%s';", "*", "physical_examination", p.getPatientId());
+		String sql = String.format("SELECT %s FROM %s WHERE Id_Pacijenta = '%s';", "*", "therapy", p.getPatientId());
 		
 		System.out.println(sql);
 		
-		List<PhysicalExamination> physicalExaminatino = new ArrayList<PhysicalExamination>();
+		List<Therapy> therapies = new ArrayList<Therapy>();
 		
 		try {
 			Statement stmt = databaseConnection.createStatement();			
@@ -1100,9 +1090,9 @@ public class DatabaseHandler {
 			}
 			
 			while(rset.next()) {
-				PhysicalExamination pE = makeOnePhysicalExamination(rset);
-				if(pE != null) {
-					physicalExaminatino.add(pE);
+				Therapy t = makeOneTherapy(rset);
+				if(t != null) {
+					therapies.add(t);
 				}
 			}
 			
@@ -1110,7 +1100,7 @@ public class DatabaseHandler {
 			rset.close();
 			stmt.close();
 			
-			return physicalExaminatino;
+			return therapies;
 			
 		} catch (SQLException e) {
 			//e.printStackTrace();
@@ -1119,17 +1109,15 @@ public class DatabaseHandler {
 	
 	}
 	
-	public Patient selectTherapy(int patientId) {
+	public Therapy selectTherapy(int therapyId) {
 		
-		String sql = String.format("SELECT %s FROM %s WHERE %s = '%s';", "*", "patient", PatientsColumn.patientId, patientId);
+		String sql = String.format("SELECT %s FROM %s WHERE %s = '%s';", "*", "therapy", PatientsColumn.therapyId, therapyId);
 		
 		System.out.println(sql);
 		
 		
 		try {
-			Patient patient = null;
-
-			
+			Therapy therapy = null;	
 			Statement stmt = databaseConnection.createStatement();			
 			
 			ResultSet rset = stmt.executeQuery(sql);
@@ -1139,14 +1127,13 @@ public class DatabaseHandler {
 			}
 			
 			while(rset.next()) {
-				patient = makeOnePatient(rset);
+				therapy = makeOneTherapy(rset);
 			}
-			
 			
 			rset.close();
 			stmt.close();
 			
-			return patient;
+			return therapy;
 			
 		} catch (SQLException e) {
 			//e.printStackTrace();
@@ -1155,21 +1142,19 @@ public class DatabaseHandler {
 		
 	}
 	
-	private Patient makeOneTherapy(ResultSet resultSet) {
-		Patient patient = null;
+	private Therapy makeOneTherapy(ResultSet resultSet) {
+		Therapy t = null;
 		try {
-			Integer id = resultSet.getInt(PatientsColumn.patientId);
-			String firstName = resultSet.getString(PatientsColumn.firstNameColumn);
-			String lastName = resultSet.getString(PatientsColumn.lastNameColumn);
-			String address = resultSet.getString(PatientsColumn.addressColumn);
-			String jmbg = resultSet.getString(PatientsColumn.jmbgColumn);
-			String telephoneNumber = resultSet.getString(PatientsColumn.telephoneNumberColumn);
-			String dateOfBirth = resultSet.getString(PatientsColumn.dateOfBirthColumn);
-			patient = new Patient(id, firstName, lastName, jmbg, dateOfBirth, address, telephoneNumber);
+			Integer id = resultSet.getInt(PatientsColumn.therapyId);
+			int patientId = resultSet.getInt(PatientsColumn.patientId);
+			String diagnose = resultSet.getString(PatientsColumn.diagnose);
+			String therapy = resultSet.getString(PatientsColumn.therapy);
+			String date = resultSet.getString(PatientsColumn.date);
+			t = new Therapy(id,	patientId, diagnose, therapy, date); 
 			
-			return patient;
+			return t;
 		} catch (SQLException e) {
-			return patient;
+			return t;
 		}
 	}
 	/** --------------END: Operacije za terapije ------------------------------- */

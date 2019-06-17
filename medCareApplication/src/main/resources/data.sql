@@ -50,6 +50,32 @@ values (1, 38);
 INSERT INTO porodicne_bolesti (patient_id, diagnosis_id)
 values (1, 43);
 
+/* Dijagnoze pacijenta */
+INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (1, 1, 'asthma', '16.01.2019.');
+INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (2, 1, 'asthma', '16.04.2019.');
+INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (3, 1, 'asthma', '19.06.2019.');
+INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (4, 1, 'copd', '26.02.2019.');
+INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (5, 1, 'copd', '16.05.2019.');
+INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (6, 2, 'asthma', '11.06.2018.');
+INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (7, 2, 'asthma', '11.01.2019.');
+INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (8, 2, 'asthma', '11.04.2019.');
+INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (9, 2, 'copd', '16.05.2019.');
+INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (10, 2, 'copd', '16.06.2019.');
+
+
+/* Terapije pacijenta */
+INSERT INTO therapy (therapy_Id, Id_Pacijenta, Dijagnoza, Terapija, Datum) values (1,  1, 'asthma', 'albuterol', '16.08.2018.');
+INSERT INTO therapy (therapy_Id, Id_Pacijenta, Dijagnoza, Terapija, Datum) values (2,  1, 'asthma', 'prednison', '28.02.2019.');
+INSERT INTO therapy (therapy_Id, Id_Pacijenta, Dijagnoza, Terapija, Datum) values (3,  1, 'asthma', 'albuterol', '23.05.2019.');
+INSERT INTO therapy (therapy_Id, Id_Pacijenta, Dijagnoza, Terapija, Datum) values (4,  1, 'copd', 'azithromycin', '17.07.2018.');
+INSERT INTO therapy (therapy_Id, Id_Pacijenta, Dijagnoza, Terapija, Datum) values (5,  1, 'copd', 'combivent', '13.05.2019.');
+INSERT INTO therapy (therapy_Id, Id_Pacijenta, Dijagnoza, Terapija, Datum) values (6,  2, 'asthma', 'albuterol', '06.06.2018.');
+INSERT INTO therapy (therapy_Id, Id_Pacijenta, Dijagnoza, Terapija, Datum) values (7,  2, 'asthma', 'prednison', '02.03.2019.');
+INSERT INTO therapy (therapy_Id, Id_Pacijenta, Dijagnoza, Terapija, Datum) values (8,  2, 'asthma', 'albuterol', '22.04.2019.');
+INSERT INTO therapy (therapy_Id, Id_Pacijenta, Dijagnoza, Terapija, Datum) values (9,  2, 'copd', 'azithromycin', '11.04.2019.');
+INSERT INTO therapy (therapy_Id, Id_Pacijenta, Dijagnoza, Terapija, Datum) values (10, 2, 'copd', 'combivent', '16.06.2019.');
+
+
 /*Svi relevantni podaci*/
 	/*Simptomi*/
 insert into resources (resource_id, resource_name, resource_type) values (1, 'congestion_in_chest', 'symptom');

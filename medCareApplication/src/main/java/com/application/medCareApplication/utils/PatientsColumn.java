@@ -46,7 +46,7 @@ public class PatientsColumn {
 	public static String diagnose = "Dijagnoza";
 	public static String date = "Datum";
 	
-	// dijagnoza pacijenta + diagnose + date odgore
+	// terapija pacijenta + diagnose + date odgore
 	public static String therapyId = "therapy_Id";
 	public static String therapy = "Terapija";
 

@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -21,11 +23,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import com.application.medCareApplication.model.Anamnesis;
+import com.application.medCareApplication.model.Diagnosis;
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.utils.PopUpMenus;
 import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
+import com.application.medCareApplication.view.PatientFrame;
 import com.application.medCareApplication.view.recommendation.MedicamentsRecommendationFrame;
 
 public class ViewPatientDiagnosis extends JPanel {
@@ -37,13 +40,15 @@ public class ViewPatientDiagnosis extends JPanel {
 	
 	private Patient patient;
 	
-	private JList<Anamnesis> patientDiagnosisList;
+	private JList<Diagnosis> patientDiagnosisList;
 	private JScrollPane scrollPane;
-	private DefaultListModel<Anamnesis> diagnosisListModel;
+	private DefaultListModel<Diagnosis> diagnosisListModel;
 
+	private PatientFrame patientFrame;
 	
-	public ViewPatientDiagnosis(Patient p) {
+	public ViewPatientDiagnosis(Patient p, PatientFrame patientFrame) {
 		this.patient = p;
+		this.patientFrame = patientFrame;
 		
 		setLayout(new BorderLayout(0, 0));
 		//setSize(200, 500);
@@ -86,7 +91,8 @@ public class ViewPatientDiagnosis extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				MedicamentsRecommendationFrame f = new MedicamentsRecommendationFrame();
+				Diagnosis selectedDiagnosis = patientDiagnosisList.getSelectedValue();
+				MedicamentsRecommendationFrame f = new MedicamentsRecommendationFrame(patient, selectedDiagnosis);
 				f.setVisible(true);
 			}
 		});
@@ -97,7 +103,7 @@ public class ViewPatientDiagnosis extends JPanel {
 		
 		
 		
-		// initList();
+		 initList();
 				
 		scrollPane = new JScrollPane(patientDiagnosisList);
 		add(scrollPane, BorderLayout.CENTER);
@@ -105,21 +111,18 @@ public class ViewPatientDiagnosis extends JPanel {
 	
 	
 	private void initList() {
-		diagnosisListModel = new DefaultListModel<Anamnesis>();
+		diagnosisListModel = new DefaultListModel<Diagnosis>();
 		
 		
 		DatabaseHandler dbHandler = MainFrame.getInstance().getDatabaseHandler();
-		List<Anamnesis> anemnesis = dbHandler.selectAllPatientAnamnesis(patient);
+		List<Diagnosis> anemnesis = dbHandler.selectAllPatientDiagnosis(patient);
 		
-		/*for (int i = 0; i < 15; i++) {
-			Anamnesis a = new Anamnesis(1, 1, "da", "da", "zaposlen", "tezak", "selo", "stan", "ker");
-			 diagnosisListModel.addElement(a);
-		}*/
-		for (Anamnesis a : anemnesis) {
+		
+		for (Diagnosis a : anemnesis) {
 			 diagnosisListModel.addElement(a);
 		}
 		
-		patientDiagnosisList = new JList<Anamnesis>(diagnosisListModel);
+		patientDiagnosisList = new JList<Diagnosis>(diagnosisListModel);
 		patientDiagnosisList.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
@@ -142,6 +145,31 @@ public class ViewPatientDiagnosis extends JPanel {
 		patientDiagnosisList.add(p);
 
 		
+		patientDiagnosisList.addKeyListener(new KeyAdapter() {
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				super.keyPressed(e);
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					try {
+						Diagnosis d = patientDiagnosisList.getSelectedValue();
+						if(d != null){
+							System.out.println("usao enter");
+							patientFrame.setRightPaneComponent(d);
+							
+							
+							
+						}
+					} catch (Exception ex) {
+						System.out.println(ex);
+					}
+				}
+			}
+			
+		});
+		
 		patientDiagnosisList.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e)  {check(e);}
 			public void mouseReleased(MouseEvent e) {check(e);}
@@ -155,7 +183,14 @@ public class ViewPatientDiagnosis extends JPanel {
 			
 			public void mouseClicked(MouseEvent e) {
 			           if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {    	  
-
+			        	   Diagnosis d = patientDiagnosisList.getSelectedValue();
+							if(patientDiagnosisList != null){
+								System.out.println("usao dvoklik");
+								patientFrame.setRightPaneComponent(d);
+								
+								
+								
+							}
 			           }
 			       }
 		});

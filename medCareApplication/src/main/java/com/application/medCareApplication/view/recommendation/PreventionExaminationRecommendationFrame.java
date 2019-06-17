@@ -29,6 +29,7 @@ import com.application.medCareApplication.utils.Utils;
 import com.application.medCareApplication.utils.components.PrologHandler;
 import com.application.medCareApplication.utils.components.RDFHandler;
 import com.application.medCareApplication.view.MainFrame;
+import java.awt.Font;
 
 public class PreventionExaminationRecommendationFrame extends JFrame {
 
@@ -83,7 +84,7 @@ public class PreventionExaminationRecommendationFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(700, 700);
-		setResizable(false);
+		setResizable(true);
 		
 		
 		contentPane = new JPanel();
@@ -97,13 +98,13 @@ public class PreventionExaminationRecommendationFrame extends JFrame {
 		JLabel infoLabel = new JLabel("Preporuka preventivnog pregleda za pacijenta"  + p.getFirstName() + " " + p.getLastName());
 		infoPanel.add(infoLabel);
 		
-		JPanel buttonPanel = new JPanel();
-		FlowLayout fl_buttonPanel = (FlowLayout) buttonPanel.getLayout();
-		fl_buttonPanel.setAlignment(FlowLayout.RIGHT);
-		contentPane.add(buttonPanel, BorderLayout.SOUTH);
-		
-		JButton btnNewButton = new JButton("New button");
-		buttonPanel.add(btnNewButton);
+//		JPanel buttonPanel = new JPanel();
+//		FlowLayout fl_buttonPanel = (FlowLayout) buttonPanel.getLayout();
+//		fl_buttonPanel.setAlignment(FlowLayout.RIGHT);
+//		contentPane.add(buttonPanel, BorderLayout.SOUTH);
+//		
+//		JButton btnNewButton = new JButton("New button");
+//		buttonPanel.add(btnNewButton);
 		
 		JPanel mainPanel = new JPanel();
 		contentPane.add(mainPanel, BorderLayout.CENTER);
@@ -189,6 +190,8 @@ public class PreventionExaminationRecommendationFrame extends JFrame {
 		upperPanel.add(familyAnamnesisComboBox, gbc_familyAnamnesisComboBox);
 		
 		JButton viewPreventAnamnesisButton = new JButton("Pogledaj rezultate");
+		viewPreventAnamnesisButton.setIcon(new ImageIcon("images/zoom_icon&24.png"));
+		viewPreventAnamnesisButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		GridBagConstraints gbc_viewPreventAnamnesisButton = new GridBagConstraints();
 		gbc_viewPreventAnamnesisButton.gridx = 8;
 		gbc_viewPreventAnamnesisButton.gridy = 8;

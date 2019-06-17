@@ -79,6 +79,12 @@ public class Therapy {
 		this.date = date;
 	}
 
+	@Override
+	public String toString() {
+		return "Therapy [therapyId=" + therapyId + ", patientId=" + patientId + ", diagnose=" + diagnose + ", therapy="
+				+ therapy + ", date=" + date + "]";
+	}
+
 	
 	//Da se cuva neki trag kako se doslo do zakljucka...
 	

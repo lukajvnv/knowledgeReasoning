@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -21,11 +23,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import com.application.medCareApplication.model.Anamnesis;
 import com.application.medCareApplication.model.Patient;
+import com.application.medCareApplication.model.Therapy;
 import com.application.medCareApplication.utils.PopUpMenus;
 import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
+import com.application.medCareApplication.view.PatientFrame;
 
 public class ViewPatientTherapy extends JPanel {
 	
@@ -36,13 +39,15 @@ public class ViewPatientTherapy extends JPanel {
 
 	private Patient patient;
 	
-	private JList<Anamnesis> patientTherapyList;
+	private JList<Therapy> patientTherapyList;
 	private JScrollPane scrollPane;
-	private DefaultListModel<Anamnesis> therapyListModel;
+	private DefaultListModel<Therapy> therapyListModel;
 
+	private PatientFrame patientFrame;
 	
-	public ViewPatientTherapy(Patient p) {
+	public ViewPatientTherapy(Patient p, PatientFrame pF) {
 		this.patient = p;
+		this.patientFrame = pF;
 		
 		setLayout(new BorderLayout(0, 0));
 		//setSize(200, 500);
@@ -76,7 +81,7 @@ public class ViewPatientTherapy extends JPanel {
 		detailsButton.setIcon(new ImageIcon("images\\info_icon&24.png"));
 		toolBar.add(detailsButton);
 		
-		// initList();
+		initList();
 				
 		scrollPane = new JScrollPane(patientTherapyList);
 		add(scrollPane, BorderLayout.CENTER);
@@ -84,18 +89,18 @@ public class ViewPatientTherapy extends JPanel {
 	
 	
 	private void initList() {
-		therapyListModel = new DefaultListModel<Anamnesis>();
+		therapyListModel = new DefaultListModel<Therapy>();
 		
 		
 		DatabaseHandler dbHandler = MainFrame.getInstance().getDatabaseHandler();
-		List<Anamnesis> anemnesis = dbHandler.selectAllPatientAnamnesis(patient);
+		List<Therapy> anemnesis = dbHandler.selectAllPatientTherapies(patient);
 		
 		
-		for (Anamnesis a : anemnesis) {
+		for (Therapy a : anemnesis) {
 			 therapyListModel.addElement(a);
 		}
 		
-		patientTherapyList = new JList<Anamnesis>(therapyListModel);
+		patientTherapyList = new JList<Therapy>(therapyListModel);
 		patientTherapyList.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
@@ -117,6 +122,30 @@ public class ViewPatientTherapy extends JPanel {
 		PopUpMenus p = new PopUpMenus();
 		patientTherapyList.add(p);
 
+		patientTherapyList.addKeyListener(new KeyAdapter() {
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				super.keyPressed(e);
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					try {
+						Therapy t = patientTherapyList.getSelectedValue();
+						if(t != null){
+							System.out.println("usao enter");
+							patientFrame.setRightPaneComponent(t);
+							
+							
+							
+						}
+					} catch (Exception ex) {
+						System.out.println(ex);
+					}
+				}
+			}
+			
+		});
 		
 		patientTherapyList.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e)  {check(e);}
@@ -131,7 +160,14 @@ public class ViewPatientTherapy extends JPanel {
 			
 			public void mouseClicked(MouseEvent e) {
 			           if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {    	  
-
+			        	   Therapy t = patientTherapyList.getSelectedValue();
+							if(t != null){
+								System.out.println("usao enter");
+								patientFrame.setRightPaneComponent(t);
+								
+								
+								
+							}
 			           }
 			       }
 		});
@@ -145,6 +181,16 @@ public class ViewPatientTherapy extends JPanel {
 
 	public void setPatient(Patient patient) {
 		this.patient = patient;
+	}
+
+
+	public PatientFrame getPatientFrame() {
+		return patientFrame;
+	}
+
+
+	public void setPatientFrame(PatientFrame patientFrame) {
+		this.patientFrame = patientFrame;
 	}
 
 

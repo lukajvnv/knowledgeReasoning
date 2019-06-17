@@ -10,14 +10,21 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.lang.reflect.Field;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Predicate;
 
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,13 +38,19 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.springframework.util.ReflectionUtils;
+
+import com.application.medCareApplication.model.Diagnosis;
+import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.Resources;
+import com.application.medCareApplication.model.Therapy;
 import com.application.medCareApplication.utils.Utils;
 import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.utils.components.PrologHandler;
 import com.application.medCareApplication.utils.components.RDFHandler;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.utils.AutoComplete;
+import com.application.medCareApplication.view.utils.DateLabelFormatter;
 
 public class MedicamentsRecommendationFrame extends JFrame {
 
@@ -47,11 +60,16 @@ public class MedicamentsRecommendationFrame extends JFrame {
 	private static final long serialVersionUID = -6142157244487361175L;
 	private JPanel contentPane;
 	private JTextField diagnoseTextField;
-	private JComboBox<String> reasoningTypeComboBox;
 	
-	private JList<String> medicamentsList = new JList<String>();
+	private JList<String> cbrMedicamentsList = new JList<String>();
+	private JList<String> rbrMedicamentsList = new JList<String>();
 	private List<String> allPossibleDiagnosis;
 	private static final String COMMIT_ACTION = "commit";
+	
+	private String lastSelectedTherapyElement;
+	private String diagnose;
+	
+	private Patient patient;
 
 	//private String[] defaultValues =  {};
 	
@@ -62,7 +80,7 @@ public class MedicamentsRecommendationFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MedicamentsRecommendationFrame frame = new MedicamentsRecommendationFrame();
+					MedicamentsRecommendationFrame frame = new MedicamentsRecommendationFrame(new Patient(), new Diagnosis());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -75,8 +93,11 @@ public class MedicamentsRecommendationFrame extends JFrame {
 	 * Create the frame.
 	 */
 	@SuppressWarnings("serial")
-	public MedicamentsRecommendationFrame() {
-		initList();
+	public MedicamentsRecommendationFrame(Patient p, Diagnosis selectedDiagnosis) {
+		this.patient = p;
+		
+		initList(rbrMedicamentsList);
+		initList(cbrMedicamentsList);
 		
 		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
 		setTitle("Preporucivanje terapije za pacijenta");
@@ -85,8 +106,9 @@ public class MedicamentsRecommendationFrame extends JFrame {
 		
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setSize(500,500);
-		setResizable(false);
+		//setSize(500,500);
+		setSize(700, 700);
+		setResizable(true);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -105,7 +127,46 @@ public class MedicamentsRecommendationFrame extends JFrame {
 		fl_buttonPanel.setAlignment(FlowLayout.RIGHT);
 		contentPane.add(buttonPanel, BorderLayout.SOUTH);
 		
-		JButton btnNewButton = new JButton("New button");
+		JButton btnNewButton = new JButton("Dodaj novu terapiju");
+		btnNewButton.setIcon(new ImageIcon("images/doc_new_icon&24.png"));
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				Set<Field> fields = ReflectionUtils.getAllFields(Diagnosis.class, new Predicate() {
+//				    public boolean apply(Object input) {
+//				        return true;
+//				    }
+//
+//					@Override
+//					public boolean test(Object t) {
+//						// TODO Auto-generated method stub
+//						return false;
+//					}});
+//				   Map<Field, Object) values = new HashMap<Field, Object>();
+//				   for(Field f : fields) {
+//				        f.setAccessible(true);
+//				        values.put(f, f.get(obj);
+//				    }
+				
+				if(lastSelectedTherapyElement != null) {
+					/*Izvuci sta je selektovan podatak konkretno lek/terapija */
+					DateLabelFormatter dF = new DateLabelFormatter();
+					
+					Therapy newTherapy = new Therapy(-1, patient.getPatientId(), diagnose, "prednisone", dF.getDateFormatter().format(new Date()));
+					DatabaseHandler handler = MainFrame.getInstance().getDatabaseHandler();
+					try {
+						handler.createTherapy(newTherapy);
+						Utils.info("Terapija je uspesno dodata u karton pacijenta");
+						dispose();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
+				
+			}
+		});
 		btnNewButton.setHorizontalAlignment(SwingConstants.RIGHT);
 		buttonPanel.add(btnNewButton);
 		
@@ -147,54 +208,44 @@ public class MedicamentsRecommendationFrame extends JFrame {
 		diagnoseTextField.getActionMap().put(COMMIT_ACTION, autoComplete.new CommitAction());
 		diagnoseTextField.getDocument().addDocumentListener(autoComplete);
 		
-		JLabel reasoningTypeLabel = new JLabel("Zakljucivanje:");
-		reasoningTypeLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		GridBagConstraints gbc_reasoningTypeLabel = new GridBagConstraints();
-		gbc_reasoningTypeLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_reasoningTypeLabel.gridx = 2;
-		gbc_reasoningTypeLabel.gridy = 1;
-		upperPanel.add(reasoningTypeLabel, gbc_reasoningTypeLabel);
+		// ako je selektovana neka dijagnoza upisi u text polje
+		if(selectedDiagnosis != null) {
+			diagnoseTextField.setText(selectedDiagnosis.getDiagnose());
+		}
 		
-		reasoningTypeComboBox = new JComboBox<String>();
-		reasoningTypeComboBox.addItem("Rule based");
-		reasoningTypeComboBox.addItem("Case based");
-		GridBagConstraints gbc_reasoningTypeComboBox = new GridBagConstraints();
-		gbc_reasoningTypeComboBox.insets = new Insets(0, 0, 0, 5);
-		gbc_reasoningTypeComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_reasoningTypeComboBox.gridx = 4;
-		gbc_reasoningTypeComboBox.gridy = 1;
-		upperPanel.add(reasoningTypeComboBox, gbc_reasoningTypeComboBox);
-		
-		JButton findMedicamentsButton = new JButton("Pogledaj");
+		JButton findMedicamentsButton = new JButton("Pogledaj rezultate");
+		findMedicamentsButton.setFont(new Font("Tahoma", Font.BOLD, 14));
+		findMedicamentsButton.setIcon(new ImageIcon("images/zoom_icon&24.png"));
 		GridBagConstraints gbc_findMedicamentsButton = new GridBagConstraints();
-		gbc_findMedicamentsButton.gridx = 5;
+		gbc_findMedicamentsButton.gridx = 4;
 		gbc_findMedicamentsButton.gridy = 1;
 		findMedicamentsButton.addActionListener(new AbstractAction() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				String diagnose = diagnoseTextField.getText().trim();
+				diagnose = diagnoseTextField.getText().trim();
 				boolean valid = validateDiagnoseInput(diagnose);
 				if(valid) {
-					String reasoning = (String) reasoningTypeComboBox.getSelectedItem();
 					
-					List<String> medicamentsList = new ArrayList<String>();
-					if(reasoning.equals("Rule based")) {
-						PrologHandler prologHandler = MainFrame.getInstance().getPrologHandler();
-						String queryText = String.format("diagnose_medicaments(%s, Medicament,	Percentage)", diagnose);
-						try {
-							medicamentsList =  prologHandler.findResults("medicaments_facts.pl", queryText);
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}else {
-						RDFHandler rdfHandler = new RDFHandler("diagnosisMedicaments.ttl");
-						medicamentsList = rdfHandler.findMedicaments(diagnose);
+					List<String> rbrMedicamentsResultList = new ArrayList<String>();
+					List<String> cbrMedicamentsResultList = new ArrayList<String>();
+					
+					PrologHandler prologHandler = MainFrame.getInstance().getPrologHandler();
+					String queryText = String.format("diagnose_medicaments(%s, Medicament,	Percentage)", diagnose);
+					try {
+						rbrMedicamentsResultList =  prologHandler.findResults("medicaments_facts.pl", queryText);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
+					RDFHandler rdfHandler = new RDFHandler("diagnosisMedicaments.ttl");
+					cbrMedicamentsResultList = rdfHandler.findMedicaments(diagnose);
+					
 						
-					displayMedicaments(medicamentsList);
+					displayMedicaments(rbrMedicamentsList, rbrMedicamentsResultList);
+					displayMedicaments(cbrMedicamentsList, cbrMedicamentsResultList);
+
 				}else {
 					Utils.error("Nepravilno uneta dijagnoza");
 				}
@@ -204,26 +255,44 @@ public class MedicamentsRecommendationFrame extends JFrame {
 		
 		JPanel lowerPanel = new JPanel();
 		mainPanel.add(lowerPanel);
-		lowerPanel.setLayout(new BorderLayout(0, 0));
+		lowerPanel.setLayout(new GridLayout(1, 2, 0, 0));
 		
-		JPanel resultInfoPanel = new JPanel();
-		lowerPanel.add(resultInfoPanel, BorderLayout.NORTH);
+		JPanel rbrPanel = new JPanel();
+		lowerPanel.add(rbrPanel);
+		rbrPanel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel resultInfoLabel = new JLabel("Preporuceni lekovi za preskripciju su:");
+		JPanel rbrInfoPanel = new JPanel();
+		rbrPanel.add(rbrInfoPanel, BorderLayout.NORTH);
+		
+		JLabel lblNewLabel = new JLabel("Terapija na osnovu RBR:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
+		rbrInfoPanel.add(lblNewLabel);
+		
+		JScrollPane rbrMedicamentsScrollPane = new JScrollPane(rbrMedicamentsList);
+		rbrPanel.add(rbrMedicamentsScrollPane);
+		
+		JPanel cbrPanel = new JPanel();
+		lowerPanel.add(cbrPanel);
+		cbrPanel.setLayout(new BorderLayout(0, 0));
+		
+		JPanel cbrInfoPanel = new JPanel();
+		cbrPanel.add(cbrInfoPanel, BorderLayout.NORTH);
+		
+		JLabel resultInfoLabel = new JLabel("Terapija na osnovu CBR:");
+		cbrInfoPanel.add(resultInfoLabel);
 		resultInfoLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
-		resultInfoPanel.add(resultInfoLabel);
 		
-		JScrollPane medicamentsSrollPane = new JScrollPane(medicamentsList);
-		lowerPanel.add(medicamentsSrollPane, BorderLayout.CENTER);
+		JScrollPane cbrMedicamentsSrollPane = new JScrollPane(cbrMedicamentsList);
+		cbrPanel.add(cbrMedicamentsSrollPane);
 	}
 
-	private void displayMedicaments(List<String> medicaments) {
+	private void displayMedicaments(JList<String> list, List<String> medicaments) {
 		DefaultListModel<String> model = new DefaultListModel<String>();
 		for(String s : medicaments) {
 			model.addElement(s);
 		}
-		//medicamentsList = new JList<String>(model);
-		medicamentsList.setModel(model);
+		//cbrMedicamentsList = new JList<String>(model);
+		list.setModel(model);
 	}
 	
 	private List<String> getAllPossibleDiagnosis(){
@@ -249,35 +318,76 @@ public class MedicamentsRecommendationFrame extends JFrame {
 		return valid;
 	}
 	
-	private void initList() {
-		medicamentsList.addListSelectionListener(new ListSelectionListener() {
+//	private void initList() {
+//		cbrMedicamentsList.addListSelectionListener(new ListSelectionListener() {
+//			
+//			@Override
+//			public void valueChanged(ListSelectionEvent e) {
+//				// TODO Auto-generated method stub
+//				System.out.println("promena selekcije");
+//				System.out.println(cbrMedicamentsList.getSelectedValue());
+//			}
+//		});
+//		cbrMedicamentsList.setForeground(Color.BLACK);
+//		cbrMedicamentsList.setBackground(Color.WHITE);
+//		
+//		
+//		
+//		//cbrMedicamentsList.setCellRenderer(new ListRenderer());
+//		//Dodavanje popUpMenija
+//				/*PopUpMenus p = new PopUpMenus();
+//				cbrMedicamentsList.add(p);
+//
+//				
+//				cbrMedicamentsList.addMouseListener(new MouseAdapter() {
+//					public void mousePressed(MouseEvent e)  {check(e);}
+//					public void mouseReleased(MouseEvent e) {check(e);}
+//
+//					public void check(MouseEvent e) {
+//					    if (e.isPopupTrigger()) { //if the event shows the menu
+//					    	cbrMedicamentsList.setSelectedIndex(cbrMedicamentsList.locationToIndex(e.getPoint())); //select the item
+//					        p.show(cbrMedicamentsList, e.getX(), e.getY()); //and show the menu
+//					    }
+//					}
+//					
+//					public void mouseClicked(MouseEvent e) {
+//			               if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {    	  
+//
+//			               }
+//			           }
+//				});*/
+//	}
+	
+	private void initList(JList<String> list) {
+		list.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("promena selekcije");
-				System.out.println(medicamentsList.getSelectedValue());
+				System.out.println(list.getSelectedValue());
+				lastSelectedTherapyElement = list.getSelectedValue();
 			}
 		});
-		medicamentsList.setForeground(Color.BLACK);
-		medicamentsList.setBackground(Color.WHITE);
+		list.setForeground(Color.BLACK);
+		list.setBackground(Color.WHITE);
 		
 		
 		
-		//medicamentsList.setCellRenderer(new ListRenderer());
+		//cbrMedicamentsList.setCellRenderer(new ListRenderer());
 		//Dodavanje popUpMenija
 				/*PopUpMenus p = new PopUpMenus();
-				medicamentsList.add(p);
+				cbrMedicamentsList.add(p);
 
 				
-				medicamentsList.addMouseListener(new MouseAdapter() {
+				cbrMedicamentsList.addMouseListener(new MouseAdapter() {
 					public void mousePressed(MouseEvent e)  {check(e);}
 					public void mouseReleased(MouseEvent e) {check(e);}
 
 					public void check(MouseEvent e) {
 					    if (e.isPopupTrigger()) { //if the event shows the menu
-					    	medicamentsList.setSelectedIndex(medicamentsList.locationToIndex(e.getPoint())); //select the item
-					        p.show(medicamentsList, e.getX(), e.getY()); //and show the menu
+					    	cbrMedicamentsList.setSelectedIndex(cbrMedicamentsList.locationToIndex(e.getPoint())); //select the item
+					        p.show(cbrMedicamentsList, e.getX(), e.getY()); //and show the menu
 					    }
 					}
 					
@@ -292,7 +402,5 @@ public class MedicamentsRecommendationFrame extends JFrame {
 	public JTextField getDiagnoseTextField() {
 		return diagnoseTextField;
 	}
-	public JComboBox<String> getResoningTypeComboBox() {
-		return reasoningTypeComboBox;
-	}
+	
 }
