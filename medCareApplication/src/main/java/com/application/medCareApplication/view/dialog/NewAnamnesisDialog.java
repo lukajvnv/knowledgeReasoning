@@ -411,7 +411,7 @@ public class NewAnamnesisDialog extends JDialog {
 			
 			JButton btnNewButton = new JButton("Odaberi");
 			
-			btnNewButton.addActionListener(new AbstractAction() {
+			btnNewButton.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {

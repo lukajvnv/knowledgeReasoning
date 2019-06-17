@@ -11,15 +11,10 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Predicate;
 
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
@@ -38,8 +33,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.springframework.util.ReflectionUtils;
-
 import com.application.medCareApplication.model.Diagnosis;
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.Resources;
@@ -48,6 +41,7 @@ import com.application.medCareApplication.utils.Utils;
 import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.utils.components.PrologHandler;
 import com.application.medCareApplication.utils.components.RDFHandler;
+import com.application.medCareApplication.utils.components.ReasoningAnswerData;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.utils.AutoComplete;
 import com.application.medCareApplication.view.utils.DateLabelFormatter;
@@ -61,34 +55,18 @@ public class MedicamentsRecommendationFrame extends JFrame {
 	private JPanel contentPane;
 	private JTextField diagnoseTextField;
 	
-	private JList<String> cbrMedicamentsList = new JList<String>();
-	private JList<String> rbrMedicamentsList = new JList<String>();
+	private JList<ReasoningAnswerData> cbrMedicamentsList = new JList<ReasoningAnswerData>();
+	private JList<ReasoningAnswerData> rbrMedicamentsList = new JList<ReasoningAnswerData>();
 	private List<String> allPossibleDiagnosis;
 	private static final String COMMIT_ACTION = "commit";
 	
-	private String lastSelectedTherapyElement;
+	private ReasoningAnswerData lastSelectedTherapyElement;
 	private String diagnose;
 	
 	private Patient patient;
 
 	//private String[] defaultValues =  {};
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MedicamentsRecommendationFrame frame = new MedicamentsRecommendationFrame(new Patient(), new Diagnosis());
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the frame.
 	 */
@@ -149,10 +127,15 @@ public class MedicamentsRecommendationFrame extends JFrame {
 //				    }
 				
 				if(lastSelectedTherapyElement != null) {
-					/*Izvuci sta je selektovan podatak konkretno lek/terapija */
-					DateLabelFormatter dF = new DateLabelFormatter();
+					String therapy = findTherapyString(lastSelectedTherapyElement);
+					if(therapy.equals("")) {
+						Utils.error("Ne postoji ime leka");
+						return;
+					}
 					
-					Therapy newTherapy = new Therapy(-1, patient.getPatientId(), diagnose, "prednisone", dF.getDateFormatter().format(new Date()));
+					/*Izvuci sta je selektovan podatak konkretno lek/terapija */
+					DateLabelFormatter dF = new DateLabelFormatter();		
+					Therapy newTherapy = new Therapy(-1, patient.getPatientId(), diagnose, therapy, dF.getDateFormatter().format(new Date()));
 					DatabaseHandler handler = MainFrame.getInstance().getDatabaseHandler();
 					try {
 						handler.createTherapy(newTherapy);
@@ -228,19 +211,19 @@ public class MedicamentsRecommendationFrame extends JFrame {
 				boolean valid = validateDiagnoseInput(diagnose);
 				if(valid) {
 					
-					List<String> rbrMedicamentsResultList = new ArrayList<String>();
-					List<String> cbrMedicamentsResultList = new ArrayList<String>();
+					List<ReasoningAnswerData> rbrMedicamentsResultList = new ArrayList<ReasoningAnswerData>();
+					List<ReasoningAnswerData> cbrMedicamentsResultList = new ArrayList<ReasoningAnswerData>();
 					
 					PrologHandler prologHandler = MainFrame.getInstance().getPrologHandler();
 					String queryText = String.format("diagnose_medicaments(%s, Medicament,	Percentage)", diagnose);
 					try {
-						rbrMedicamentsResultList =  prologHandler.findResults("medicaments_facts.pl", queryText);
+						rbrMedicamentsResultList =  prologHandler.findResultsEncapsulated("medicaments_facts.pl", queryText);
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					RDFHandler rdfHandler = new RDFHandler("diagnosisMedicaments.ttl");
-					cbrMedicamentsResultList = rdfHandler.findMedicaments(diagnose);
+					cbrMedicamentsResultList = rdfHandler.findMedicamentsEncapsulated(diagnose);
 					
 						
 					displayMedicaments(rbrMedicamentsList, rbrMedicamentsResultList);
@@ -255,7 +238,7 @@ public class MedicamentsRecommendationFrame extends JFrame {
 		
 		JPanel lowerPanel = new JPanel();
 		mainPanel.add(lowerPanel);
-		lowerPanel.setLayout(new GridLayout(1, 2, 0, 0));
+		lowerPanel.setLayout(new GridLayout(2, 1, 0, 0));
 		
 		JPanel rbrPanel = new JPanel();
 		lowerPanel.add(rbrPanel);
@@ -286,9 +269,9 @@ public class MedicamentsRecommendationFrame extends JFrame {
 		cbrPanel.add(cbrMedicamentsSrollPane);
 	}
 
-	private void displayMedicaments(JList<String> list, List<String> medicaments) {
-		DefaultListModel<String> model = new DefaultListModel<String>();
-		for(String s : medicaments) {
+	private void displayMedicaments(JList<ReasoningAnswerData> list, List<ReasoningAnswerData> medicaments) {
+		DefaultListModel<ReasoningAnswerData> model = new DefaultListModel<ReasoningAnswerData>();
+		for(ReasoningAnswerData s : medicaments) {
 			model.addElement(s);
 		}
 		//cbrMedicamentsList = new JList<String>(model);
@@ -358,7 +341,7 @@ public class MedicamentsRecommendationFrame extends JFrame {
 //				});*/
 //	}
 	
-	private void initList(JList<String> list) {
+	private void initList(JList<ReasoningAnswerData> list) {
 		list.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
@@ -397,6 +380,22 @@ public class MedicamentsRecommendationFrame extends JFrame {
 			               }
 			           }
 				});*/
+	}
+	
+	public String findTherapyString(ReasoningAnswerData data) {
+		String ret = "";
+		String cbrAnswer =  data.getAnswerVariables().get("imeLeka");
+		String rbrAnswer = data.getAnswerVariables().get("Medicament");
+		
+		if(rbrAnswer != null) {
+			return rbrAnswer;
+		}
+		
+		if(cbrAnswer != null) {
+			return cbrAnswer;
+		}
+		
+		return ret;
 	}
 	
 	public JTextField getDiagnoseTextField() {

@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -25,7 +23,6 @@ import javax.swing.event.ListSelectionListener;
 
 import com.application.medCareApplication.model.Diagnosis;
 import com.application.medCareApplication.model.Patient;
-import com.application.medCareApplication.utils.PopUpMenus;
 import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.PatientFrame;
@@ -79,6 +76,18 @@ public class ViewPatientDiagnosis extends JPanel {
 		toolBar.add(deleteButton);
 		
 		JButton detailsButton = new JButton("Detaljnije");
+		detailsButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Diagnosis t = patientDiagnosisList.getSelectedValue();
+				if(t != null){
+					System.out.println("usao enter");
+					patientFrame.setRightPaneComponent(t);
+				}
+			}
+		});
 		detailsButton.setIcon(new ImageIcon("images\\info_icon&24.png"));
 		toolBar.add(detailsButton);
 		
@@ -141,7 +150,7 @@ public class ViewPatientDiagnosis extends JPanel {
 		patientDiagnosisList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
 		//Dodavanje popUpMenija
-		PopUpMenus p = new PopUpMenus();
+		/*PopUpMenus p = new PopUpMenus();
 		patientDiagnosisList.add(p);
 
 		
@@ -168,7 +177,7 @@ public class ViewPatientDiagnosis extends JPanel {
 				}
 			}
 			
-		});
+		});*/
 		
 		patientDiagnosisList.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e)  {check(e);}
@@ -177,7 +186,7 @@ public class ViewPatientDiagnosis extends JPanel {
 			public void check(MouseEvent e) {
 			    if (e.isPopupTrigger()) { //if the event shows the menu
 			    	patientDiagnosisList.setSelectedIndex(patientDiagnosisList.locationToIndex(e.getPoint())); //select the item
-			        p.show(patientDiagnosisList, e.getX(), e.getY()); //and show the menu
+			        //p.show(patientDiagnosisList, e.getX(), e.getY()); //and show the menu
 			    }
 			}
 			

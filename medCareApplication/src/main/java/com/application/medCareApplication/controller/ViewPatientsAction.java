@@ -1,15 +1,12 @@
 package com.application.medCareApplication.controller;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import com.application.medCareApplication.view.MainFrame;
-import com.application.medCareApplication.view.PatientsTablePanel;
 
 public class ViewPatientsAction extends AbstractAction {
 

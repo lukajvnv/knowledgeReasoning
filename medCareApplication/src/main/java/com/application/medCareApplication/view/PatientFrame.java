@@ -3,7 +3,6 @@ package com.application.medCareApplication.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -49,21 +48,7 @@ public class PatientFrame extends JFrame {
 	private JSplitPane splitPane;
 	private JPanel rightPanel;
 	private JPanel leftPanel;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PatientFrame frame = new PatientFrame(new Patient());
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
 
 	/**
 	 * Create the frame.
@@ -309,7 +294,7 @@ public class PatientFrame extends JFrame {
 	
 	public void setRightPaneComponent(Object objectToDisplay) {
 		rightPanel = new DisplayInfo(objectToDisplay);
-		rightPanel.setBorder(new TitledBorder(null, "Detail", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		rightPanel.setBorder(new TitledBorder(null, "Detalji", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		splitPane.setRightComponent(rightPanel);
 	}
 	

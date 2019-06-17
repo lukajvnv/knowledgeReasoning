@@ -143,6 +143,721 @@
 	medCare:medicament "azithromycin"^^xsd:string ;
 	medCare:created "2019-06-22"^^xsd:date.
 	
+<#C21>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "acute_sinusitis"^^xsd:string ;
+	medCare:medicament "mucinex"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C22>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P3> ;
+	medCare:diagnose "acute_sinusitis"^^xsd:string ;
+	medCare:medicament "mucinex"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C23>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P2> ;
+	medCare:diagnose "acute_sinusitis"^^xsd:string ;
+	medCare:medicament "mucinex"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C24>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P1> ;
+	medCare:diagnose "acute_sinusitis"^^xsd:string ;
+	medCare:medicament "mucinex"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C25>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P1> ;
+	medCare:diagnose "acute_sinusitis"^^xsd:string ;
+	medCare:medicament "mucinex"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C26>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P2> ;
+	medCare:diagnose "acute_sinusitis"^^xsd:string ;
+	medCare:medicament "mucinex"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C27>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P3> ;
+	medCare:diagnose "acute_sinusitis"^^xsd:string ;
+	medCare:medicament "mucinex"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C28>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "acute_sinusitis"^^xsd:string ;
+	medCare:medicament "augmentin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C29>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P5> ;
+	medCare:diagnose "acute_sinusitis"^^xsd:string ;
+	medCare:medicament "augmentin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C30>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P6> ;
+	medCare:diagnose "acute_sinusitis"^^xsd:string ;
+	medCare:medicament "augmentin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C31>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P7> ;
+	medCare:diagnose "acute_sinusitis"^^xsd:string ;
+	medCare:medicament "augmentin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C32>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P8> ;
+	medCare:diagnose "acute_sinusitis"^^xsd:string ;
+	medCare:medicament "amoxicilin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C33>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P8> ;
+	medCare:diagnose "acute_sinusitis"^^xsd:string ;
+	medCare:medicament "amoxicilin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C34>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P7> ;
+	medCare:diagnose "acute_bronchitis"^^xsd:string ;
+	medCare:medicament "ipratropium"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C35>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P6> ;
+	medCare:diagnose "acute_bronchitis"^^xsd:string ;
+	medCare:medicament "ipratropium"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C36>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P5> ;
+	medCare:diagnose "acute_bronchitis"^^xsd:string ;
+	medCare:medicament "ipratropium"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C37>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "acute_bronchitis"^^xsd:string ;
+	medCare:medicament "ipratropium"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C38>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P3> ;
+	medCare:diagnose "acute_bronchitis"^^xsd:string ;
+	medCare:medicament "ipratropium"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C39>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "acute_bronchitis"^^xsd:string ;
+	medCare:medicament "ipratropium"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C40>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P5> ;
+	medCare:diagnose "acute_bronchitis"^^xsd:string ;
+	medCare:medicament "ipratropium"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C41>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P6> ;
+	medCare:diagnose "acute_bronchitis"^^xsd:string ;
+	medCare:medicament "ipratropium"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C42>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P7> ;
+	medCare:diagnose "acute_bronchitis"^^xsd:string ;
+	medCare:medicament "azithromycin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C43>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P8> ;
+	medCare:diagnose "acute_bronchitis"^^xsd:string ;
+	medCare:medicament "azithromycin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C44>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P7> ;
+	medCare:diagnose "acute_bronchitis"^^xsd:string ;
+	medCare:medicament "azithromycin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C45>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P6> ;
+	medCare:diagnose "acute_bronchitis"^^xsd:string ;
+	medCare:medicament "azithromycin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C46>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P5> ;
+	medCare:diagnose "acute_bronchitis"^^xsd:string ;
+	medCare:medicament "mucinex"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C47>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "alergy"^^xsd:string ;
+	medCare:medicament "prednisone"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C48>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P3> ;
+	medCare:diagnose "alergy"^^xsd:string ;
+	medCare:medicament "prednisone"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C49>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P2> ;
+	medCare:diagnose "alergy"^^xsd:string ;
+	medCare:medicament "prednisone"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C50>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P1> ;
+	medCare:diagnose "alergy"^^xsd:string ;
+	medCare:medicament "prednisone"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C51>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P2> ;
+	medCare:diagnose "alergy"^^xsd:string ;
+	medCare:medicament "prednisone"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C52>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P3> ;
+	medCare:diagnose "alergy"^^xsd:string ;
+	medCare:medicament "prednisone"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C53>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "alergy"^^xsd:string ;
+	medCare:medicament "prednisone"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C54>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P5> ;
+	medCare:diagnose "alergy"^^xsd:string ;
+	medCare:medicament "benadryl"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C55>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P6> ;
+	medCare:diagnose "alergy"^^xsd:string ;
+	medCare:medicament "benadryl"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C56>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P7> ;
+	medCare:diagnose "alergy"^^xsd:string ;
+	medCare:medicament "benadryl"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C57>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P8> ;
+	medCare:diagnose "alergy"^^xsd:string ;
+	medCare:medicament "epinephrine"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C58>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P7> ;
+	medCare:diagnose "alergy"^^xsd:string ;
+	medCare:medicament "epinephrine"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C59>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P6> ;
+	medCare:diagnose "alergy"^^xsd:string ;
+	medCare:medicament "epinephrine"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C60>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P5> ;
+	medCare:diagnose "alergy"^^xsd:string ;
+	medCare:medicament "epinephrine"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C61>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "chronic_sinusitis"^^xsd:string ;
+	medCare:medicament "mometasone"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C62>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P3> ;
+	medCare:diagnose "chronic_sinusitis"^^xsd:string ;
+	medCare:medicament "mometasone"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C63>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P2> ;
+	medCare:diagnose "chronic_sinusitis"^^xsd:string ;
+	medCare:medicament "mometasone"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C64>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P1> ;
+	medCare:diagnose "chronic_sinusitis"^^xsd:string ;
+	medCare:medicament "mometasone"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C65>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P2> ;
+	medCare:diagnose "chronic_sinusitis"^^xsd:string ;
+	medCare:medicament "mometasone"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C66>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P3> ;
+	medCare:diagnose "chronic_sinusitis"^^xsd:string ;
+	medCare:medicament "mometasone"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C67>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "chronic_sinusitis"^^xsd:string ;
+	medCare:medicament "mometasone"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C68>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P5> ;
+	medCare:diagnose "chronic_sinusitis"^^xsd:string ;
+	medCare:medicament "mometasone"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C69>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P6> ;
+	medCare:diagnose "chronic_sinusitis"^^xsd:string ;
+	medCare:medicament "mucinex"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C70>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P7> ;
+	medCare:diagnose "chronic_sinusitis"^^xsd:string ;
+	medCare:medicament "mucinex"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C71>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P8> ;
+	medCare:diagnose "chronic_sinusitis"^^xsd:string ;
+	medCare:medicament "mucinex"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C72>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P7> ;
+	medCare:diagnose "chronic_sinusitis"^^xsd:string ;
+	medCare:medicament "mucinex"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+	
+<#C73>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P6> ;
+	medCare:diagnose "chronic_sinusitis"^^xsd:string ;
+	medCare:medicament "mucinex"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+	
+<#C74>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P5> ;
+	medCare:diagnose "chronic_sinusitis"^^xsd:string ;
+	medCare:medicament "augmentin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+	
+<#C75>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "chronic_sinusitis"^^xsd:string ;
+	medCare:medicament "augmentin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C76>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P3> ;
+	medCare:diagnose "chronic_sinusitis"^^xsd:string ;
+	medCare:medicament "augmentin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C77>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P2> ;
+	medCare:diagnose "common_cold"^^xsd:string ;
+	medCare:medicament "pcm_la"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C78>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P1> ;
+	medCare:diagnose "common_cold"^^xsd:string ;
+	medCare:medicament "pcm_la"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C79>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P2> ;
+	medCare:diagnose "common_cold"^^xsd:string ;
+	medCare:medicament "pcm_la"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C80>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P3> ;
+	medCare:diagnose "common_cold"^^xsd:string ;
+	medCare:medicament "pcm_la"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C81>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "common_cold"^^xsd:string ;
+	medCare:medicament "mucinex"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C82>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P5> ;
+	medCare:diagnose "common_cold"^^xsd:string ;
+	medCare:medicament "mucinex"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C83>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P6> ;
+	medCare:diagnose "lung_cancer"^^xsd:string ;
+	medCare:medicament "dexamethasone_topical_product"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C84>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P7> ;
+	medCare:diagnose "lung_cancer"^^xsd:string ;
+	medCare:medicament "dexamethasone_topical_product"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C85>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P8> ;
+	medCare:diagnose "lung_cancer"^^xsd:string ;
+	medCare:medicament "dexamethasone_topical_product"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C86>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P7> ;
+	medCare:diagnose "lung_cancer"^^xsd:string ;
+	medCare:medicament "dexamethasone_topical_product"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C87>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P6> ;
+	medCare:diagnose "lung_cancer"^^xsd:string ;
+	medCare:medicament "dexamethasone_topical_product"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C88>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P5> ;
+	medCare:diagnose "lung_cancer"^^xsd:string ;
+	medCare:medicament "dexamethasone_topical_product"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C89>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "lung_cancer"^^xsd:string ;
+	medCare:medicament "dexamethasone_topical_product"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C90>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P3> ;
+	medCare:diagnose "lung_cancer"^^xsd:string ;
+	medCare:medicament "carboplatin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+	
+<#C91>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P2> ;
+	medCare:diagnose "lung_cancer"^^xsd:string ;
+	medCare:medicament "carboplatin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+	
+
+<#C92>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P1> ;
+	medCare:diagnose "lung_cancer"^^xsd:string ;
+	medCare:medicament "carboplatin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C93>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P2> ;
+	medCare:diagnose "lung_cancer"^^xsd:string ;
+	medCare:medicament "taxol"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C94>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P3> ;
+	medCare:diagnose "pleural_efusion"^^xsd:string ;
+	medCare:medicament "carboplatin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C95>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "pleural_efusion"^^xsd:string ;
+	medCare:medicament "carboplatin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C96>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P5> ;
+	medCare:diagnose "pleural_efusion"^^xsd:string ;
+	medCare:medicament "carboplatin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C97>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P6> ;
+	medCare:diagnose "pleural_efusion"^^xsd:string ;
+	medCare:medicament "carboplatin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C98>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P7> ;
+	medCare:diagnose "pleural_efusion"^^xsd:string ;
+	medCare:medicament "carboplatin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C99>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P8> ;
+	medCare:diagnose "pleural_efusion"^^xsd:string ;
+	medCare:medicament "carboplatin"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C100>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P7> ;
+	medCare:diagnose "pleural_efusion"^^xsd:string ;
+	medCare:medicament "cholecalciferol"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C101>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P6> ;
+	medCare:diagnose "pleural_efusion"^^xsd:string ;
+	medCare:medicament "cholecalciferol"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C102>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P5> ;
+	medCare:diagnose "pleural_efusion"^^xsd:string ;
+	medCare:medicament "cholecalciferol"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C103>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "pneumothorax"^^xsd:string ;
+	medCare:medicament "fentanyl"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C104>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P3> ;
+	medCare:diagnose "pneumothorax"^^xsd:string ;
+	medCare:medicament "fentanyl"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C105>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P2> ;
+	medCare:diagnose "pneumothorax"^^xsd:string ;
+	medCare:medicament "fentanyl"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C106>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P1> ;
+	medCare:diagnose "pneumothorax"^^xsd:string ;
+	medCare:medicament "fentanyl"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C107>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P2> ;
+	medCare:diagnose "pneumothorax"^^xsd:string ;
+	medCare:medicament "fentanyl"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C108>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P3> ;
+	medCare:diagnose "pneumothorax"^^xsd:string ;
+	medCare:medicament "fentanyl"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C109>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "pneumothorax"^^xsd:string ;
+	medCare:medicament "morphine"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C110>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P5> ;
+	medCare:diagnose "pneumothorax"^^xsd:string ;
+	medCare:medicament "morphine"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C111>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P6> ;
+	medCare:diagnose "pneumothorax"^^xsd:string ;
+	medCare:medicament "morphine"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C112>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P7> ;
+	medCare:diagnose "pneumothorax"^^xsd:string ;
+	medCare:medicament "versed"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C113>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P8> ;
+	medCare:diagnose "smoking_addiction"^^xsd:string ;
+	medCare:medicament "nicotine"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C114>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P7> ;
+	medCare:diagnose "smoking_addiction"^^xsd:string ;
+	medCare:medicament "nicotine"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C115>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P6> ;
+	medCare:diagnose "smoking_addiction"^^xsd:string ;
+	medCare:medicament "nicotine"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C116>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P5> ;
+	medCare:diagnose "smoking_addiction"^^xsd:string ;
+	medCare:medicament "nicotine"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C117>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P4> ;
+	medCare:diagnose "smoking_addiction"^^xsd:string ;
+	medCare:medicament "nicotine"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C118>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P3> ;
+	medCare:diagnose "smoking_addiction"^^xsd:string ;
+	medCare:medicament "chantix"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C119>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P2> ;
+	medCare:diagnose "smoking_addiction"^^xsd:string ;
+	medCare:medicament "chantix"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C120>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P1> ;
+	medCare:diagnose "smoking_addiction"^^xsd:string ;
+	medCare:medicament "chantix"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+
+<#C121>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P1> ;
+	medCare:diagnose "smoking_addiction"^^xsd:string ;
+	medCare:medicament "nicotine"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.	
+
+<#C122>
+    a medCare:TherapyCase ;
+	medCare:about <medCare:P1> ;
+	medCare:diagnose "smoking_addiction"^^xsd:string ;
+	medCare:medicament "nicotine"^^xsd:string ;
+	medCare:created "2019-06-22"^^xsd:date.
+	
 <#P1>
 	a medCare:Patient .
 	

@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,18 +22,14 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import com.application.medCareApplication.connector.CbrApplication;
 import com.application.medCareApplication.model.Anamnesis;
 import com.application.medCareApplication.model.Patient;
-import com.application.medCareApplication.utils.PopUpMenus;
 import com.application.medCareApplication.utils.Utils;
 import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.dialog.NewAnamnesisDialog;
 import com.application.medCareApplication.view.recommendation.AdditionalExaminationDialog;
 
-import ucm.gaia.jcolibri.cbrcore.CBRQuery;
-import ucm.gaia.jcolibri.exception.ExecutionException;
 import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
 
 public class ViewPatientAnamnesis extends JPanel {
@@ -186,7 +180,7 @@ public class ViewPatientAnamnesis extends JPanel {
 		patientAnamnesisList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
 		//Dodavanje popUpMenija
-		PopUpMenus p = new PopUpMenus();
+		/*PopUpMenus p = new PopUpMenus();
 		patientAnamnesisList.add(p);
 
 		
@@ -206,7 +200,7 @@ public class ViewPatientAnamnesis extends JPanel {
 
 			           }
 			       }
-		});
+		});*/
 	}
 	
 	public Patient getPatient() {

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
@@ -22,8 +23,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
@@ -36,7 +35,6 @@ import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.utils.components.PrologHandler;
 
 import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
-import java.awt.Font;
 
 
 public class MainFrame extends JFrame {

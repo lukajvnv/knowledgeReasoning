@@ -13,6 +13,11 @@ import com.application.medCareApplication.utils.Utils;
 public class MyDateField extends JDatePickerImpl {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6560635402899721208L;
+
+	/**
 	 * Kreiranje komponente.
 	 */
 	public MyDateField() {

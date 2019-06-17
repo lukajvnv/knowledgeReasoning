@@ -2,16 +2,12 @@
 
 package com.application.medCareApplication;
 
-import java.sql.SQLException;
-
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.application.medCareApplication.model.Patient;
-import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 
 @Component

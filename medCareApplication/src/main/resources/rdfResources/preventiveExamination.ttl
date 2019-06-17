@@ -8,7 +8,7 @@
 	medCare:patientAge "61"^^xsd:int;
 	medCare:personalAnamnesis "smoking";
 	medCare:earlyAnamnesis "copd";
-	medCare:familyAnamnesis "cancer";
+	medCare:familyAnamnesis "lung_cancer";
 	medCare:preventExamination "x_ray".
 	
 <#C2>
@@ -83,4 +83,324 @@
 	medCare:earlyAnamnesis "copd";
 	medCare:familyAnamnesis "alergy"; 
  	medCare:preventExamination "spirometry".
+
+<#C11>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "alergy"; 
+ 	medCare:preventExamination "spirometry".
+
+<#C12>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "lung_cancer";
+	medCare:preventExamination "x_ray".
+
+<#C13>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "lung_cancer";
+	medCare:preventExamination "x_ray".
+
+<#C14>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "*";
+	medCare:earlyAnamnesis "*";
+	medCare:familyAnamnesis "asthma"; 
+ 	medCare:preventExamination "spirometry".
+
+<#C15>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "*";
+	medCare:earlyAnamnesis "*";
+	medCare:familyAnamnesis "asthma"; 
+ 	medCare:preventExamination "spirometry".
+
+<#C16>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "*";
+	medCare:earlyAnamnesis "*";
+	medCare:familyAnamnesis "asthma"; 
+ 	medCare:preventExamination "spirometry".
+
+<#C17>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "*";
+	medCare:earlyAnamnesis "*";
+	medCare:familyAnamnesis "alergy"; 
+ 	medCare:preventExamination "spirometry".
+
+<#C18>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "*";
+	medCare:earlyAnamnesis "*";
+	medCare:familyAnamnesis "alergy"; 
+ 	medCare:preventExamination "spirometry".
+
+<#C19>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "*";
+	medCare:earlyAnamnesis "*";
+	medCare:familyAnamnesis "alergy"; 
+ 	medCare:preventExamination "spirometry".
+
+<#20>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "correct_diet".
+
+<#C21>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "correct_diet".
+
+<#C22>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "streptococcus_pneumoniae_vaccination".
+
+<#C23>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "streptococcus_pneumoniae_vaccination".
+
+<#C24>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "*";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "streptococcus_pneumoniae_vaccination".
+
+<#C25>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "*";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "streptococcus_pneumoniae_vaccination".
+
+<#C26>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "*";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "streptococcus_pneumoniae_vaccination".
+
+<#C27>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "influenza_vaccination".
+
+<#C28>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "influenza_vaccination".
+
+<#C29>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "*";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "influenza_vaccination".
+
+<#C30>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "*";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "influenza_vaccination".
+
+<#C31>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "*";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "influenza_vaccination".
+
+<#C32>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "*";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "influenza_vaccination".
+
+<#C33>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "*";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "breathe_exercises".
+
+<#C34>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "*";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "breathe_exercises".
+
+<#C35>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "*";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "breathe_exercises".
+
+<#C36>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "*";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "breathe_exercises".
+
+<#C37>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "asthma";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "spirometry".
+
+<#C38>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "asthma";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "spirometry".
+
+<#C39>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "asthma";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "spirometry".
+
+<#C40>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "spirometry".
+
+<#C41>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "spirometry".
+
+<#C42>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "spirometry".
+
+<#C43>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "spirometry".
+
+<#C44>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "smoking";
+	medCare:earlyAnamnesis "copd";
+	medCare:familyAnamnesis "*"; 
+	medCare:preventExamination "spirometry".
+
+<#C45>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "X";
+	medCare:earlyAnamnesis "X";
+	medCare:familyAnamnesis "alergy"; 
+ 	medCare:preventExamination "prick_test".
+
+<#C46>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "X";
+	medCare:earlyAnamnesis "X";
+	medCare:familyAnamnesis "alergy"; 
+ 	medCare:preventExamination "prick_test".
+
+<#C47>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "X";
+	medCare:earlyAnamnesis "X";
+	medCare:familyAnamnesis "alergy"; 
+ 	medCare:preventExamination "prick_test".
+
+<#C48>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "X";
+	medCare:earlyAnamnesis "X";
+	medCare:familyAnamnesis "alergy"; 
+ 	medCare:preventExamination "prick_test".
+
+<#C49>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "X";
+	medCare:earlyAnamnesis "X";
+	medCare:familyAnamnesis "alergy"; 
+ 	medCare:preventExamination "prick_test".
+
+<#C50>
+	a medCare:PreventExaminationCase;
+	medCare:patientAge "61"^^xsd:int;
+	medCare:personalAnamnesis "X";
+	medCare:earlyAnamnesis "X";
+	medCare:familyAnamnesis "alergy"; 
+ 	medCare:preventExamination "prick_test".
  	

@@ -2,13 +2,10 @@ package com.application.medCareApplication.view.dialog;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 
 import com.application.medCareApplication.model.Patient;
-import com.application.medCareApplication.utils.components.DatabaseHandler;
-import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.PatientFrame;
 
 public class UpdatePatientDialog extends NewPatientDialog {
@@ -43,7 +40,8 @@ public class UpdatePatientDialog extends NewPatientDialog {
 					return;
 				}
 				
-				String firstName = firstNameTextField.getText().trim();
+				//SAD NE RADI UPDATE
+				/*String firstName = firstNameTextField.getText().trim();
 				String lastName = lastNameTextField.getText().trim();
 				String address = addressTextField.getText().trim();
 				String telephone = telephoneNumberTextField.getText().trim();
@@ -62,7 +60,7 @@ public class UpdatePatientDialog extends NewPatientDialog {
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}
+				}*/
 			
 				dispose();
 			}

@@ -27,7 +27,6 @@ import com.application.medCareApplication.utils.Utils;
 import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.utils.MyDateField;
-import com.application.medCareApplication.view.utils.MyFieldFocusListener;
 
 public class NewPatientDialog extends JDialog {
 
@@ -51,23 +50,7 @@ public class NewPatientDialog extends JDialog {
 	protected JButton addPatientButton;
 	protected JButton cancelButton;
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			NewPatientDialog dialog = new NewPatientDialog();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 	
-	/*public NewPatientDialog(JFrame owner, boolean modal) {
-		super(owner, modal);
-		this();
-	}*/
 
 	/**
 	 * Create the dialog.

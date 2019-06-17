@@ -1,8 +1,8 @@
 package com.application.medCareApplication.view.recommendation;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.awt.FlowLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -25,11 +25,12 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.application.medCareApplication.model.Patient;
+import com.application.medCareApplication.model.Resources;
 import com.application.medCareApplication.utils.Utils;
+import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.utils.components.PrologHandler;
 import com.application.medCareApplication.utils.components.RDFHandler;
 import com.application.medCareApplication.view.MainFrame;
-import java.awt.Font;
 
 public class PreventionExaminationRecommendationFrame extends JFrame {
 
@@ -54,27 +55,15 @@ public class PreventionExaminationRecommendationFrame extends JFrame {
 	private List<String> patientFamilyAnamnesis;
 
 	private Patient patient;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PreventionExaminationRecommendationFrame frame = new PreventionExaminationRecommendationFrame(new Patient());
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
+	private DatabaseHandler handler;
 
 	/**
 	 * Create the frame.
 	 */
 	public PreventionExaminationRecommendationFrame(Patient p) {
 		this.patient = p;
+		this.handler = MainFrame.getInstance().getDatabaseHandler();
 		
 		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
 		setTitle("Preporuka preventivnog pregleda za pacijenta");
@@ -96,6 +85,7 @@ public class PreventionExaminationRecommendationFrame extends JFrame {
 		contentPane.add(infoPanel, BorderLayout.NORTH);
 		
 		JLabel infoLabel = new JLabel("Preporuka preventivnog pregleda za pacijenta"  + p.getFirstName() + " " + p.getLastName());
+		infoLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
 		infoPanel.add(infoLabel);
 		
 //		JPanel buttonPanel = new JPanel();
@@ -209,6 +199,11 @@ public class PreventionExaminationRecommendationFrame extends JFrame {
 				familyAnamnesis = familyAnamnesis.equals("") ? "*" : familyAnamnesis;
 				personalAnamnesis = personalAnamnesis.equals("") ? "*" : personalAnamnesis;
 				
+				if(earlyAnamnesis.equals("*") && familyAnamnesis.equals("*") && personalAnamnesis.equals("*")) {
+					Utils.error("Popunite neko od polja!");
+					return;
+				}
+				
 				PrologHandler prologHandler = MainFrame.getInstance().getPrologHandler();
 				String prologQuery = String.format("preventive_examination(%s, %s, %s, %s, PreventPregled)", age, personalAnamnesis, earlyAnamnesis, familyAnamnesis);
 				List<String> rbrPreventExamination = new ArrayList<String>();
@@ -231,7 +226,7 @@ public class PreventionExaminationRecommendationFrame extends JFrame {
 		
 		JPanel lowerPanel = new JPanel();
 		mainPanel.add(lowerPanel);
-		lowerPanel.setLayout(new GridLayout(1, 2, 0, 0));
+		lowerPanel.setLayout(new GridLayout(2, 1, 0, 0));
 		
 		JPanel rbrPanel = new JPanel();
 		lowerPanel.add(rbrPanel);
@@ -241,6 +236,7 @@ public class PreventionExaminationRecommendationFrame extends JFrame {
 		rbrPanel.add(rbrInfoPanel, BorderLayout.NORTH);
 		
 		JLabel rbrInfoLabel = new JLabel("Preporuka po RBR");
+		rbrInfoLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
 		rbrInfoPanel.add(rbrInfoLabel);
 		
 		JScrollPane rbrScrollPane = new JScrollPane(rbrPreventExaminationList);
@@ -254,6 +250,7 @@ public class PreventionExaminationRecommendationFrame extends JFrame {
 		cbrPanel.add(cbrInfoPanel, BorderLayout.NORTH);
 		
 		JLabel cbrInfoLabel = new JLabel("Preporuka po CBR");
+		cbrInfoLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
 		cbrInfoPanel.add(cbrInfoLabel);
 		
 		JScrollPane cbrScrollPane = new JScrollPane(cbrPreventExaminationList);
@@ -262,6 +259,12 @@ public class PreventionExaminationRecommendationFrame extends JFrame {
 		initPersonalAnamnesisComboBox();
 		initEarlyAnamnesisComboBox();
 		initFamilyAnamnesisComboBox();
+		
+		rbrPreventExaminationList.setForeground(Color.BLACK);
+		rbrPreventExaminationList.setBackground(Color.WHITE);
+		
+		cbrPreventExaminationList.setForeground(Color.BLACK);
+		cbrPreventExaminationList.setBackground(Color.WHITE);
 	}
 	
 	private void displayResult(JList<String> list, List<String> result) {
@@ -273,26 +276,37 @@ public class PreventionExaminationRecommendationFrame extends JFrame {
 	}
 
 	private void initPersonalAnamnesisComboBox() {
-		List<String> answer = new ArrayList<String>();
-		for(String s: answer) {
-			//answer.add("");
-		}
+		
 		personalAnamnesisComboBox.addItem("");
 		personalAnamnesisComboBox.addItem("smoking");
 		personalAnamnesisComboBox.addItem("alcohol");	
 	}
 	
+	// TODO : dobaviti njegove porodicnu anamnezu kao izvor
 	private void initFamilyAnamnesisComboBox() {
 		familyAnamnesisComboBox.addItem("");
-		familyAnamnesisComboBox.addItem("cancer");
+		
+		List<Resources> resources =  handler.selectAllParticularResource("diagnosis");
+		for(Resources r: resources) {
+			familyAnamnesisComboBox.addItem(r.getResourceName());
+		}
+		
+		/*familyAnamnesisComboBox.addItem("cancer");
 		familyAnamnesisComboBox.addItem("alergy");
-		familyAnamnesisComboBox.addItem("asthma");
+		familyAnamnesisComboBox.addItem("asthma");*/
 	}
 	
+	// TODO : dobaviti njegove ranije anamneze tj dijagnoze kao izvor
 	private void initEarlyAnamnesisComboBox() {
 		earlyAnamnesisComboBox.addItem("");
-		earlyAnamnesisComboBox.addItem("copd");
-		earlyAnamnesisComboBox.addItem("asthma");
+		
+		List<Resources> resources =  handler.selectAllParticularResource("diagnosis");
+		for(Resources r: resources) {
+			earlyAnamnesisComboBox.addItem(r.getResourceName());
+		}
+		
+		/*earlyAnamnesisComboBox.addItem("copd");
+		earlyAnamnesisComboBox.addItem("asthma");*/
 	}
 	
 	public JTextField getPatientAgeTextField() {

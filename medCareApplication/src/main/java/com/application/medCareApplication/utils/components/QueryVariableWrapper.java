@@ -1,5 +1,10 @@
 package com.application.medCareApplication.utils.components;
 
+/** Pomocna klasa koja sluzi za generalizaciju parametara koji cine sparql upite
+ * 
+ * 	queryAnswerType -> tip parametara upita moguce vrednosti Resource ili Literal
+ *  queryAnswerName -> naziv parametra upita;
+ * */
 public class QueryVariableWrapper {
 	
 		public enum QueryAnswerType {

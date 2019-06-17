@@ -5,6 +5,11 @@ import javax.swing.JPopupMenu;
 
 public class PopUpMenus extends JPopupMenu {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -537122247849394924L;
+
 	public PopUpMenus() {
 		JMenuItem miAdd = new JMenuItem("f");
 		

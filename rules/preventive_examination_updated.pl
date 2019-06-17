@@ -21,7 +21,7 @@ patient_early_anamnesis_asthma(asthma).
 
 % patient_family_anamnesis(Id, type). Id  - patient id, type - type of family anamnesis
 patient_family_anamnesis(1, cancer).
-patient_family_anamnesis_cancer(cancer).
+patient_family_anamnesis_cancer(lung_cancer).
 patient_family_anamnesis_alergy(alergy).
 patient_family_anamnesis_asthma(asthma).
 

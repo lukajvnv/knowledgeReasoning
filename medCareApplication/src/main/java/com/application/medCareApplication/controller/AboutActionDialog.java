@@ -12,6 +12,13 @@ public class AboutActionDialog extends AbstractAction {
 
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1907163854553771888L;
+
+
+
 	public AboutActionDialog() {
 		// TODO Auto-generated constructor stub
 		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.SHIFT_MASK));

@@ -6,7 +6,6 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
 
-import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.Resources;
 
 public class ResourcesListRenderer extends DefaultListCellRenderer {

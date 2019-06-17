@@ -45,7 +45,6 @@ public class SelectAnamnesisDialog extends JDialog {
 	private JScrollPane selectedValuesScrollPane;
 	private DatabaseHandler db = MainFrame.getInstance().getDatabaseHandler();
 	
-	private JList<String>  rightValuesList;
 	private Boolean ranijeBolesti;
 
 
