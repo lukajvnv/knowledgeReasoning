@@ -62,7 +62,6 @@ public class AdditionalExaminationDialog extends JDialog {
 	
 	private static final long serialVersionUID = 212032573842458559L;
 	private final JPanel contentPanel = new JPanel();
-	private JPanel personalAnamnesisPanel;
 	
 	private ButtonGroup smokingButtonGroup;
 	private ButtonGroup alcoholButtonGroup;
@@ -87,12 +86,15 @@ public class AdditionalExaminationDialog extends JDialog {
 	private String poslednji4 = "";
 	
 	private Boolean vrsta; // vrsta ili ti da li je anamneza(true) ili fizikalni pregled (false) u pitanju
-	
+	private JButton btnUradi = new JButton("");
+	private JButton button = new JButton("Pogledaj");
 	
 	public AdditionalExaminationDialog(Patient p,Boolean v) {
 		this.vrsta = v;
 		this.patient = p;
 		this.patientAnamnesisList = new JList<>();
+		
+		//btnUradi = new JButton();
 		
 		
 		//za anamnezu
@@ -137,20 +139,6 @@ public class AdditionalExaminationDialog extends JDialog {
 		gbl_contentPanel.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
-			personalAnamnesisPanel = new JPanel();
-			personalAnamnesisPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Predlog: ", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 255)));
-			GridBagConstraints gbc_personalAnamnesisPanel = new GridBagConstraints();
-			gbc_personalAnamnesisPanel.insets = new Insets(0, 0, 5, 5);
-			gbc_personalAnamnesisPanel.fill = GridBagConstraints.BOTH;
-			gbc_personalAnamnesisPanel.gridx = 0;
-			gbc_personalAnamnesisPanel.gridy = 0;
-			contentPanel.add(personalAnamnesisPanel, gbc_personalAnamnesisPanel);
-			GridBagLayout gbl_personalAnamnesisPanel = new GridBagLayout();
-			gbl_personalAnamnesisPanel.columnWidths = new int[] {30, 30, 0, 30, 30, 30, 0};
-			gbl_personalAnamnesisPanel.rowHeights = new int[] {0, 0};
-			gbl_personalAnamnesisPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
-			gbl_personalAnamnesisPanel.rowWeights = new double[]{1.0, 1.0};
-			personalAnamnesisPanel.setLayout(gbl_personalAnamnesisPanel);
 			
 		/*	String temp = "";
 			String temp2 = "";
@@ -191,7 +179,7 @@ public class AdditionalExaminationDialog extends JDialog {
 		gbc_panel.insets = new Insets(0, 0, 5, 5);
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 1;
+		gbc_panel.gridy = 0;
 		contentPanel.add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{30, 30, 0, 30, 0, 0, 0};
@@ -218,7 +206,7 @@ public class AdditionalExaminationDialog extends JDialog {
 		gbc_comboBox.gridy = 1;
 		panel.add(combo, gbc_comboBox);
 		
-		JButton button = new JButton("Pogledaj");
+		
 		GridBagConstraints gbc_button = new GridBagConstraints();
 		gbc_button.gridx = 5;
 		gbc_button.gridy = 1;
@@ -237,6 +225,7 @@ public class AdditionalExaminationDialog extends JDialog {
 				// TODO Auto-generated method stub
 				String reasoning = (String) combo.getSelectedItem();
 				List<String> solutionList = new ArrayList<String>();
+				poslednji4="";
 				
 				if(vrsta) { // RADICE SE ZA ANAMNEZU
 					
@@ -436,14 +425,28 @@ public class AdditionalExaminationDialog extends JDialog {
 						}
 						Collections.sort(listaVerovatnoca);
 						Collections.reverse(listaVerovatnoca);
+						double max = 0.0;
+						String maxId = "";
 						temp="";
 						for(int i = 0; i < solution.getStatesSize(); i++) {
 							temp += solution.getStateAt(i) + ": " +  ((ProbabilisticNode)solution).getMarginalAt(i) + "\n";
 							System.out.println(solution.getStateAt(i) + ": " +  ((ProbabilisticNode)solution).getMarginalAt(i));
 							solutionList.add(temp);
 							temp="";
+							if(((ProbabilisticNode)solution).getMarginalAt(i) > max) {
+								maxId = "";
+								max = ((ProbabilisticNode)solution).getMarginalAt(i);
+								maxId += solution.getStateAt(i);
+							}
 						}
 						
+						System.out.println("*****\n");
+						
+						System.out.println(maxId.toUpperCase() + ": " + max);
+						
+						poslednji4 += maxId.toUpperCase();
+						
+						btnUradi.setText("Uradi '" + poslednji4 + "'");
 						
 						System.out.println("*************\n" + temp);
 						
@@ -510,6 +513,8 @@ public class AdditionalExaminationDialog extends JDialog {
 						poslednji4 = poslednji3.substring(0, poslednji3.length());
 						System.out.println("Poslednji : " + poslednji4);
 						//solutionList.add(temp);
+						btnUradi.setText("Uradi '" + poslednji4 + "'");
+						
 					
 					}
 					displaySolutions(solutionList);
@@ -608,15 +613,28 @@ public class AdditionalExaminationDialog extends JDialog {
 						Collections.sort(listaVerovatnoca);
 						Collections.reverse(listaVerovatnoca);
 						temp="";
+						double max = 0;
+						String maxId = "";
 						for(int i = 0; i < solution.getStatesSize(); i++) {
 							temp += solution.getStateAt(i) + ": " +  ((ProbabilisticNode)solution).getMarginalAt(i) + "\n";
 							System.out.println(solution.getStateAt(i) + ": " +  ((ProbabilisticNode)solution).getMarginalAt(i));
 							solutionList.add(temp);
 							temp="";
+							if(((ProbabilisticNode)solution).getMarginalAt(i) > max) {
+								maxId = "";
+								max = ((ProbabilisticNode)solution).getMarginalAt(i);
+								maxId += solution.getStateAt(i);
+							}
 						}
 						
 						
 						System.out.println("*************\n" + temp);
+						
+						System.out.println(maxId.toUpperCase() + ": " + max);
+						
+						poslednji4 += maxId.toUpperCase();
+						
+						btnUradi.setText("Uradi '" + poslednji4 + "'");
 						
 						
 						
@@ -665,14 +683,24 @@ public class AdditionalExaminationDialog extends JDialog {
 							solutionList.add(s);
 						}
 						
-						String poslednji = prvi[prvi.length-3];
+						String pom = solutionList.get(5);
+						
+						String[] sss = pom.split("=");
+						
+						String sss2 = sss[1];
+						
+						poslednji4 = sss2.substring(0, sss2.length()-1);
+						
+					/*	String poslednji = prvi[prvi.length];
 						poslednji = poslednji.trim();
 						
 						String[] poslednji2 = poslednji.split("=");
 						String poslednji3 = poslednji2[1];
 						
-						poslednji4 = poslednji3.substring(0, poslednji3.length());
+						poslednji4 = poslednji3.substring(0, poslednji3.length());*/
 						System.out.println("Poslednji : " + poslednji4);
+						btnUradi.setText("Uradi '" + poslednji4 + "'" );
+						
 						//solutionList.add(temp);
 						
 					}
@@ -685,11 +713,11 @@ public class AdditionalExaminationDialog extends JDialog {
 		
 		JPanel panel_1 = new JPanel();
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.gridheight = 3;
+		gbc_panel_1.gridheight = 4;
 		gbc_panel_1.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_1.fill = GridBagConstraints.BOTH;
 		gbc_panel_1.gridx = 0;
-		gbc_panel_1.gridy = 2;
+		gbc_panel_1.gridy = 1;
 		contentPanel.add(panel_1, gbc_panel_1);
 		
 		JLabel label_2 = new JLabel("Preporucena dopunska ispitivanja su:");
@@ -699,12 +727,13 @@ public class AdditionalExaminationDialog extends JDialog {
 		JScrollPane medicamentsSrollPane = new JScrollPane(solutionList);
 		panel_1.add(medicamentsSrollPane, BorderLayout.CENTER);
 		
-		JButton btnUradi = new JButton("Uradi '" + poslednji4 + "'" );
+		//JButton btnUradi = new JButton("Uradi '" + poslednji4 + "'" );
 		GridBagConstraints gbc_btnUradi = new GridBagConstraints();
 		gbc_btnUradi.insets = new Insets(0, 0, 0, 5);
 		gbc_btnUradi.gridx = 0;
 		gbc_btnUradi.gridy = 5;
 		contentPanel.add(btnUradi, gbc_btnUradi);
+		btnUradi.setName("Uradi '" + poslednji4 + "'" );
 		
 		btnUradi.addActionListener(new ActionListener() {
 			
@@ -725,7 +754,7 @@ public class AdditionalExaminationDialog extends JDialog {
 					NewCTDialog c = new NewCTDialog(patient);
 					c.setVisible(true);
 					dispose();
-				} else if(poslednji4.equals("UZ_PLUCNE_MARAMICE")) {
+				} else if(poslednji4.equals("UZ_PLUCNE_MARAMICE") || poslednji4.equals("ULTRAZVUK")) {
 					NewUltraZvukDialog u = new NewUltraZvukDialog(patient);
 					u.setVisible(true);
 					dispose();

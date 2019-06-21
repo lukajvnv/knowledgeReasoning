@@ -70,6 +70,9 @@ public class SelectAnamnesisDialog extends JDialog {
 		possibleValuesList = initList(possibleValuesList, true);
 		selectedValuesList = initList(selectedValuesList, false);
 		
+		JButton leftToRightButton = new JButton("");
+		JButton rightToLeftButton = new JButton("");
+		
 		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
 		setTitle("Dodavanje anamneze za pacijenta:");
 		setModal(true);
@@ -117,7 +120,7 @@ public class SelectAnamnesisDialog extends JDialog {
 					gbl_buttonPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 					buttonPanel.setLayout(gbl_buttonPanel);
 					{
-						JButton leftToRightButton = new JButton("");
+						//JButton leftToRightButton = new JButton("");
 						leftToRightButton.setIcon(new ImageIcon("images/arrow_right_icon&48.png"));
 						leftToRightButton.addActionListener(new AbstractAction() {
 							
@@ -126,6 +129,7 @@ public class SelectAnamnesisDialog extends JDialog {
 							 */
 							private static final long serialVersionUID = -3615722752100902806L;
 
+							
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								// TODO Auto-generated method stub/*
@@ -140,6 +144,8 @@ public class SelectAnamnesisDialog extends JDialog {
 									possibleValuesListModel.removeElement(p);
 								}
 				            	possibleValuesList.clearSelection();
+				            	leftToRightButton.setEnabled(false);
+				            	rightToLeftButton.setEnabled(true);
 							}
 						});
 						GridBagConstraints gbc_leftToRightButton = new GridBagConstraints();
@@ -150,7 +156,7 @@ public class SelectAnamnesisDialog extends JDialog {
 						buttonPanel.add(leftToRightButton, gbc_leftToRightButton);
 					}
 					{
-						JButton rightToLeftButton = new JButton("");
+						//JButton rightToLeftButton = new JButton("");
 						rightToLeftButton.setIcon(new ImageIcon("images/arrow_left_icon&48.png"));
 						rightToLeftButton.addActionListener(new AbstractAction() {
 							
@@ -170,6 +176,9 @@ public class SelectAnamnesisDialog extends JDialog {
 									selectedValuesListModel.removeElement(p);
 								}
 				            	selectedValuesList.clearSelection();
+				            	
+				            	rightToLeftButton.setEnabled(false);
+				            	leftToRightButton.setEnabled(true);
 							}
 						});
 						GridBagConstraints gbc_rightToLeftButton = new GridBagConstraints();

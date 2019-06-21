@@ -77,6 +77,7 @@ public class ViewPatientAnamnesis extends JPanel {
 				// TODO Auto-generated method stub
 				NewAnamnesisDialog p = new NewAnamnesisDialog(patient, ViewPatientAnamnesis.this);
 				p.setVisible(true);
+				
 			}
 		});
 		toolBar.add(newButton);
@@ -84,6 +85,15 @@ public class ViewPatientAnamnesis extends JPanel {
 		JButton deleteButton = new JButton("Obir\u0161i");
 		deleteButton.setIcon(new ImageIcon("images\\delete_icon&24.png"));
 		toolBar.add(deleteButton);
+		deleteButton.addActionListener(new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+				
+			}
+		});
 		
 		JButton detailsButton = new JButton("Detaljnije");
 		detailsButton.setIcon(new ImageIcon("images\\info_icon&24.png"));
@@ -141,6 +151,10 @@ public class ViewPatientAnamnesis extends JPanel {
 		initList();
 		
 		System.out.println("Lista anamneza: " + anamnesisListModel.isEmpty());
+		
+		if(!anamnesisListModel.isEmpty()) {
+			newButton.setEnabled(false);
+		}
 		
 		scrollPane = new JScrollPane(patientAnamnesisList);
 		add(scrollPane, BorderLayout.CENTER);

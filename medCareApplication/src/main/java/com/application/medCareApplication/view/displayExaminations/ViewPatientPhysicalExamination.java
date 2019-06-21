@@ -76,6 +76,7 @@ public class ViewPatientPhysicalExamination extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				NewPhysicalExaminationDialog d = new NewPhysicalExaminationDialog(patient, ViewPatientPhysicalExamination.this);
 				d.setVisible(true);
+				
 			}
 		});
 		toolBar.add(newButton);
@@ -125,6 +126,10 @@ public class ViewPatientPhysicalExamination extends JPanel {
 		
 		initList();
 		
+		
+		if(!physicalExaminatinoListModel.isEmpty()) {
+			newButton.setEnabled(false);
+		}
 		JScrollPane scrollPane = new JScrollPane(patientPhysicalExaminatonList);
 		add(scrollPane, BorderLayout.CENTER);
 	}

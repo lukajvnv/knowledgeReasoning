@@ -430,7 +430,7 @@ public class NewAnamnesisDialog extends JDialog {
 			olderPersonalAnamnesisPanel.add(btnNewButton, gbc_btnNewButton);
 		}
 		{
-			JPanel familyPanel = new JPanel();
+		/*	JPanel familyPanel = new JPanel();
 			familyPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Porodi\u010Dna anamneza", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLUE));
 			GridBagConstraints gbc_familyPanel = new GridBagConstraints();
 			gbc_familyPanel.fill = GridBagConstraints.BOTH;
@@ -483,7 +483,7 @@ public class NewAnamnesisDialog extends JDialog {
 				/**
 				 * 
 				 */
-				private static final long serialVersionUID = -2138745628081908457L;
+	/*			private static final long serialVersionUID = -2138745628081908457L;
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -498,7 +498,7 @@ public class NewAnamnesisDialog extends JDialog {
 			gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
 			gbc_btnNewButton_1.gridx = 8;
 			gbc_btnNewButton_1.gridy = 1;
-			familyPanel.add(btnNewButton_1, gbc_btnNewButton_1);
+			familyPanel.add(btnNewButton_1, gbc_btnNewButton_1);*/
 		}
 		{
 			JPanel buttonPane = new JPanel();
