@@ -53,6 +53,34 @@ public class Anamnesis implements CaseComponent {
 	@Column(name = "dopunska_ispitivanja")
 	private String additionalExamination;
 	
+	@Column(name = "diagnosis")
+	private String diagnosis;
+	
+	public Anamnesis(int anamnesisId, int patientId, String smoking, String alcohol, String employed,
+			String workingCondition, String livingPlace, String livingObject, String pet, String additionalExamination,
+			String diagnosis) {
+		super();
+		this.anamnesisId = anamnesisId;
+		this.patientId = patientId;
+		this.smoking = smoking;
+		this.alcohol = alcohol;
+		this.employed = employed;
+		this.workingCondition = workingCondition;
+		this.livingPlace = livingPlace;
+		this.livingObject = livingObject;
+		this.pet = pet;
+		this.additionalExamination = additionalExamination;
+		this.diagnosis = diagnosis;
+	}
+
+	public String getDiagnosis() {
+		return diagnosis;
+	}
+
+	public void setDiagnosis(String diagnosis) {
+		this.diagnosis = diagnosis;
+	}
+
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Patient patient;
@@ -232,8 +260,8 @@ public class Anamnesis implements CaseComponent {
 		return "Anamnesis [anamnesisId=" + anamnesisId + ", patientId=" + patientId + ", smoking=" + smoking
 				+ ", alcohol=" + alcohol + ", employed=" + employed + ", workingCondition=" + workingCondition
 				+ ", livingPlace=" + livingPlace + ", livingObject=" + livingObject + ", pet=" + pet
-				+ ", additionalExamination=" + additionalExamination + ", patient=" + patient + ", bolesti=" + bolesti
-				+ "]";
+				+ ", additionalExamination=" + additionalExamination + ", diagnosis=" + diagnosis + ", patient="
+				+ patient + ", bolesti=" + bolesti + "]";
 	}
 
 	@Override

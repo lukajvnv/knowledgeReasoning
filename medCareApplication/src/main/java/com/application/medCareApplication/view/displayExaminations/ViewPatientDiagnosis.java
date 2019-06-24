@@ -26,6 +26,7 @@ import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.PatientFrame;
+import com.application.medCareApplication.view.dialog.NewDiagnosisDialog;
 import com.application.medCareApplication.view.recommendation.MedicamentsRecommendationFrame;
 
 public class ViewPatientDiagnosis extends JPanel {
@@ -65,13 +66,13 @@ public class ViewPatientDiagnosis extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				NewDiagnosisDialog ndd = new NewDiagnosisDialog(patient, ViewPatientDiagnosis.this);
+				ndd.setVisible(true);
 			}
 		});
 		toolBar.add(newButton);
 		
-		JButton deleteButton = new JButton("Obir\u0161i");
+		JButton deleteButton = new JButton("Obr\u0161i");
 		deleteButton.setIcon(new ImageIcon("images\\delete_icon&24.png"));
 		toolBar.add(deleteButton);
 		

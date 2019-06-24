@@ -28,6 +28,7 @@ import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.dialog.NewEwsScoreDialog;
 import com.application.medCareApplication.view.dialog.UpdatePatientDialog;
 import com.application.medCareApplication.view.displayExaminations.DisplayInfo;
+import com.application.medCareApplication.view.displayExaminations.ViewPatientAdditionalExamination;
 import com.application.medCareApplication.view.displayExaminations.ViewPatientAnamnesis;
 import com.application.medCareApplication.view.displayExaminations.ViewPatientDiagnosis;
 import com.application.medCareApplication.view.displayExaminations.ViewPatientPhysicalExamination;
@@ -184,6 +185,14 @@ public class PatientFrame extends JFrame {
 		proceduresButton.setToolTipText("Sva ispitivanja pacijenta");
 		proceduresButton.setIcon(new ImageIcon("images/folder_icon&24.png"));
 		toolBar.add(proceduresButton);
+		proceduresButton.addActionListener(new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 		JButton diagnosisButton = new JButton("Dijagnoze");
 		diagnosisButton.setToolTipText("Sve dijagnoze pacijenta");

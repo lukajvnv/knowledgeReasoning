@@ -10,8 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,17 +35,21 @@ import javax.swing.border.TitledBorder;
 
 import com.application.medCareApplication.connector.CbrApplication;
 import com.application.medCareApplication.model.Anamnesis;
+import com.application.medCareApplication.model.Diagnosis;
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.PhysicalExamination;
 import com.application.medCareApplication.model.Resources;
+import com.application.medCareApplication.model.Therapy;
 import com.application.medCareApplication.utils.AdditionalExaminationEnum;
 import com.application.medCareApplication.utils.Utils;
 import com.application.medCareApplication.utils.components.DatabaseHandler;
+import com.application.medCareApplication.utils.components.ReasoningAnswerData;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.dialog.addNewExamination.NewCTDialog;
 import com.application.medCareApplication.view.dialog.addNewExamination.NewKrvnaSlikaDialog;
 import com.application.medCareApplication.view.dialog.addNewExamination.NewRTGPlucaDialog;
 import com.application.medCareApplication.view.dialog.addNewExamination.NewUltraZvukDialog;
+import com.application.medCareApplication.view.utils.DateLabelFormatter;
 
 import ucm.gaia.jcolibri.cbrcore.CBRCase;
 import ucm.gaia.jcolibri.cbrcore.CBRQuery;
@@ -58,7 +64,7 @@ import unbbayes.prs.bn.ProbabilisticNetwork;
 import unbbayes.prs.bn.ProbabilisticNode;
 import unbbayes.util.extension.bn.inference.IInferenceAlgorithm;
 
-public class AdditionalExaminationDialog extends JDialog {
+public class RecommendedDiagnosisDialog extends JDialog {
 	
 	private static final long serialVersionUID = 212032573842458559L;
 	private final JPanel contentPanel = new JPanel();
@@ -86,10 +92,13 @@ public class AdditionalExaminationDialog extends JDialog {
 	private String poslednji4 = "";
 	
 	private Boolean vrsta; // vrsta ili ti da li je anamneza(true) ili fizikalni pregled (false) u pitanju
-	private JButton btnUradi = new JButton("");
+	private JButton btnDodaj = new JButton("Dodaj");
 	private JButton button = new JButton("Pogledaj");
 	
-	public AdditionalExaminationDialog(Patient p,Boolean v) {
+	private ReasoningAnswerData lastSelectedTherapyElement;
+	private Diagnosis diagnosis;
+	
+	public RecommendedDiagnosisDialog(Patient p,Boolean v) {
 		this.vrsta = v;
 		this.patient = p;
 		this.patientAnamnesisList = new JList<>();
@@ -120,7 +129,7 @@ public class AdditionalExaminationDialog extends JDialog {
 		
 		
 		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
-		String titleText = String.format("Predlog dopunskih ispitivanja na osnovu anamneze: %s %s", patient.getFirstName(), patient.getLastName());
+		String titleText = String.format("Predlog dijagnoze: %s %s", patient.getFirstName(), patient.getLastName());
 		setTitle(titleText);
 		setModal(true);
 		setFocusable(true);		//focus da bi se mogao trigerovati keyListener
@@ -140,38 +149,12 @@ public class AdditionalExaminationDialog extends JDialog {
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			
-		/*	String temp = "";
-			String temp2 = "";
-			CBRCase cbr = new CBRCase();
-			for (RetrievalResult retrievalResult : MainFrame.getInstance().getEval()) {
-				cbr = retrievalResult.get_case();
-				temp2 = retrievalResult.get_case().getDescription().toString();
-				temp = retrievalResult.get_case().getDescription().toString() + " -> " + retrievalResult.getEval();
-				break; // za sad cu uzimati samo jedan predlog
-			}
-			
-			String[] prvi = temp2.split(",");
-			String poslednji = prvi[prvi.length-1];
-			poslednji = poslednji.trim();
-			
-			String[] poslednji2 = poslednji.split("=");
-			String poslednji3 = poslednji2[1];
-			
-			poslednji4 = poslednji3.substring(0, poslednji3.length()-1);
-			
-			
-			
-			//System.out.println("Da li sam ga dobro splitovao ? ? ? " + poslednji3 + " *** " + poslednji4);
-			
-			JTextArea textArea = new JTextArea();
-			textArea.setText(temp);*/
 			GridBagConstraints gbc_textArea = new GridBagConstraints();
 			gbc_textArea.gridwidth = 7;
 			gbc_textArea.insets = new Insets(0, 0, 5, 0);
 			gbc_textArea.fill = GridBagConstraints.BOTH;
 			gbc_textArea.gridx = 0;
 			gbc_textArea.gridy = 0;
-		//	personalAnamnesisPanel.add(textArea, gbc_textArea);
 		}
 		
 		JPanel panel = new JPanel();
@@ -227,7 +210,7 @@ public class AdditionalExaminationDialog extends JDialog {
 				List<String> solutionList = new ArrayList<String>();
 				poslednji4="";
 				
-				if(vrsta) { // RADICE SE ZA ANAMNEZU
+			if(vrsta) { // RADICE SE ZA ANAMNEZU
 					
 					if(reasoning.equals("Rule based")) {
 						///RULE BASE
@@ -239,7 +222,7 @@ public class AdditionalExaminationDialog extends JDialog {
 						// loading from file
 						 BaseIO io = new NetIO();
 						 try {
-							net = (ProbabilisticNetwork)io.load(new File("dopunska_ispitivanja.net"));
+							net = (ProbabilisticNetwork)io.load(new File("dijagnoze_anamneza.net"));
 						} catch (LoadException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -249,7 +232,7 @@ public class AdditionalExaminationDialog extends JDialog {
 						}
 						 
 						 System.out.println("STa se desava?? : " + net.getEdge(net.getNode("Smoking"), net.getNode("solution")));
-						 Node n1 = net.getNode("solution");
+						 Node n1 = net.getNode("diagnosis");
 						 System.out.println("STa se desava?? : " + n1.getStateAt(0));
 						 
 						 
@@ -268,29 +251,7 @@ public class AdditionalExaminationDialog extends JDialog {
 						 algorithm.setNetwork(net);
 						 algorithm.run();
 						 System.out.println("****** END COMPAILING ******");
-						 
-						 ProbabilisticNode factNode1 = (ProbabilisticNode)net.getNode("pet");
-						 int stateIndex1;
-						 if(patientAnamnesis.getPet().equals("Da")) {
-							 stateIndex1 = 0; // index of state ""
-						 } else {
-							 stateIndex1 = 1; // index of state ""
-						 }
-						 factNode1.addFinding(stateIndex1);
-						 
-						 
-						 
-						 
-						 
-						 
-						 ProbabilisticNode factNode2 = (ProbabilisticNode)net.getNode("living_object");
-						 int stateIndex2;
-						 if(patientAnamnesis.getLivingObject().equals("Stan")) {
-							 stateIndex2 = 0; // index of state ""
-						 } else {
-							 stateIndex2 = 1; // index of state ""
-						 }		 
-						 factNode2.addFinding(stateIndex2);
+					
 						 
 						 ProbabilisticNode factNode3 = (ProbabilisticNode)net.getNode("living_place");
 						 int stateIndex3;
@@ -301,25 +262,6 @@ public class AdditionalExaminationDialog extends JDialog {
 						 }		 
 						 factNode3.addFinding(stateIndex3);
 						 
-						 ProbabilisticNode factNode4 = (ProbabilisticNode)net.getNode("working_condition");
-						 int stateIndex4;
-						 if(patientAnamnesis.getWorkingCondition().equals("Fizicki lak posao")) {
-							 stateIndex4 = 0; // index of state ""
-						 } else {
-							 stateIndex4 = 1; // index of state ""
-						 }		
-						 factNode4.addFinding(stateIndex4);
-						 
-						 
-						 
-						 ProbabilisticNode factNode5 = (ProbabilisticNode)net.getNode("Employed");
-						 int stateIndex5;
-						 if(patientAnamnesis.getEmployed().equals("Zaposlen")) {
-							 stateIndex5 = 0; // index of state ""
-						 } else {
-							 stateIndex5 = 1; // index of state ""
-						 }		
-						 factNode5.addFinding(stateIndex5);
 						 
 						 ProbabilisticNode factNode6 = (ProbabilisticNode)net.getNode("Alcohol");
 						 int stateIndex6;
@@ -388,14 +330,14 @@ public class AdditionalExaminationDialog extends JDialog {
 							 }
 							 
 							 factNode8.addFinding(stateIndex8);
-							 
 			 
 						 } else {
 							 System.out.println("Ne postoji ranija bolest, ne moze se tumaciti na osnovu toga");
 							 
 						 }
 						 
-						
+						 
+						 
 						 try {
 					        	net.updateEvidences();
 					        } catch (Exception e2) {
@@ -416,8 +358,8 @@ public class AdditionalExaminationDialog extends JDialog {
 						List<Float> listaVerovatnoca = new ArrayList<Float>();
 						
 						String temp="";
-						Node solution = net.getNode("solution");
-						System.out.println("Solution: " + solution.getName());
+						Node solution = net.getNode("diagnosis");
+						System.out.println("Diagnosis: " + solution.getName());
 						temp+= "Solution: " + solution.getName() + "\n";
 						for(int i = 0; i < solution.getStatesSize(); i++) {
 							
@@ -447,7 +389,7 @@ public class AdditionalExaminationDialog extends JDialog {
 						
 						poslednji4 += maxId.toUpperCase();
 						
-						btnUradi.setText("Uradi '" + poslednji4 + "'");
+						btnDodaj.setText("Dodaj '" + poslednji4 + "'" );
 						
 						System.out.println("*************\n" + temp);
 						
@@ -467,14 +409,8 @@ public class AdditionalExaminationDialog extends JDialog {
 
 							Anamnesis anam = new Anamnesis();
 							anam.setAlcohol(patientAnamnesis.getAlcohol());
-							anam.setEmployed(patientAnamnesis.getEmployed());
-							anam.setLivingObject(patientAnamnesis.getLivingObject());
 							anam.setLivingPlace(patientAnamnesis.getLivingPlace());
-							anam.setPet(patientAnamnesis.getPet());
-							anam.setSmoking(patientAnamnesis.getSmoking());
-							anam.setWorkingCondition(patientAnamnesis.getWorkingCondition());
-							
-							
+							anam.setSmoking(patientAnamnesis.getSmoking());							
 							
 							query.setDescription( anam );
 							
@@ -505,7 +441,7 @@ public class AdditionalExaminationDialog extends JDialog {
 							solutionList.add(s);
 						}
 						
-						String poslednji = prvi[prvi.length-4];
+						String poslednji = prvi[prvi.length-3];
 						poslednji = poslednji.trim();
 						
 						String[] poslednji2 = poslednji.split("=");
@@ -514,23 +450,19 @@ public class AdditionalExaminationDialog extends JDialog {
 						poslednji4 = poslednji3.substring(0, poslednji3.length());
 						System.out.println("Poslednji : " + poslednji4);
 						//solutionList.add(temp);
-						btnUradi.setText("Uradi '" + poslednji4 + "'");
+						btnDodaj.setText("Dodaj '" + poslednji4 + "'");
 						
 					
 					}
-					displaySolutions(solutionList);
-					
-
-					
-				} else { // RADICE SE ZA FIZIKALNI PREGLED
-					
-					if(reasoning.equals("Rule based")) { //RULE BASED
+					displaySolutions(solutionList);		
+			}	else { 
+				if(reasoning.equals("Rule based")) { //RULE BASED
 						
 						ProbabilisticNetwork net = new ProbabilisticNetwork("example");
 						// loading from file
 						 BaseIO io = new NetIO();
 						 try {
-							net = (ProbabilisticNetwork)io.load(new File("dopunska_ispitivanja_fiz_preg.net"));
+							net = (ProbabilisticNetwork)io.load(new File("dijagnoze_fizikalni_pregled.net"));
 						} catch (LoadException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -541,7 +473,7 @@ public class AdditionalExaminationDialog extends JDialog {
 						 
 						 System.out.println("STa se desava?? : " + net.getEdge(net.getNode("Smoking"), net.getNode("solution")));
 						 Node n1 = net.getNode("solution");
-						 System.out.println("STa se desava?? : " + n1.getStateAt(0));
+						 //System.out.println("STa se desava?? : " + n1.getStateAt(0));
 						 
 
 						 
@@ -603,7 +535,7 @@ public class AdditionalExaminationDialog extends JDialog {
 						List<Float> listaVerovatnoca = new ArrayList<Float>();
 						
 						String temp="";
-						Node solution = net.getNode("solution");
+						Node solution = net.getNode("diagnosis");
 						System.out.println("Solution: " + solution.getName());
 						temp+= "Solution: " + solution.getName() + "\n";
 						for(int i = 0; i < solution.getStatesSize(); i++) {
@@ -635,7 +567,7 @@ public class AdditionalExaminationDialog extends JDialog {
 						
 						poslednji4 += maxId.toUpperCase();
 						
-						btnUradi.setText("Uradi '" + poslednji4 + "'");
+						btnDodaj.setText("Dodaj '" + poslednji4 + "'" );
 						
 						
 						
@@ -684,7 +616,7 @@ public class AdditionalExaminationDialog extends JDialog {
 							solutionList.add(s);
 						}
 						
-						String pom = solutionList.get(5);
+						String pom = solutionList.get(6);
 						
 						String[] sss = pom.split("=");
 						
@@ -692,81 +624,63 @@ public class AdditionalExaminationDialog extends JDialog {
 						
 						poslednji4 = sss2.substring(0, sss2.length()-1);
 						
-					/*	String poslednji = prvi[prvi.length];
-						poslednji = poslednji.trim();
-						
-						String[] poslednji2 = poslednji.split("=");
-						String poslednji3 = poslednji2[1];
-						
-						poslednji4 = poslednji3.substring(0, poslednji3.length());*/
 						System.out.println("Poslednji : " + poslednji4);
-						btnUradi.setText("Uradi '" + poslednji4 + "'" );
+						btnDodaj.setText("Dodaj '" + poslednji4 + "'" );
 						
 						//solutionList.add(temp);
 						
 					}
 					displaySolutions(solutionList);
 				}
-				
-				
 			}
-		});
+				
+			});
+	//	});
 		
 		JPanel panel_1 = new JPanel();
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.gridheight = 4;
+		gbc_panel_1.gridheight = 7;
 		gbc_panel_1.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_1.fill = GridBagConstraints.BOTH;
 		gbc_panel_1.gridx = 0;
 		gbc_panel_1.gridy = 1;
 		contentPanel.add(panel_1, gbc_panel_1);
 		
-		JLabel label_2 = new JLabel("Preporucena dopunska ispitivanja su:");
+		JLabel label_2 = new JLabel("Preporucene dijagnoze su:");
 		label_2.setFont(new Font("Tahoma", Font.BOLD, 15));
 		panel_1.add(label_2);
 		
 		JScrollPane medicamentsSrollPane = new JScrollPane(solutionList);
 		panel_1.add(medicamentsSrollPane, BorderLayout.CENTER);
 		
-		//JButton btnUradi = new JButton("Uradi '" + poslednji4 + "'" );
-		GridBagConstraints gbc_btnUradi = new GridBagConstraints();
-		gbc_btnUradi.insets = new Insets(0, 0, 0, 5);
-		gbc_btnUradi.gridx = 0;
-		gbc_btnUradi.gridy = 5;
-		contentPanel.add(btnUradi, gbc_btnUradi);
-		btnUradi.setName("Uradi '" + poslednji4 + "'" );
+		GridBagConstraints gbc_btnDodaj = new GridBagConstraints();
+		gbc_btnDodaj.insets = new Insets(0, 0, 0, 5);
+		gbc_btnDodaj.gridx = 1;
+		gbc_btnDodaj.gridy = 5;
+		contentPanel.add(btnDodaj, gbc_btnDodaj);
+		btnDodaj.setText("Dodaj '" + poslednji4 + "'" );
 		
-		btnUradi.addActionListener(new ActionListener() {
+		btnDodaj.addActionListener(new ActionListener() {
 			
-
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+			public void actionPerformed(ActionEvent arg0) {
 				
-				if(poslednji4.equals("KRVNA_SLIKA")) {
-					NewKrvnaSlikaDialog k = new NewKrvnaSlikaDialog(patient);
-					k.setVisible(true);			
-					dispose();
-				} else if(poslednji4.equals("RTG_PLUCA")){
-					NewRTGPlucaDialog r = new NewRTGPlucaDialog(patient);
-					r.setVisible(true);
-					dispose();
-				} else if(poslednji4.equals("CT_PLUCA")) {
-					NewCTDialog c = new NewCTDialog(patient);
-					c.setVisible(true);
-					dispose();
-				} else if(poslednji4.equals("UZ_PLUCNE_MARAMICE") || poslednji4.equals("ULTRAZVUK")) {
-					NewUltraZvukDialog u = new NewUltraZvukDialog(patient);
-					u.setVisible(true);
-					dispose();
-				} else {
-					Utils.warning("Nema ponudjenih dodatnih ispitivanja na osnovu anamneze!");
-					System.out.println("Nema ponudjenih dodatnih ispitivanja na osnovu anamneze");
+					/*Izvuci sta je selektovan podatak konkretno lek/terapija */
+					DateLabelFormatter dF = new DateLabelFormatter();		
+					Diagnosis newDiagnosis = new Diagnosis(-1, patient.getPatientId(), poslednji4, dF.getDateFormatter().format(new Date()));
+					DatabaseHandler handler = MainFrame.getInstance().getDatabaseHandler();
+					try {
+						handler.createDiagnosis(newDiagnosis);
+						Utils.info("Dijagnoza je dodata u karton pacijenta");
+						dispose();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 				
-			}
+			
 		});
-		
 
 	}
 	
@@ -782,6 +696,5 @@ public class AdditionalExaminationDialog extends JDialog {
 	public JComboBox<String> getResoningTypeComboBox() {
 		return combo;
 	}
-	
 
 }
