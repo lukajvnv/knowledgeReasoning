@@ -72,7 +72,7 @@ public class ViewPatientTherapy extends JPanel {
 		});
 		toolBar.add(newButton);
 		
-		JButton deleteButton = new JButton("Obir\u0161i");
+		JButton deleteButton = new JButton("Obr\u0161i");
 		deleteButton.setIcon(new ImageIcon("images\\delete_icon&24.png"));
 		toolBar.add(deleteButton);
 		

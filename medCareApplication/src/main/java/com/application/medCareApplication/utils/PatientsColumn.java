@@ -49,5 +49,8 @@ public class PatientsColumn {
 	// terapija pacijenta + diagnose + date odgore
 	public static String therapyId = "therapy_Id";
 	public static String therapy = "Terapija";
+	
+	//dodato radi CBR-a za dijagnozu
+	public static String diagnosis = "diagnosis";
 
 }

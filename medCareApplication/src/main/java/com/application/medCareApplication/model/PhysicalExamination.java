@@ -30,12 +30,35 @@ public class PhysicalExamination implements CaseComponent {
 	
 	@Column(name = "dopunska_ispitivanja")
 	private String additionalExamination;
+	
+	@Column(name = "diagnosis")
+	private String diagnosis;
+
+	public String getDiagnosis() {
+		return diagnosis;
+	}
+
+	public void setDiagnosis(String diagnosis) {
+		this.diagnosis = diagnosis;
+	}
 
 	public PhysicalExamination() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
+	public PhysicalExamination(int physicalExaminationId, int patientId, String bodyTemperature,
+			String respiratorySound, String respiratoryNoise, String additionalExamination, String diagnosis) {
+		super();
+		this.physicalExaminationId = physicalExaminationId;
+		this.patientId = patientId;
+		this.bodyTemperature = bodyTemperature;
+		this.respiratorySound = respiratorySound;
+		this.respiratoryNoise = respiratoryNoise;
+		this.additionalExamination = additionalExamination;
+		this.diagnosis = diagnosis;
+	}
+
 	public PhysicalExamination(int physicalExaminationId, int patientId, String bodyTemperature,
 			String respiratorySound, String respiratoryNoise, String additionalExamination) {
 		super();
@@ -121,7 +144,8 @@ public class PhysicalExamination implements CaseComponent {
 	public String toString() {
 		return "PhysicalExamination [physicalExaminationId=" + physicalExaminationId + ", patientId=" + patientId
 				+ ", bodyTemperature=" + bodyTemperature + ", respiratorySound=" + respiratorySound
-				+ ", respiratoryNoise=" + respiratoryNoise + ", additionalExamination=" + additionalExamination + "]";
+				+ ", respiratoryNoise=" + respiratoryNoise + ", additionalExamination=" + additionalExamination
+				+ ", diagnosis=" + diagnosis + "]";
 	}
 
 	@Override

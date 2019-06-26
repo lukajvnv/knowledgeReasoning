@@ -479,9 +479,10 @@ public class DatabaseHandler {
 			String respiratorySound = resultSet.getString(PatientsColumn.respiratorySound);
 			String respiratoryNoise = resultSet.getString(PatientsColumn.respiratoryNoise);
 			String additionalExamination = resultSet.getString(PatientsColumn.additionalExamination);
+			String recommendedDiagnosis = resultSet.getString(PatientsColumn.diagnosis);
 			
 			pe = new PhysicalExamination(physicalExaminationId, patientId, bodyTemperature, respiratorySound, respiratoryNoise,
-					additionalExamination);
+					additionalExamination,recommendedDiagnosis);
 			return pe;
 		} catch (SQLException e) {
 			return pe;
@@ -639,8 +640,9 @@ public class DatabaseHandler {
 			String livingObject = resultSet.getString(PatientsColumn.livingObject);
 			String pet = resultSet.getString(PatientsColumn.pet);
 			String additionalExamination = resultSet.getString(PatientsColumn.additionalExamination);
+			String recommendedDiagnosis = resultSet.getString(PatientsColumn.diagnosis);
 			
-			anamnesis = new Anamnesis(anamnesisId, patientId, smoking, alcohol, employed, workingCondition, livingPlace, livingObject, pet,additionalExamination);
+			anamnesis = new Anamnesis(anamnesisId, patientId, smoking, alcohol, employed, workingCondition, livingPlace, livingObject, pet,additionalExamination, recommendedDiagnosis);
 			return anamnesis;
 		} catch (SQLException e) {
 			return anamnesis;

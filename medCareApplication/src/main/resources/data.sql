@@ -18,30 +18,32 @@ values (8, 'Lana', 'Mikic', '0703996800005', '064/555-86-28', '06.03.1980.', 'Bu
 
 
 /*Fizikalni pregled*/
+
 insert into physical_examination (physical_Examination_Id, Id_Pacijenta, Temperatura, Disajni_zvuk, Sumovi,dopunska_ispitivanja)
 values (1, 1, 'Normalna', 'Regularni', 'Zvizduci', 'CT_PLUCA');
-insert into physical_examination (physical_Examination_Id, Id_Pacijenta, Temperatura, Disajni_zvuk, Sumovi,dopunska_ispitivanja)
-values (2, 2, 'Snizena', 'Patoloski', 'Pukoti', 'KRVNA_SLIKA');
-insert into physical_examination (physical_Examination_Id, Id_Pacijenta, Temperatura, Disajni_zvuk, Sumovi,dopunska_ispitivanja)
-values (3, 3, 'Povisena', 'Patoloski', 'Normalan', 'RTG_PLUCA');
-insert into physical_examination (physical_Examination_Id, Id_Pacijenta, Temperatura, Disajni_zvuk, Sumovi,dopunska_ispitivanja)
-values (4, 4, 'Normalna', 'Regularni', 'Normalan', 'RTG_PLUCA');
+insert into physical_examination (physical_Examination_Id, Id_Pacijenta, Temperatura, Disajni_zvuk, Sumovi,dopunska_ispitivanja, diagnosis)
+values (2, 2, 'Snizena', 'Patoloski', 'Pukoti', 'KRVNA_SLIKA', 'asthma');
+insert into physical_examination (physical_Examination_Id, Id_Pacijenta, Temperatura, Disajni_zvuk, Sumovi,dopunska_ispitivanja, diagnosis)
+values (3, 3, 'Povisena', 'Patoloski', 'Normalan', 'RTG_PLUCA', 'pneumonia');
+insert into physical_examination (physical_Examination_Id, Id_Pacijenta, Temperatura, Disajni_zvuk, Sumovi,dopunska_ispitivanja, diagnosis)
+values (4, 4, 'Normalna', 'Regularni', 'Normalan', 'RTG_PLUCA', 'copd');
+
 
 /*Anamneza*/
 insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta)
 values (1, 1, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki lak posao', 'Grad', 'Stan', 'Ne', 'UZ_PLUCNE_MARAMICE', 1);
-insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta)
-values (2, 3, 'Da', 'Da', 'Zaposlen', 'Fizicki tezak posao', 'Grad', 'Kuca', 'Da', 'KRVNA_SLIKA', 3);
-insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta)
-values (3, 2, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki lak posao', 'Grad', 'Stan', 'Ne', 'CT_PLUCA', 2);
-insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta)
-values (4, 5, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki lak posao', 'Grad', 'Kuca', 'Da', 'RTG_PLUCA', 5);
-insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta)
-values (7, 4, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki tezak posao', 'Selo', 'Stan', 'Ne', 'CT_PLUCA', 4);
-insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta)
-values (5, 7, 'Ne', 'Ne', 'Zaposlen', 'Fizicki tezak posao', 'Grad', 'Stan', 'Ne', 'RTG_PLUCA', 7);
-insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta)
-values (6, 6, 'Da', 'Da', 'Zaposlen', 'Fizicki lak posao', 'Selo', 'Kuca', 'Ne', 'KRVNA_SLIKA', 6);
+insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta, diagnosis)
+values (2, 3, 'Da', 'Da', 'Zaposlen', 'Fizicki tezak posao', 'Grad', 'Kuca', 'Da', 'KRVNA_SLIKA', 3, 'asthma');
+insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta,diagnosis)
+values (3, 2, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki lak posao', 'Grad', 'Stan', 'Ne', 'CT_PLUCA', 2, 'copd');
+insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta,diagnosis)
+values (4, 5, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki lak posao', 'Grad', 'Kuca', 'Da', 'RTG_PLUCA', 5, 'lung_cancer');
+insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta,diagnosis)
+values (7, 4, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki tezak posao', 'Selo', 'Stan', 'Ne', 'CT_PLUCA', 4, 'asthma');
+insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta,diagnosis)
+values (5, 7, 'Ne', 'Ne', 'Zaposlen', 'Fizicki tezak posao', 'Grad', 'Stan', 'Ne', 'RTG_PLUCA', 7, 'common_cold');
+insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta,diagnosis)
+values (6, 6, 'Da', 'Da', 'Zaposlen', 'Fizicki lak posao', 'Selo', 'Kuca', 'Ne', 'KRVNA_SLIKA', 6, 'pneumonia');
 
 /* Ranije bolesti*/
 INSERT INTO ranije_bolesti (patient_id, diagnosis_id)

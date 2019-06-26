@@ -29,6 +29,7 @@ import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.dialog.NewPhysicalExaminationDialog;
 import com.application.medCareApplication.view.recommendation.AdditionalExaminationDialog;
+import com.application.medCareApplication.view.recommendation.RecommendedDiagnosisDialog;
 
 import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
 
@@ -81,7 +82,7 @@ public class ViewPatientPhysicalExamination extends JPanel {
 		});
 		toolBar.add(newButton);
 		
-		JButton deleteButton = new JButton("Obir\u0161i");
+		JButton deleteButton = new JButton("Obr\u0161i");
 		deleteButton.setIcon(new ImageIcon("images\\delete_icon&24.png"));
 		toolBar.add(deleteButton);
 		
@@ -112,6 +113,24 @@ public class ViewPatientPhysicalExamination extends JPanel {
 				
 				
 				
+			}
+		});
+		
+		JButton recommendedDiagnosisButton = new JButton("Preporucena dijagnoza");
+		toolBar.add(recommendedDiagnosisButton);
+		recommendedDiagnosisButton.addActionListener(new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(physicalExaminatinoListModel.isEmpty()) {
+					System.out.println("nema fizikalnog pregleda pa ne moze da se preporucuje!");
+					Utils.info("Nema fizikalnog pregleda pa ne mogu da se preporucuju dopunski pregledi!");	
+				} else {
+					
+					
+					RecommendedDiagnosisDialog dialog = new RecommendedDiagnosisDialog(patient,false);
+					dialog.setVisible(true);
+				}				
 			}
 		});
 		

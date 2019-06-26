@@ -29,6 +29,7 @@ import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.dialog.NewAnamnesisDialog;
 import com.application.medCareApplication.view.recommendation.AdditionalExaminationDialog;
+import com.application.medCareApplication.view.recommendation.RecommendedDiagnosisDialog;
 
 import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
 
@@ -82,7 +83,7 @@ public class ViewPatientAnamnesis extends JPanel {
 		});
 		toolBar.add(newButton);
 		
-		JButton deleteButton = new JButton("Obir\u0161i");
+		JButton deleteButton = new JButton("Obr\u0161i");
 		deleteButton.setIcon(new ImageIcon("images\\delete_icon&24.png"));
 		toolBar.add(deleteButton);
 		deleteButton.addActionListener(new AbstractAction() {
@@ -122,6 +123,23 @@ public class ViewPatientAnamnesis extends JPanel {
 				
 				
 				
+			}
+		});
+		
+		JButton recommendedDiagnosisButton = new JButton("Preporucena dijagnoza");
+		toolBar.add(recommendedDiagnosisButton);
+		recommendedDiagnosisButton.addActionListener(new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(anamnesisListModel.isEmpty()) {
+					System.out.println("nema anamneza pa ne moze da se preporucuje!");
+					Utils.info("Nema anamneza pa ne mogu da se preporucuju dopunski pregledi!");		
+				} else {
+					RecommendedDiagnosisDialog rdd = new RecommendedDiagnosisDialog(patient,true);
+					rdd.setVisible(true);
+				}
 			}
 		});
 		
@@ -194,28 +212,6 @@ public class ViewPatientAnamnesis extends JPanel {
 		//patientAnamnesisList.setCellRenderer(new ListRenderer());
 		patientAnamnesisList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-		//Dodavanje popUpMenija
-		/*PopUpMenus p = new PopUpMenus();
-		patientAnamnesisList.add(p);
-
-		
-		patientAnamnesisList.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e)  {check(e);}
-			public void mouseReleased(MouseEvent e) {check(e);}
-
-			public void check(MouseEvent e) {
-			    if (e.isPopupTrigger()) { //if the event shows the menu
-			    	patientAnamnesisList.setSelectedIndex(patientAnamnesisList.locationToIndex(e.getPoint())); //select the item
-			        p.show(patientAnamnesisList, e.getX(), e.getY()); //and show the menu
-			    }
-			}
-			
-			public void mouseClicked(MouseEvent e) {
-			           if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {    	  
-
-			           }
-			       }
-		});*/
 	}
 	
 	public DefaultListModel<Anamnesis> getAnamnesisListModel() {
