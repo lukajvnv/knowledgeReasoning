@@ -145,6 +145,8 @@ public class MedicamentsRecommendationFrame extends JFrame {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+				}else {
+					Utils.warning("Da biste dodali terapiju neophodno je da selektujete neku od njih!");
 				}
 				
 				

@@ -253,7 +253,7 @@ public class NewEwsScoreDialog extends JDialog {
 						PrologHandler prologHandler = MainFrame.getInstance().getPrologHandler();
 						try {
 							String answer = prologHandler.findResult("ews.pl", queryText);
-							Utils.info(answer);
+							Utils.info("EWR score pacijenta iznosi: " + answer);
 						} catch (Exception e1) {
 							Utils.error("Greska pri prolog operaciji...");
 						}

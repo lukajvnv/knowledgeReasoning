@@ -52,6 +52,12 @@ values (1, 38);
 INSERT INTO porodicne_bolesti (patient_id, diagnosis_id)
 values (1, 43);
 
+/*Dopunska ispitivanja pacijenta*/
+INSERT INTO ct_pluca (ct_id, id_pacijenta, ct) values (1, 1, 'ct');
+INSERT INTO rtg_pluca (rtg_id, id_pacijenta, rtg, lezije) values (1, 1, 'rtg', 'lezije');
+INSERT INTO krvna_slika (krvna_id, id_pacijenta, leukociti, eritrociti, parametarske_inflamacije) values (1, 1, 'da', 'da', 'da');
+INSERT INTO ultra_zvuk (uv_id, id_pacijenta, visina_izliva, dubina_izliva, gustina_izliva, mesto_punkcije) values (1, 1, '35', '45', '54', 'ovde');
+
 /* Dijagnoze pacijenta */
 INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (1, 1, 'asthma', '16.01.2019.');
 INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (2, 1, 'asthma', '16.04.2019.');

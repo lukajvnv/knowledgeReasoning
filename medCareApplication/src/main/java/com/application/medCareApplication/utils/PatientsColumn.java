@@ -52,5 +52,26 @@ public class PatientsColumn {
 	
 	//dodato radi CBR-a za dijagnozu
 	public static String diagnosis = "diagnosis";
-
+	
+	// uv
+	public static String uvId = "uv_id";
+	public static String dubina_izliva = "dubina_izliva";
+	public static String visina_izliva = "visina_izliva";
+	public static String gustina_izliva = "gustina_izliva";
+	public static String mesto_punkcije = "mesto_punkcije";
+	
+	// ct
+	public static String ct_id = "ct_id";
+	public static String ct = "ct";
+	
+	// rtg
+	public static String rtg_id = "rtg_id";
+	public static String rtg = "rtg";
+	public static String lezije = "lezije";
+	
+	// krvna slika
+	public static String krvna_id = "krvna_id";
+	public static String leukociti = "leukociti";
+	public static String eritrociti = "eritrociti";
+	public static String parametarske_inflamacije = "parametarske_inflamacije";
 }

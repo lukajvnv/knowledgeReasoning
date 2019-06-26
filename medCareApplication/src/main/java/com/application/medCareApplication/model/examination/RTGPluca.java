@@ -10,7 +10,7 @@ import javax.persistence.Table;
 public class RTGPluca {
 
 	@Id
-	@Column(name = "id")
+	@Column(name = "rtg_id")
 	private Integer id;
 	
 	@Column(name = "id_pacijenta")
@@ -75,6 +75,13 @@ public class RTGPluca {
 
 	public void setHomogene_lezije(String homogene_lezije) {
 		this.homogene_lezije = homogene_lezije;
+	}
+
+
+	@Override
+	public String toString() {
+		return "RTGPluca [id=" + id + ", patientId=" + patientId + ", rtg=" + rtg + ", homogene_lezije="
+				+ homogene_lezije + "]";
 	}
 
 

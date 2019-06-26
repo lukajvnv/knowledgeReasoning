@@ -10,7 +10,7 @@ import javax.persistence.Table;
 public class UltraZvuk {
 
 	@Id
-	@Column(name = "id")
+	@Column(name = "uv_id")
 	private Integer id;
 	
 	@Column(name = "id_pacijenta")
@@ -100,6 +100,13 @@ public class UltraZvuk {
 
 	public void setMesto_punkcije(String mesto_punkcije) {
 		this.mesto_punkcije = mesto_punkcije;
+	}
+
+	@Override
+	public String toString() {
+		return "UltraZvuk [id=" + id + ", patientId=" + patientId + ", dubina_izliva=" + dubina_izliva
+				+ ", visina_izliva=" + visina_izliva + ", gustina_izliva=" + gustina_izliva + ", mesto_punkcije="
+				+ mesto_punkcije + "]";
 	}
 	
 	

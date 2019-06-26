@@ -931,6 +931,243 @@ public class DatabaseHandler {
 		}
 		
 	}
+	
+	public List<Object> selectAllPatientAdditionalExaminations(Patient p){
+		List<Object> rgs = selectAllPatientRTG(p);
+		List<Object> cts = selectAllPatientCt(p);
+		List<Object> cbcs = selectAllPatientCBC(p);
+		List<Object> uvs = selectAllPatientUV(p);
+		
+		List<Object> examinations = new ArrayList<Object>();
+		
+		if(rgs != null) {
+			examinations.addAll(rgs);
+		}
+		
+		if(cts != null) {
+			examinations.addAll(cts);
+		}
+		
+		if(cbcs != null) {
+			examinations.addAll(cbcs);
+		}
+		
+		if(uvs != null) {
+			examinations.addAll(uvs);
+		}
+		
+		return examinations;
+	}
+	
+	
+	public List<Object> selectAllPatientRTG(Patient p) {
+		
+		String sql = String.format("SELECT %s FROM %s WHERE Id_Pacijenta = '%s';", "*", "rtg_pluca", p.getPatientId());
+		
+		System.out.println(sql);
+		
+		List<Object> rtgs = new ArrayList<Object>();
+		
+		try {
+			Statement stmt = databaseConnection.createStatement();			
+			
+			ResultSet rset = stmt.executeQuery(sql);
+			
+			if(!rset.isBeforeFirst()) {
+				System.out.println("Nema podataka");
+			}
+			
+			while(rset.next()) {
+				RTGPluca a = makeOneRTG(rset);
+				if( a != null) {
+					rtgs.add(a);
+				}
+			}
+				
+			rset.close();
+			stmt.close();
+			
+			return rtgs;
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return null;
+		}
+	
+	}
+	
+	private RTGPluca makeOneRTG(ResultSet resultSet) {
+		RTGPluca rtgPluca = null;
+		try {
+			Integer rtgId = resultSet.getInt(PatientsColumn.rtg_id);
+			Integer patientId = resultSet.getInt(PatientsColumn.patientId);
+			String rtg = resultSet.getString(PatientsColumn.rtg);
+			String lezije = resultSet.getString(PatientsColumn.lezije);
+		
+			rtgPluca = new RTGPluca(rtgId, patientId, rtg, lezije);
+			return rtgPluca;
+		} catch (SQLException e) {
+			return rtgPluca;
+		}
+	}
+	
+	public List<Object> selectAllPatientCt(Patient p) {
+		
+		String sql = String.format("SELECT %s FROM %s WHERE Id_Pacijenta = '%s';", "*", "ct_pluca", p.getPatientId());
+		
+		System.out.println(sql);
+		
+		List<Object> cts = new ArrayList<Object>();
+		
+		try {
+			Statement stmt = databaseConnection.createStatement();			
+			
+			ResultSet rset = stmt.executeQuery(sql);
+			
+			if(!rset.isBeforeFirst()) {
+				System.out.println("Nema podataka");
+			}
+			
+			while(rset.next()) {
+				CTpluca a = makeOneCT(rset);
+				if( a != null) {
+					cts.add(a);
+				}
+			}
+				
+			rset.close();
+			stmt.close();
+			
+			return cts;
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return null;
+		}
+	
+	}
+	
+	private CTpluca makeOneCT(ResultSet resultSet) {
+		CTpluca ctPluca = null;
+		try {
+			Integer ctId = resultSet.getInt(PatientsColumn.ct_id);
+			Integer patientId = resultSet.getInt(PatientsColumn.patientId);
+			String ct = resultSet.getString(PatientsColumn.ct);
+		
+			ctPluca = new CTpluca(ctId, patientId, ct);
+			return ctPluca;
+		} catch (SQLException e) {
+			return ctPluca;
+		}
+	}
+	
+	public List<Object> selectAllPatientCBC(Patient p) {
+		
+		String sql = String.format("SELECT %s FROM %s WHERE Id_Pacijenta = '%s';", "*", "krvna_slika", p.getPatientId());
+		
+		System.out.println(sql);
+		
+		List<Object> cbcs = new ArrayList<Object>();
+		
+		try {
+			Statement stmt = databaseConnection.createStatement();			
+			
+			ResultSet rset = stmt.executeQuery(sql);
+			
+			if(!rset.isBeforeFirst()) {
+				System.out.println("Nema podataka");
+			}
+			
+			while(rset.next()) {
+				KrvnaSlika a = makeOneCBC(rset);
+				if( a != null) {
+					cbcs.add(a);
+				}
+			}
+				
+			rset.close();
+			stmt.close();
+			
+			return cbcs;
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return null;
+		}
+	
+	}
+	
+	private KrvnaSlika makeOneCBC(ResultSet resultSet) {
+		KrvnaSlika krvnaSlika = null;
+		try {
+			Integer cbc_id = resultSet.getInt(PatientsColumn.krvna_id);
+			Integer patientId = resultSet.getInt(PatientsColumn.patientId);
+			String leukociti = resultSet.getString(PatientsColumn.leukociti);
+			String eritrociti = resultSet.getString(PatientsColumn.eritrociti);
+			String inflamacije = resultSet.getString(PatientsColumn.parametarske_inflamacije);
+
+		
+			krvnaSlika = new KrvnaSlika(cbc_id, patientId, leukociti, eritrociti, inflamacije);
+			return krvnaSlika;
+		} catch (SQLException e) {
+			return krvnaSlika;
+		}
+	}
+	
+	public List<Object> selectAllPatientUV(Patient p) {
+		
+		String sql = String.format("SELECT %s FROM %s WHERE Id_Pacijenta = '%s';", "*", "ultra_zvuk", p.getPatientId());
+		
+		System.out.println(sql);
+		
+		List<Object> uvs = new ArrayList<Object>();
+		
+		try {
+			Statement stmt = databaseConnection.createStatement();			
+			
+			ResultSet rset = stmt.executeQuery(sql);
+			
+			if(!rset.isBeforeFirst()) {
+				System.out.println("Nema podataka");
+			}
+			
+			while(rset.next()) {
+				UltraZvuk a = makeOneUv(rset);
+				if( a != null) {
+					uvs.add(a);
+				}
+			}
+				
+			rset.close();
+			stmt.close();
+			
+			return uvs;
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return null;
+		}
+	
+	}
+	
+	private UltraZvuk makeOneUv(ResultSet resultSet) {
+		UltraZvuk uvPluca = null;
+		try {
+			Integer uv_id = resultSet.getInt(PatientsColumn.uvId);
+			Integer patientId = resultSet.getInt(PatientsColumn.patientId);
+			String dubina_izliva = resultSet.getString(PatientsColumn.dubina_izliva);
+			String visina_izliva = resultSet.getString(PatientsColumn.visina_izliva);
+			String gustina_izliva = resultSet.getString(PatientsColumn.gustina_izliva);
+			String mesto_punkcije = resultSet.getString(PatientsColumn.mesto_punkcije);
+		
+			uvPluca = new UltraZvuk(uv_id, patientId, dubina_izliva, visina_izliva, gustina_izliva, mesto_punkcije);
+			return uvPluca;
+		} catch (SQLException e) {
+			return uvPluca;
+		}
+	}
+	
+	
 	/** --------------END: Operacije za dopunska ispitivanja ------------------------------- */
 	
 	/**

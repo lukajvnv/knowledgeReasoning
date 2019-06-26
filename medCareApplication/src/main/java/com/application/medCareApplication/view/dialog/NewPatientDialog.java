@@ -50,6 +50,7 @@ public class NewPatientDialog extends JDialog {
 	protected JButton addPatientButton;
 	protected JButton cancelButton;
 	
+	protected JPanel buttonPane;
 	
 
 	/**
@@ -241,7 +242,7 @@ public class NewPatientDialog extends JDialog {
 			telephoneNumberTextField.setColumns(10);
 		}
 		{
-			JPanel buttonPane = new JPanel();
+		    buttonPane = new JPanel();
 			FlowLayout fl_buttonPane = new FlowLayout(FlowLayout.CENTER);
 			fl_buttonPane.setHgap(25);
 			buttonPane.setLayout(fl_buttonPane);

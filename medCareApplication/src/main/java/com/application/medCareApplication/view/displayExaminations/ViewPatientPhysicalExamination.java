@@ -69,6 +69,11 @@ public class ViewPatientPhysicalExamination extends JPanel {
 		JToolBar toolBar = new JToolBar();
 		add(toolBar, BorderLayout.NORTH);
 		
+		JLabel lblNewLabel = new JLabel("Svi (fizikalni) pregledi");
+		lblNewLabel.setForeground(Color.RED);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
+		toolBar.add(lblNewLabel);
+		
 		JButton newButton = new JButton("Novi");
 		newButton.setIcon(new ImageIcon("images\\doc_new_icon&24.png"));
 		newButton.addActionListener(new AbstractAction() {
@@ -117,6 +122,7 @@ public class ViewPatientPhysicalExamination extends JPanel {
 		});
 		
 		JButton recommendedDiagnosisButton = new JButton("Preporucena dijagnoza");
+		recommendedDiagnosisButton.setIcon(new ImageIcon("images/round_and_up_icon&24.png"));
 		toolBar.add(recommendedDiagnosisButton);
 		recommendedDiagnosisButton.addActionListener(new AbstractAction() {
 			
@@ -135,14 +141,11 @@ public class ViewPatientPhysicalExamination extends JPanel {
 			}
 		});
 		
-		Component horizontalStrut = Box.createHorizontalStrut(50);
-		horizontalStrut.setBackground(Color.WHITE);
-		toolBar.add(horizontalStrut);
+//		Component horizontalStrut = Box.createHorizontalStrut(50);
+//		horizontalStrut.setBackground(Color.WHITE);
+//		toolBar.add(horizontalStrut);
+//		
 		
-		JLabel lblNewLabel = new JLabel("Svi (fizikalni) pregledi");
-		lblNewLabel.setForeground(Color.RED);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
-		toolBar.add(lblNewLabel);
 		
 		initList();
 		

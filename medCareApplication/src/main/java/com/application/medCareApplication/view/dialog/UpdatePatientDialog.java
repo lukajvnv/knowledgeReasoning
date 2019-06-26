@@ -28,43 +28,43 @@ public class UpdatePatientDialog extends NewPatientDialog {
 		setTextFields();
 		
 		
-		addPatientButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-				boolean valid = validation();
-				
-				if(!valid) {
-					return;
-				}
-				
-				//SAD NE RADI UPDATE
-				/*String firstName = firstNameTextField.getText().trim();
-				String lastName = lastNameTextField.getText().trim();
-				String address = addressTextField.getText().trim();
-				String telephone = telephoneNumberTextField.getText().trim();
-				String jmbg = jmbgTextField.getText().trim();
-				String dateOfBirth = dateOfBirthDateField.getValue();
-				
-				Patient p = new Patient(patient.getPatientId(), firstName, lastName, jmbg, dateOfBirth, address, telephone);
-				System.out.println(p);
-				
-				DatabaseHandler databaseHandler = MainFrame.getInstance().getDatabaseHandler();
-				try {
-					databaseHandler.updatePatient(p);
-					frame.setPatient(p);
-					frame.setPatientInfoLabel();
-					MainFrame.getInstance().updateMainPanelPatientsTable();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}*/
-			
-				dispose();
-			}
-		});
+//		addPatientButton.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				
+//				boolean valid = validation();
+//				
+//				if(!valid) {
+//					return;
+//				}
+//				
+//				//SAD NE RADI UPDATE
+//				String firstName = firstNameTextField.getText().trim();
+//				String lastName = lastNameTextField.getText().trim();
+//				String address = addressTextField.getText().trim();
+//				String telephone = telephoneNumberTextField.getText().trim();
+//				String jmbg = jmbgTextField.getText().trim();
+//				String dateOfBirth = dateOfBirthDateField.getValue();
+//				
+//				Patient p = new Patient(patient.getPatientId(), firstName, lastName, jmbg, dateOfBirth, address, telephone);
+//				System.out.println(p);
+//				
+//				DatabaseHandler databaseHandler = MainFrame.getInstance().getDatabaseHandler();
+//				try {
+//					databaseHandler.updatePatient(p);
+//					frame.setPatient(p);
+//					frame.setPatientInfoLabel();
+//					MainFrame.getInstance().updateMainPanelPatientsTable();
+//				} catch (SQLException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
+//			
+//				dispose();
+//			}
+//		});
 	}
 	
 	

@@ -10,7 +10,7 @@ import javax.persistence.Table;
 public class CTpluca {
 	
 	@Id
-	@Column(name = "id")
+	@Column(name = "ct_id")
 	private Integer id;
 	
 	@Column(name = "id_pacijenta")
@@ -69,6 +69,13 @@ public class CTpluca {
 
 	public void setCt(String ct) {
 		this.ct = ct;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "CTpluca [id=" + id + ", patientId=" + patientId + ", ct=" + ct + "]";
 	}
 
 	

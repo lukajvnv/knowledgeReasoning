@@ -84,7 +84,7 @@ public class PreventionExaminationRecommendationFrame extends JFrame {
 		JPanel infoPanel = new JPanel();
 		contentPane.add(infoPanel, BorderLayout.NORTH);
 		
-		JLabel infoLabel = new JLabel("Preporuka preventivnog pregleda za pacijenta"  + p.getFirstName() + " " + p.getLastName());
+		JLabel infoLabel = new JLabel("Preporuka preventivnog pregleda za pacijenta: "  + p.getFirstName() + " " + p.getLastName());
 		infoLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
 		infoPanel.add(infoLabel);
 		

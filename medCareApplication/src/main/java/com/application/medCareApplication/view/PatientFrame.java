@@ -190,7 +190,8 @@ public class PatientFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				
+				ViewPatientAdditionalExamination p = new ViewPatientAdditionalExamination(patient);
+				splitPane.setLeftComponent(p);
 			}
 		});
 		

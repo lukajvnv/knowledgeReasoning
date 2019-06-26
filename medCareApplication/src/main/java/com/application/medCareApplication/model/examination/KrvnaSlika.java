@@ -10,7 +10,7 @@ import javax.persistence.Table;
 public class KrvnaSlika {
 	
 	@Id
-	@Column(name = "id")
+	@Column(name = "krvna_id")
 	private Integer id;
 	
 	@Column(name = "id_pacijenta")
@@ -86,6 +86,12 @@ public class KrvnaSlika {
 
 	public void setParametarske_inflamacije(String parametarske_inflamacije) {
 		this.parametarske_inflamacije = parametarske_inflamacije;
+	}
+
+	@Override
+	public String toString() {
+		return "KrvnaSlika [id=" + id + ", patientId=" + patientId + ", leukociti=" + leukociti + ", eritrociti="
+				+ eritrociti + ", parametarske_inflamacije=" + parametarske_inflamacije + "]";
 	}
 	
 	
