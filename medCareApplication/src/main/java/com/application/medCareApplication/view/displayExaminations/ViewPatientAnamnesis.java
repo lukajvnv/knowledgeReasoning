@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Collection;
 import java.util.List;
 
@@ -25,9 +27,11 @@ import javax.swing.event.ListSelectionListener;
 import com.application.medCareApplication.model.Anamnesis;
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.PhysicalExamination;
+import com.application.medCareApplication.model.Therapy;
 import com.application.medCareApplication.utils.Utils;
 import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
+import com.application.medCareApplication.view.PatientFrame;
 import com.application.medCareApplication.view.dialog.NewAnamnesisDialog;
 import com.application.medCareApplication.view.recommendation.AdditionalExaminationDialog;
 import com.application.medCareApplication.view.recommendation.RecommendedDiagnosisDialog;
@@ -50,9 +54,12 @@ public class ViewPatientAnamnesis extends JPanel {
 	Collection<RetrievalResult> eval;
 	
 	private JButton newButton;
+	private PatientFrame patientFrame;
+	
 	
 	@SuppressWarnings("serial")
-	public ViewPatientAnamnesis(Patient p) {
+	public ViewPatientAnamnesis(Patient p, PatientFrame pf) {
+		this.patientFrame = pf;
 		MainFrame.getInstance().setIsAnamnesis(true);
 		MainFrame.getInstance().setCurrentPatient(p);
 		this.patient = p;
@@ -224,6 +231,31 @@ public class ViewPatientAnamnesis extends JPanel {
 		
 		//patientAnamnesisList.setCellRenderer(new ListRenderer());
 		patientAnamnesisList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		
+		patientAnamnesisList.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e)  {check(e);}
+			public void mouseReleased(MouseEvent e) {check(e);}
+
+			public void check(MouseEvent e) {
+			    if (e.isPopupTrigger()) { //if the event shows the menu
+			    	patientAnamnesisList.setSelectedIndex(patientAnamnesisList.locationToIndex(e.getPoint())); //select the item
+			        //p.show(patientTherapyList, e.getX(), e.getY()); //and show the menu
+			    }
+			}
+			
+			public void mouseClicked(MouseEvent e) {
+			           if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {    	  
+			        	   Anamnesis t = patientAnamnesisList.getSelectedValue();
+							if(t != null){
+								System.out.println("usao enter");
+								patientFrame.setRightPaneComponent(t);
+								
+								
+								
+							}
+			           }
+			       }
+		});
 
 	}
 	

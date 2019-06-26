@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -27,6 +29,8 @@ import com.application.medCareApplication.model.examination.RTGPluca;
 import com.application.medCareApplication.model.examination.UltraZvuk;
 import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
+import com.application.medCareApplication.view.PatientFrame;
+import com.ugos.b.d;
 
 public class ViewPatientAdditionalExamination extends JPanel {
 
@@ -34,11 +38,13 @@ public class ViewPatientAdditionalExamination extends JPanel {
 	private Patient patient;
 	private DefaultListModel<Object> patientAdditionalExaminatonListModel;
 	
+	private PatientFrame patientFrame;
+	
 	
 	@SuppressWarnings("serial")
-	public ViewPatientAdditionalExamination(Patient p) {
+	public ViewPatientAdditionalExamination(Patient p, PatientFrame pf) {
 		this.patient = p;
-				
+		this.patientFrame = pf;
 		setLayout(new BorderLayout(0, 0));
 		
 		JToolBar toolBar = new JToolBar();
@@ -120,6 +126,52 @@ public class ViewPatientAdditionalExamination extends JPanel {
 		patientAdditionalExaminatonList.setBackground(Color.WHITE);
 		
 		patientAdditionalExaminatonList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		
+		patientAdditionalExaminatonList.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e)  {check(e);}
+			public void mouseReleased(MouseEvent e) {check(e);}
+
+			public void check(MouseEvent e) {
+			    if (e.isPopupTrigger()) { //if the event shows the menu
+			    	patientAdditionalExaminatonList.setSelectedIndex(patientAdditionalExaminatonList.locationToIndex(e.getPoint())); //select the item
+			        //p.show(patientTherapyList, e.getX(), e.getY()); //and show the menu
+			    }
+			}
+			
+			public void mouseClicked(MouseEvent e) {
+			           if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {   
+			        	   /*if(patientAdditionalExaminatonList.getSelectedValue().toString().contains("RTGPluca")) {
+			        		   Object ks =  patientAdditionalExaminatonList.getSelectedValue();
+			        	   } else if(patientAdditionalExaminatonList.getSelectedValue().toString().contains("CTPluca")) {
+			        		   Object ct = patientAdditionalExaminatonList.getSelectedValue();
+			        	   } else if(patientAdditionalExaminatonList.getSelectedValue().toString().contains("KrvnaSlika")) {
+			        		   Object ks = patientAdditionalExaminatonList.getSelectedValue();
+			        		   
+			        	   } else {
+			        		   //ultrazvuk
+			        	   }*/
+			        	   
+			        	   Object obj = patientAdditionalExaminatonList.getSelectedValue();
+							if(obj instanceof CTpluca) {
+								
+							} else if(obj instanceof KrvnaSlika) {
+								
+							} else if(obj instanceof RTGPluca) {
+								
+							} else if(obj instanceof UltraZvuk) {
+								
+							}
+			        	   Object t = patientAdditionalExaminatonList.getSelectedValue();
+							if(t != null){
+								System.out.println("usao enter");
+								patientFrame.setRightPaneComponent(t);
+								
+								
+								
+							}
+			           }
+			       }
+		});
 
 	}
 	

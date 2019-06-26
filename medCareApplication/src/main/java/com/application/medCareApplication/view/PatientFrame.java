@@ -157,7 +157,7 @@ public class PatientFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				ViewPatientAnamnesis p = new ViewPatientAnamnesis(patient);
+				ViewPatientAnamnesis p = new ViewPatientAnamnesis(patient, PatientFrame.this);
 				leftPanel = p;
 				splitPane.setLeftComponent(leftPanel);
 			}
@@ -175,7 +175,7 @@ public class PatientFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				ViewPatientPhysicalExamination p = new ViewPatientPhysicalExamination(patient);
+				ViewPatientPhysicalExamination p = new ViewPatientPhysicalExamination(patient, PatientFrame.this);
 				splitPane.setLeftComponent(p);
 			}
 		});
@@ -190,7 +190,7 @@ public class PatientFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				ViewPatientAdditionalExamination p = new ViewPatientAdditionalExamination(patient);
+				ViewPatientAdditionalExamination p = new ViewPatientAdditionalExamination(patient, PatientFrame.this);
 				splitPane.setLeftComponent(p);
 			}
 		});
