@@ -41,13 +41,15 @@ public class NewUltraZvukDialog extends JDialog {
 	private JLabel systalBloodPressureLabel;
 	
 	private Patient patient;
+	
+	private Boolean anam;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			NewUltraZvukDialog dialog = new NewUltraZvukDialog(new Patient());
+			NewUltraZvukDialog dialog = new NewUltraZvukDialog(new Patient(),true);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -58,8 +60,9 @@ public class NewUltraZvukDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public NewUltraZvukDialog(Patient p) {
+	public NewUltraZvukDialog(Patient p, Boolean anamneza) {
 		this.patient = p;
+		anam = anamneza;
 		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
 		setTitle("Dodavanje ultrazvuka pregleda");
 		setModal(true);
@@ -194,7 +197,7 @@ public class NewUltraZvukDialog extends JDialog {
 						
 						DatabaseHandler dbHandler = MainFrame.getInstance().getDatabaseHandler();
 						try {
-							dbHandler.createUltraZvuk(u);
+							dbHandler.createUltraZvuk(u,anam);
 						//	DefaultListModel<Anamnesis> model =  (DefaultListModel<Anamnesis>) panel.getPatientAnamnesisList().getModel();
 						//	model.addElement(anamnesis);
 						} catch (SQLException e1) {

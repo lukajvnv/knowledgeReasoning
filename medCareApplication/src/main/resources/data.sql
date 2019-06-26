@@ -18,8 +18,8 @@ values (8, 'Lana', 'Mikic', '0703996800005', '064/555-86-28', '06.03.1980.', 'Bu
 
 
 /*Fizikalni pregled*/
-insert into physical_examination (physical_Examination_Id, Id_Pacijenta, Temperatura, Disajni_zvuk, Sumovi)
-values (1, 1, 'Normalna', 'Regularni', 'Zvizduci');
+insert into physical_examination (physical_Examination_Id, Id_Pacijenta, Temperatura, Disajni_zvuk, Sumovi,dopunska_ispitivanja)
+values (1, 1, 'Normalna', 'Regularni', 'Zvizduci', 'CT_PLUCA');
 insert into physical_examination (physical_Examination_Id, Id_Pacijenta, Temperatura, Disajni_zvuk, Sumovi,dopunska_ispitivanja)
 values (2, 2, 'Snizena', 'Patoloski', 'Pukoti', 'KRVNA_SLIKA');
 insert into physical_examination (physical_Examination_Id, Id_Pacijenta, Temperatura, Disajni_zvuk, Sumovi,dopunska_ispitivanja)

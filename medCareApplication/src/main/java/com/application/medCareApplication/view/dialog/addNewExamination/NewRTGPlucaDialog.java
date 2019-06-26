@@ -42,20 +42,18 @@ public class NewRTGPlucaDialog extends JDialog {
 	
 	private ButtonGroup smokingButtonGroup;
 	private ButtonGroup alcoholButtonGroup;
-	private ButtonGroup employedButtonGroup;
-	private ButtonGroup workingConditionButtonGroup;
-	private ButtonGroup livingPlaceButtonGroup;
-	private ButtonGroup livingObjectButtonGroup;
-	private ButtonGroup petButtonGroup;
+
 	
 	private Patient patient;
 	private Boolean patoloski;
+	
+	private Boolean anam;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			NewRTGPlucaDialog dialog = new NewRTGPlucaDialog(new Patient());
+			NewRTGPlucaDialog dialog = new NewRTGPlucaDialog(new Patient(),true);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -72,13 +70,14 @@ public class NewRTGPlucaDialog extends JDialog {
 	 * @wbp.parser.constructor
 	 */
 	public NewRTGPlucaDialog(Patient patient, ViewPatientAnamnesis p) {
-		this(patient);
+		this(patient,true);
 		this.panel = p;
 	}
 	
-	public NewRTGPlucaDialog(Patient p) {
+	public NewRTGPlucaDialog(Patient p, Boolean anamneza) {
 		this.patient = p;
 		this.patoloski = false;
+		anam = anamneza;
 		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
 		String titleText = String.format("RTG pluca za pacijenta: %s %s", patient.getFirstName(), patient.getLastName());
 		setTitle(titleText);
@@ -201,28 +200,7 @@ public class NewRTGPlucaDialog extends JDialog {
 			}
 		}
 		{
-			{
-				
-					employedButtonGroup = new ButtonGroup();
-			}
-			{
-				
-					workingConditionButtonGroup = new ButtonGroup();
-			}
-		}
-		{
-			{
-				
-					livingPlaceButtonGroup = new ButtonGroup();
-			}
-			{
-				
-					livingObjectButtonGroup = new ButtonGroup();
-			}
-			{
-				
-					petButtonGroup = new ButtonGroup();
-			}
+			
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -263,7 +241,7 @@ public class NewRTGPlucaDialog extends JDialog {
 					
 						DatabaseHandler dbHandler = MainFrame.getInstance().getDatabaseHandler();
 						try {
-							dbHandler.createRTGPluca(rtg);
+							dbHandler.createRTGPluca(rtg,anam);
 							//DefaultListModel<Anamnesis> model =  (DefaultListModel<Anamnesis>) panel.getPatientAnamnesisList().getModel();
 						//	model.addElement(anamnesis);
 						} catch (SQLException e1) {

@@ -38,21 +38,20 @@ public class NewKrvnaSlikaDialog extends JDialog {
 	private static final long serialVersionUID = 212032573842458559L;
 	private final JPanel contentPanel = new JPanel();
 	
-	private ButtonGroup smokingButtonGroup;
-	private ButtonGroup alcoholButtonGroup;
-	private ButtonGroup employedButtonGroup;
-	private ButtonGroup workingConditionButtonGroup;
+
 	private ButtonGroup livingPlaceButtonGroup;
 	private ButtonGroup livingObjectButtonGroup;
 	private ButtonGroup petButtonGroup;
 	
 	private Patient patient;
+	
+	private Boolean anam;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			NewKrvnaSlikaDialog dialog = new NewKrvnaSlikaDialog(new Patient());
+			NewKrvnaSlikaDialog dialog = new NewKrvnaSlikaDialog(new Patient(),true);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -69,12 +68,13 @@ public class NewKrvnaSlikaDialog extends JDialog {
 	 * @wbp.parser.constructor
 	 */
 	public NewKrvnaSlikaDialog(Patient patient, ViewPatientAnamnesis p) {
-		this(patient);
+		this(patient,true);
 		this.panel = p;
 	}
 	
-	public NewKrvnaSlikaDialog(Patient p) {
+	public NewKrvnaSlikaDialog(Patient p, Boolean anamneza) {
 		this.patient = p;
+		anam = anamneza; //ako smo iz anamneze pozvali ovaj dijalog TRUE, ako smo pozvali iz fiz pregleda FALSE
 		
 		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
 		String titleText = String.format("Dodavanje krvne slike za pacijenta: %s %s", patient.getFirstName(), patient.getLastName());
@@ -96,25 +96,7 @@ public class NewKrvnaSlikaDialog extends JDialog {
 		gbl_contentPanel.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
-			{
-				
-				smokingButtonGroup = new ButtonGroup();
-				
-			}
-			{
-					
-				    alcoholButtonGroup = new ButtonGroup();
-			}
-		}
-		{
-			{
-				
-					employedButtonGroup = new ButtonGroup();
-			}
-			{
-				
-					workingConditionButtonGroup = new ButtonGroup();
-			}
+			
 		}
 		{
 			JPanel socioeconomicalPanel = new JPanel();
@@ -272,7 +254,7 @@ public class NewKrvnaSlikaDialog extends JDialog {
 					
 						DatabaseHandler dbHandler = MainFrame.getInstance().getDatabaseHandler();
 						try {
-							dbHandler.createKrvnaSlika(k);
+							dbHandler.createKrvnaSlika(k,anam);
 							//DefaultListModel<KrvnaSlika> model =  (DefaultListModel<KrvnaSlika>) panel.getPatientAnamnesisList().getModel();
 							//model.addElement(anamnesis);
 						} catch (SQLException e1) {

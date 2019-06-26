@@ -40,20 +40,17 @@ public class NewCTDialog extends JDialog {
 	private JPanel personalAnamnesisPanel;
 	
 	private ButtonGroup smokingButtonGroup;
-	private ButtonGroup alcoholButtonGroup;
-	private ButtonGroup employedButtonGroup;
-	private ButtonGroup workingConditionButtonGroup;
-	private ButtonGroup livingPlaceButtonGroup;
-	private ButtonGroup livingObjectButtonGroup;
-	private ButtonGroup petButtonGroup;
+
 	
 	private Patient patient;
+	
+	private Boolean anam;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			NewCTDialog dialog = new NewCTDialog(new Patient());
+			NewCTDialog dialog = new NewCTDialog(new Patient(),true);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -70,13 +67,13 @@ public class NewCTDialog extends JDialog {
 	 * @wbp.parser.constructor
 	 */
 	public NewCTDialog(Patient patient, ViewPatientAnamnesis p) {
-		this(patient);
+		this(patient,true);
 		this.panel = p;
 	}
 	
-	public NewCTDialog(Patient p) {
+	public NewCTDialog(Patient p, Boolean anamneza) {
 		this.patient = p;
-		
+		anam = anamneza;
 		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
 		String titleText = String.format("CT pluca za pacijenta: %s %s", patient.getFirstName(), patient.getLastName());
 		setTitle(titleText);
@@ -148,28 +145,7 @@ public class NewCTDialog extends JDialog {
 			
 		}
 		{
-			{
-				
-					employedButtonGroup = new ButtonGroup();
-			}
-			{
-				
-					workingConditionButtonGroup = new ButtonGroup();
-			}
-		}
-		{
-			{
-				
-					livingPlaceButtonGroup = new ButtonGroup();
-			}
-			{
-				
-					livingObjectButtonGroup = new ButtonGroup();
-			}
-			{
-				
-					petButtonGroup = new ButtonGroup();
-			}
+			
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -209,7 +185,7 @@ public class NewCTDialog extends JDialog {
 					
 						DatabaseHandler dbHandler = MainFrame.getInstance().getDatabaseHandler();
 						try {
-							dbHandler.createCTPluca(ct);
+							dbHandler.createCTPluca(ct,anam);
 							//DefaultListModel<Anamnesis> model =  (DefaultListModel<Anamnesis>) panel.getPatientAnamnesisList().getModel();
 							//model.addElement(anamnesis);
 						} catch (SQLException e1) {

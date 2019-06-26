@@ -63,14 +63,6 @@ public class AdditionalExaminationDialog extends JDialog {
 	private static final long serialVersionUID = 212032573842458559L;
 	private final JPanel contentPanel = new JPanel();
 	
-	private ButtonGroup smokingButtonGroup;
-	private ButtonGroup alcoholButtonGroup;
-	private ButtonGroup employedButtonGroup;
-	private ButtonGroup workingConditionButtonGroup;
-	private ButtonGroup livingPlaceButtonGroup;
-	private ButtonGroup livingObjectButtonGroup;
-	private ButtonGroup petButtonGroup;
-	
 	private Patient patient;
 	
 	private JList<Anamnesis> patientAnamnesisList;
@@ -140,31 +132,6 @@ public class AdditionalExaminationDialog extends JDialog {
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			
-		/*	String temp = "";
-			String temp2 = "";
-			CBRCase cbr = new CBRCase();
-			for (RetrievalResult retrievalResult : MainFrame.getInstance().getEval()) {
-				cbr = retrievalResult.get_case();
-				temp2 = retrievalResult.get_case().getDescription().toString();
-				temp = retrievalResult.get_case().getDescription().toString() + " -> " + retrievalResult.getEval();
-				break; // za sad cu uzimati samo jedan predlog
-			}
-			
-			String[] prvi = temp2.split(",");
-			String poslednji = prvi[prvi.length-1];
-			poslednji = poslednji.trim();
-			
-			String[] poslednji2 = poslednji.split("=");
-			String poslednji3 = poslednji2[1];
-			
-			poslednji4 = poslednji3.substring(0, poslednji3.length()-1);
-			
-			
-			
-			//System.out.println("Da li sam ga dobro splitovao ? ? ? " + poslednji3 + " *** " + poslednji4);
-			
-			JTextArea textArea = new JTextArea();
-			textArea.setText(temp);*/
 			GridBagConstraints gbc_textArea = new GridBagConstraints();
 			gbc_textArea.gridwidth = 7;
 			gbc_textArea.insets = new Insets(0, 0, 5, 0);
@@ -227,19 +194,16 @@ public class AdditionalExaminationDialog extends JDialog {
 				List<String> solutionList = new ArrayList<String>();
 				poslednji4="";
 				
-				if(vrsta) { // RADICE SE ZA ANAMNEZU
+				if(vrsta) { // ANAMNEZA
 					
 					if(reasoning.equals("Rule based")) {
-						///RULE BASE
-						
-						System.out.println("Tu smo 1");
-						
+						///RULE BASE - BAYES
 						
 						ProbabilisticNetwork net = new ProbabilisticNetwork("example");
 						// loading from file
 						 BaseIO io = new NetIO();
 						 try {
-							net = (ProbabilisticNetwork)io.load(new File("dopunska_ispitivanja.net"));
+							net = (ProbabilisticNetwork)io.load(new File("dopunska_ispitivanja_anamneza.net"));
 						} catch (LoadException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -350,51 +314,52 @@ public class AdditionalExaminationDialog extends JDialog {
 							 System.out.println("? ---> " + diagnosisId);
 							 
 							 resource = dbHandler.selectResourceById(diagnosisId);
+							 
+							 ProbabilisticNode factNode8 = (ProbabilisticNode)net.getNode("ranije_bolesti");
+							 int stateIndex8;
+							 if(resource.getResourceName().equals("acute_bronchitis")) {
+								 stateIndex8 = 0;
+							 } else if(resource.getResourceName().equals("acute_sinusitis")) {
+								 stateIndex8 = 1;
+							 } else if(resource.getResourceName().equals("alergy")) {
+								 stateIndex8 = 2;
+							 } else if(resource.getResourceName().equals("asthma")) {
+								 stateIndex8 = 3;
+							 } else if(resource.getResourceName().equals("chronic_sinusitis")) {
+								 stateIndex8 = 4;
+							 } else if(resource.getResourceName().equals("common_cold")) {
+								 stateIndex8 = 5;
+							 } else if(resource.getResourceName().equals("copd")) {
+								 stateIndex8 = 6;
+							 } else if(resource.getResourceName().equals("lung_cancer")) {
+								 stateIndex8 = 7;
+							 } else if(resource.getResourceName().equals("pleural_efusion")) {
+								 stateIndex8 = 8;
+							 } else if(resource.getResourceName().equals("pneumonia")) {
+								 stateIndex8 = 9;
+							 } else if(resource.getResourceName().equals("pneumothorax")) {
+								 stateIndex8 = 10;
+							 } else if(resource.getResourceName().equals("smoking_addiction")) {
+								 stateIndex8 = 11;
+							 } else if(resource.getResourceName().equals("otitis_media")) {
+								 stateIndex8 = 12;
+							 } else if(resource.getResourceName().equals("seasonal_allergies")) {
+								 stateIndex8 = 13;
+							 } else if(resource.getResourceName().equals("flu")) {
+								 stateIndex8 = 14;
+							 } else {
+								 //ako nema raniju bolest bice stanje u bajesu NONE
+								 stateIndex8 = 15;
+							 }
+							 
+							 factNode8.addFinding(stateIndex8);
 			 
 						 } else {
 							 System.out.println("Ne postoji ranija bolest, ne moze se tumaciti na osnovu toga");
 							 
 						 }
 						 
-						 ProbabilisticNode factNode8 = (ProbabilisticNode)net.getNode("ranije_bolesti");
-						 int stateIndex8;
-						 if(resource.getResourceName().equals("acute_bronchitis")) {
-							 stateIndex8 = 0;
-						 } else if(resource.getResourceName().equals("acute_sinusitis")) {
-							 stateIndex8 = 1;
-						 } else if(resource.getResourceName().equals("alergy")) {
-							 stateIndex8 = 2;
-						 } else if(resource.getResourceName().equals("asthma")) {
-							 stateIndex8 = 3;
-						 } else if(resource.getResourceName().equals("chronic_sinusitis")) {
-							 stateIndex8 = 4;
-						 } else if(resource.getResourceName().equals("common_cold")) {
-							 stateIndex8 = 5;
-						 } else if(resource.getResourceName().equals("copd")) {
-							 stateIndex8 = 6;
-						 } else if(resource.getResourceName().equals("lung_cancer")) {
-							 stateIndex8 = 7;
-						 } else if(resource.getResourceName().equals("pleural_efusion")) {
-							 stateIndex8 = 8;
-						 } else if(resource.getResourceName().equals("pneumonia")) {
-							 stateIndex8 = 9;
-						 } else if(resource.getResourceName().equals("pneumothorax")) {
-							 stateIndex8 = 10;
-						 } else if(resource.getResourceName().equals("smoking_addiction")) {
-							 stateIndex8 = 11;
-						 } else if(resource.getResourceName().equals("otitis_media")) {
-							 stateIndex8 = 12;
-						 } else if(resource.getResourceName().equals("seasonal_allergies")) {
-							 stateIndex8 = 13;
-						 } else if(resource.getResourceName().equals("flu")) {
-							 stateIndex8 = 14;
-						 } else {
-							 //ako nema raniju bolest bice stanje u bajesu NONE
-							 stateIndex8 = 15;
-						 }
-						 
-						 factNode8.addFinding(stateIndex8);
-						 
+
 						 try {
 					        	net.updateEvidences();
 					        } catch (Exception e2) {
@@ -743,19 +708,19 @@ public class AdditionalExaminationDialog extends JDialog {
 				// TODO Auto-generated method stub
 				
 				if(poslednji4.equals("KRVNA_SLIKA")) {
-					NewKrvnaSlikaDialog k = new NewKrvnaSlikaDialog(patient);
+					NewKrvnaSlikaDialog k = new NewKrvnaSlikaDialog(patient,vrsta);
 					k.setVisible(true);			
 					dispose();
 				} else if(poslednji4.equals("RTG_PLUCA")){
-					NewRTGPlucaDialog r = new NewRTGPlucaDialog(patient);
+					NewRTGPlucaDialog r = new NewRTGPlucaDialog(patient,vrsta);
 					r.setVisible(true);
 					dispose();
 				} else if(poslednji4.equals("CT_PLUCA")) {
-					NewCTDialog c = new NewCTDialog(patient);
+					NewCTDialog c = new NewCTDialog(patient,vrsta);
 					c.setVisible(true);
 					dispose();
 				} else if(poslednji4.equals("UZ_PLUCNE_MARAMICE") || poslednji4.equals("ULTRAZVUK")) {
-					NewUltraZvukDialog u = new NewUltraZvukDialog(patient);
+					NewUltraZvukDialog u = new NewUltraZvukDialog(patient,vrsta);
 					u.setVisible(true);
 					dispose();
 				} else {

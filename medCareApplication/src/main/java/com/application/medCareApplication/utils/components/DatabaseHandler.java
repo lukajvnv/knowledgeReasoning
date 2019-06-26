@@ -742,8 +742,11 @@ public class DatabaseHandler {
 	 * 
 	 * Metoda koja kreira krvnu sliku i ubacuje u bazu!
 	 * 
+	 * drugi parametar predstavlja da li treba da se upise dodatno u tabelu
+	 * za anamneze ili za fizikalne preglede u zavisnosti od toga odakle je 
+	 * radjeno ispitivanje
 	 * */
-	public void createKrvnaSlika(KrvnaSlika krvna) throws SQLException{
+	public void createKrvnaSlika(KrvnaSlika krvna,Boolean anam) throws SQLException{
 		int id = getId("krvna_slika");
 		String template = "INSERT INTO krvna_slika (id, id_pacijenta, leukociti, eritrociti, parametarske_inflamacije) VALUES (?, ?, ?, ?, ?)";
 		
@@ -764,6 +767,28 @@ public class DatabaseHandler {
 			throw new SQLException("");
 		}
 		
+		
+		//String template = "UPDATE patient SET Ime = ?, Prezime = ?, Jmbg = ?, Telefon = ?, Datum_rodjenja = ?, Adresa = ? WHERE Id = ?";
+		String template2="";
+		if(anam) { // update anamnesis
+			template2 = "UPDATE anamnesis SET dopunska_ispitivanja = ? WHERE id_pacijenta = ?";
+		} else { // update physical_examination
+			template2 = "UPDATE physical_examination SET dopunska_ispitivanja = ? WHERE id_pacijenta = ?";
+		}
+		
+		
+		try {
+			PreparedStatement ps = databaseConnection.prepareStatement(template2);
+			ps.setString(1,"KRVNA_SLIKA");
+			ps.setInt(2, krvna.getPatientId());
+			
+			ps.executeUpdate();
+			ps.close();
+		} catch(SQLException e) {
+			throw new SQLException("");
+		}
+		
+		
 	}
 	
 
@@ -772,7 +797,7 @@ public class DatabaseHandler {
 	 * Metoda koja kreira rtg pluca i ubacuje u bazu!
 	 * 
 	 * */
-	public void createRTGPluca(RTGPluca rtg) throws SQLException{
+	public void createRTGPluca(RTGPluca rtg,Boolean anam) throws SQLException{
 		int id = getId("rtg_pluca");
 		String template = "INSERT INTO rtg_pluca (id, id_pacijenta, rtg, lezije) VALUES (?, ?, ?, ?)";
 		
@@ -793,6 +818,25 @@ public class DatabaseHandler {
 			throw new SQLException("");
 		}
 		
+		String template2="";
+		if(anam) { // update anamnesis
+			template2 = "UPDATE anamnesis SET dopunska_ispitivanja = ? WHERE id_pacijenta = ?";
+		} else { // update physical_examination
+			template2 = "UPDATE physical_examination SET dopunska_ispitivanja = ? WHERE id_pacijenta = ?";
+		}
+		
+		
+		try {
+			PreparedStatement ps = databaseConnection.prepareStatement(template2);
+			ps.setString(1,"RTG_PLUCA");
+			ps.setInt(2, rtg.getPatientId());
+			
+			ps.executeUpdate();
+			ps.close();
+		} catch(SQLException e) {
+			throw new SQLException("");
+		}
+		
 	}
 	
 	/*
@@ -800,7 +844,7 @@ public class DatabaseHandler {
 	 * Metoda koja kreira ct pluca i ubacuje u bazu!
 	 * 
 	 * */
-	public void createCTPluca(CTpluca ct) throws SQLException{
+	public void createCTPluca(CTpluca ct,Boolean anam) throws SQLException{
 		int id = getId("ct_pluca");
 		String template = "INSERT INTO ct_pluca (id, id_pacijenta, ct) VALUES (?, ?, ?)";
 		
@@ -818,6 +862,25 @@ public class DatabaseHandler {
 			throw new SQLException("");
 		}
 		
+		String template2="";
+		if(anam) { // update anamnesis
+			template2 = "UPDATE anamnesis SET dopunska_ispitivanja = ? WHERE id_pacijenta = ?";
+		} else { // update physical_examination
+			template2 = "UPDATE physical_examination SET dopunska_ispitivanja = ? WHERE id_pacijenta = ?";
+		}
+		
+		
+		try {
+			PreparedStatement ps = databaseConnection.prepareStatement(template2);
+			ps.setString(1,"CT_PLUCA");
+			ps.setInt(2, ct.getPatientId());
+			
+			ps.executeUpdate();
+			ps.close();
+		} catch(SQLException e) {
+			throw new SQLException("");
+		}
+		
 	}
 	
 	/*
@@ -825,7 +888,7 @@ public class DatabaseHandler {
 	 * Metoda koja kreira ultrazvuk i ubacuje u bazu!
 	 * 
 	 * */
-	public void createUltraZvuk(UltraZvuk uz) throws SQLException{
+	public void createUltraZvuk(UltraZvuk uz,Boolean anam) throws SQLException{
 		int id = getId("ultra_zvuk");
 		String template = "INSERT INTO ultra_zvuk (id, id_pacijenta, dubina_izliva,visina_izliva,gustina_izliva,mesto_punkcije) VALUES (?, ?, ?, ?, ?, ?)";
 		
@@ -845,6 +908,26 @@ public class DatabaseHandler {
 		} catch (SQLException e) {
 			throw new SQLException("");
 		}
+		
+		String template2="";
+		if(anam) { // update anamnesis
+			template2 = "UPDATE anamnesis SET dopunska_ispitivanja = ? WHERE id_pacijenta = ?";
+		} else { // update physical_examination
+			template2 = "UPDATE physical_examination SET dopunska_ispitivanja = ? WHERE id_pacijenta = ?";
+		}
+		
+		
+		try {
+			PreparedStatement ps = databaseConnection.prepareStatement(template2);
+			ps.setString(1,"UZ_PLUCNE_MARAMICE");
+			ps.setInt(2, uz.getPatientId());
+			
+			ps.executeUpdate();
+			ps.close();
+		} catch(SQLException e) {
+			throw new SQLException("");
+		}
+		
 	}
 	/** --------------END: Operacije za dopunska ispitivanja ------------------------------- */
 	

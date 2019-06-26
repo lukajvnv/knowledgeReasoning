@@ -539,6 +539,7 @@ public class NewAnamnesisDialog extends JDialog {
 							dbHandler.createAnamnesis(anamnesis);
 							DefaultListModel<Anamnesis> model =  (DefaultListModel<Anamnesis>) panel.getPatientAnamnesisList().getModel();
 							model.addElement(anamnesis);
+							
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();

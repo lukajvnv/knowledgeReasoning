@@ -109,9 +109,10 @@ public class ViewPatientAnamnesis extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				
-				if(anamnesisListModel.isEmpty()) {
+				List<Anamnesis> anemnesis = dbHandler.selectAllPatientAnamnesis(patient);
+				if(anamnesisListModel.isEmpty() && anemnesis.isEmpty()) {
 					System.out.println("nema anamneza pa ne moze da se preporucuje!");
-					Utils.info("Nema anamneza pa ne mogu da se preporucuju dopunski pregledi!");		
+					Utils.info("Nema anamneza pa ne mogu da se preporucuju dopunski pregledi!");			
 				} else {
 					
 					
@@ -133,7 +134,7 @@ public class ViewPatientAnamnesis extends JPanel {
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
 		toolBar.add(lblNewLabel);
 		
-		JButton btnPregledDopunskiIspitivanja = new JButton("Pregled dopunski ispitivanja");
+	/*	JButton btnPregledDopunskiIspitivanja = new JButton("Pregled dopunski ispitivanja");
 		toolBar.add(btnPregledDopunskiIspitivanja);
 		btnPregledDopunskiIspitivanja.addActionListener(new AbstractAction() {
 			
@@ -146,7 +147,7 @@ public class ViewPatientAnamnesis extends JPanel {
 				Utils.info("Pregled dopunskih ispitivanja: " + patientAnamnesis.getAdditionalExamination());
 				
 			}
-		});
+		});*/
 		
 		initList();
 		
@@ -217,6 +218,14 @@ public class ViewPatientAnamnesis extends JPanel {
 		});*/
 	}
 	
+	public DefaultListModel<Anamnesis> getAnamnesisListModel() {
+		return anamnesisListModel;
+	}
+
+	public void setAnamnesisListModel(DefaultListModel<Anamnesis> anamnesisListModel) {
+		this.anamnesisListModel = anamnesisListModel;
+	}
+
 	public Patient getPatient() {
 		return patient;
 	}
