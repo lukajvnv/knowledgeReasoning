@@ -24,6 +24,7 @@ import javax.swing.event.ListSelectionListener;
 
 import com.application.medCareApplication.model.Anamnesis;
 import com.application.medCareApplication.model.Patient;
+import com.application.medCareApplication.model.PhysicalExamination;
 import com.application.medCareApplication.utils.Utils;
 import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
@@ -133,7 +134,8 @@ public class ViewPatientAnamnesis extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(anamnesisListModel.isEmpty()) {
+				List<Anamnesis> anemnesis = dbHandler.selectAllPatientAnamnesis(patient);
+				if(anamnesisListModel.isEmpty() && anemnesis.isEmpty()) {
 					System.out.println("nema anamneza pa ne moze da se preporucuje!");
 					Utils.info("Nema anamneza pa ne mogu da se preporucuju dopunski pregledi!");		
 				} else {

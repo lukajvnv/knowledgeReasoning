@@ -122,7 +122,8 @@ public class ViewPatientPhysicalExamination extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(physicalExaminatinoListModel.isEmpty()) {
+				List<PhysicalExamination> anemnesis = dbHandler.selectAllPatientPhysicalExamination(patient);
+				if(physicalExaminatinoListModel.isEmpty() && anemnesis.isEmpty()) {
 					System.out.println("nema fizikalnog pregleda pa ne moze da se preporucuje!");
 					Utils.info("Nema fizikalnog pregleda pa ne mogu da se preporucuju dopunski pregledi!");	
 				} else {

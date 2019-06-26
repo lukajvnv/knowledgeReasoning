@@ -654,15 +654,9 @@ public class AdditionalExaminationDialog extends JDialog {
 						
 						String sss2 = sss[1];
 						
-						poslednji4 = sss2.substring(0, sss2.length()-1);
+						poslednji4 = sss2.substring(0, sss2.length());
 						
-					/*	String poslednji = prvi[prvi.length];
-						poslednji = poslednji.trim();
-						
-						String[] poslednji2 = poslednji.split("=");
-						String poslednji3 = poslednji2[1];
-						
-						poslednji4 = poslednji3.substring(0, poslednji3.length());*/
+
 						System.out.println("Poslednji : " + poslednji4);
 						btnUradi.setText("Uradi '" + poslednji4 + "'" );
 						
