@@ -256,7 +256,7 @@ public class DatabaseHandler {
 
 	
 	/** --------------BEGIN: Operacije za fizikalni pregled ------------------------------- */
-	public void createPhysicalExamination(PhysicalExamination ex) throws SQLException{
+	public PhysicalExamination createPhysicalExamination(PhysicalExamination ex) throws SQLException{
 		
 		int id = getId("physical_examination");
 		String template = "INSERT INTO physical_examination (physical_Examination_Id, Id_Pacijenta, Temperatura, Disajni_zvuk, Sumovi) VALUES (?, ?, ?, ?, ?)";
@@ -274,6 +274,9 @@ public class DatabaseHandler {
 			
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
+			
+			return selectPatientPhysicalExamination(id);
+			
 		} catch (SQLException e) {
 			throw new SQLException("");
 		}
@@ -538,7 +541,7 @@ public class DatabaseHandler {
 	
 
 	/** --------------BEGIN: Operacije za anamneze ------------------------------- */
-	public void createAnamnesis(Anamnesis anamnesis) throws SQLException{
+	public Anamnesis createAnamnesis(Anamnesis anamnesis) throws SQLException{
 		int id = getId("anamnesis");
 		String template = "INSERT INTO anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
@@ -558,6 +561,9 @@ public class DatabaseHandler {
 			                               
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
+			
+			return selectPatientAnamnesis(id);
+			
 		} catch (SQLException e) {
 			throw new SQLException("");
 		}
@@ -750,7 +756,7 @@ public class DatabaseHandler {
 	 * */
 	public void createKrvnaSlika(KrvnaSlika krvna,Boolean anam) throws SQLException{
 		int id = getId("krvna_slika");
-		String template = "INSERT INTO krvna_slika (id, id_pacijenta, leukociti, eritrociti, parametarske_inflamacije) VALUES (?, ?, ?, ?, ?)";
+		String template = "INSERT INTO krvna_slika (krvna_id, id_pacijenta, leukociti, eritrociti, parametarske_inflamacije) VALUES (?, ?, ?, ?, ?)";
 		
 		System.out.println(template);
 	
@@ -801,7 +807,7 @@ public class DatabaseHandler {
 	 * */
 	public void createRTGPluca(RTGPluca rtg,Boolean anam) throws SQLException{
 		int id = getId("rtg_pluca");
-		String template = "INSERT INTO rtg_pluca (id, id_pacijenta, rtg, lezije) VALUES (?, ?, ?, ?)";
+		String template = "INSERT INTO rtg_pluca (rtg_id, id_pacijenta, rtg, lezije) VALUES (?, ?, ?, ?)";
 		
 		System.out.println(template);
 	
@@ -848,7 +854,7 @@ public class DatabaseHandler {
 	 * */
 	public void createCTPluca(CTpluca ct,Boolean anam) throws SQLException{
 		int id = getId("ct_pluca");
-		String template = "INSERT INTO ct_pluca (id, id_pacijenta, ct) VALUES (?, ?, ?)";
+		String template = "INSERT INTO ct_pluca (ct_id, id_pacijenta, ct) VALUES (?, ?, ?)";
 		
 		System.out.println(template);
 	
@@ -892,7 +898,7 @@ public class DatabaseHandler {
 	 * */
 	public void createUltraZvuk(UltraZvuk uz,Boolean anam) throws SQLException{
 		int id = getId("ultra_zvuk");
-		String template = "INSERT INTO ultra_zvuk (id, id_pacijenta, dubina_izliva,visina_izliva,gustina_izliva,mesto_punkcije) VALUES (?, ?, ?, ?, ?, ?)";
+		String template = "INSERT INTO ultra_zvuk (uv_id, id_pacijenta, dubina_izliva,visina_izliva,gustina_izliva,mesto_punkcije) VALUES (?, ?, ?, ?, ?, ?)";
 		
 		System.out.println(template);
 	

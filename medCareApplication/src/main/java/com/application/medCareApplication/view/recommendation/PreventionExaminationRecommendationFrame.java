@@ -219,6 +219,11 @@ public class PreventionExaminationRecommendationFrame extends JFrame {
 			
 				displayResult(rbrPreventExaminationList, rbrPreventExamination);
 				displayResult(cbrPreventExaminationList, cbrPreventExamination);
+				
+				if(rbrPreventExamination.size() == 0 && cbrPreventExamination.size() == 0) {
+					Utils.warning("Naša baza nije u mogućnosti da na osnovu unetih parametara predloži rešenje! ");
+				}
+
 			
 			}
 		});

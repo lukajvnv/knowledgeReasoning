@@ -47,6 +47,8 @@ public class ViewPatientPhysicalExamination extends JPanel {
 	private PhysicalExamination patientPhysicalExamination = new PhysicalExamination(); //PhysicalExamination konkretnog pacijenta na osnovu koje cbr treba da nam da rezultat dopunskog pregleda
 	Collection<RetrievalResult> eval;
 	
+	private JButton newButton;
+	
 	@SuppressWarnings("serial")
 	public ViewPatientPhysicalExamination(Patient p) {
 		MainFrame.getInstance().setIsAnamnesis(false);
@@ -74,7 +76,7 @@ public class ViewPatientPhysicalExamination extends JPanel {
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
 		toolBar.add(lblNewLabel);
 		
-		JButton newButton = new JButton("Novi");
+	    newButton = new JButton("Novi");
 		newButton.setIcon(new ImageIcon("images\\doc_new_icon&24.png"));
 		newButton.addActionListener(new AbstractAction() {
 			
@@ -150,11 +152,19 @@ public class ViewPatientPhysicalExamination extends JPanel {
 		initList();
 		
 		
+//		if(!physicalExaminatinoListModel.isEmpty()) {
+//			newButton.setEnabled(false);
+//		}
+		disableNewButtonIfIsNotEmpty();
+		
+		JScrollPane scrollPane = new JScrollPane(patientPhysicalExaminatonList);
+		add(scrollPane, BorderLayout.CENTER);
+	}
+	
+	public void disableNewButtonIfIsNotEmpty() {
 		if(!physicalExaminatinoListModel.isEmpty()) {
 			newButton.setEnabled(false);
 		}
-		JScrollPane scrollPane = new JScrollPane(patientPhysicalExaminatonList);
-		add(scrollPane, BorderLayout.CENTER);
 	}
 	
 	private void initList() {

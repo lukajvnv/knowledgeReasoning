@@ -279,9 +279,10 @@ public class NewPhysicalExaminationDialog extends JDialog {
 						
 						DatabaseHandler databaseHandler = MainFrame.getInstance().getDatabaseHandler();
 						try {
-							databaseHandler.createPhysicalExamination(pE);
+							pE =  databaseHandler.createPhysicalExamination(pE);
 							DefaultListModel<PhysicalExamination> model =  (DefaultListModel<PhysicalExamination>) panel.getPatientPhysicalExaminatonList().getModel();
 							model.addElement(pE);
+							panel.disableNewButtonIfIsNotEmpty();
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();

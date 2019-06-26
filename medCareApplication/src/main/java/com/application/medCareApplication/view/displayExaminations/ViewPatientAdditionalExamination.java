@@ -105,20 +105,7 @@ public class ViewPatientAdditionalExamination extends JPanel {
 		for (Object p : physicalExaminations) {
 			patientAdditionalExaminatonListModel.addElement(p);
 		}
-		
-		
-//		CTpluca ct = new CTpluca(1, 1, "vidi se ovo");
-//		RTGPluca rtg = new RTGPluca(1, 1, "fdalk", "alfjk");
-//		UltraZvuk uv = new UltraZvuk(1, "flak", "afl", "lfadjk", "fajkl");
-//		KrvnaSlika kv = new KrvnaSlika(1, "faklj", "dlfkja", "falk");
-//		
-//		patientAdditionalExaminatonListModel.addElement(ct);
-//		patientAdditionalExaminatonListModel.addElement(rtg);
-//		patientAdditionalExaminatonListModel.addElement(uv);
-//		patientAdditionalExaminatonListModel.addElement(kv);
-		
-		
-		
+				
 		patientAdditionalExaminatonList = new JList<Object>(patientAdditionalExaminatonListModel);
 		patientAdditionalExaminatonList.addListSelectionListener(new ListSelectionListener() {
 			

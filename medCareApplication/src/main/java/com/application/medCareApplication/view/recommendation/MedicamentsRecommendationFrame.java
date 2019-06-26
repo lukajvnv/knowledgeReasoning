@@ -230,6 +230,10 @@ public class MedicamentsRecommendationFrame extends JFrame {
 						
 					displayMedicaments(rbrMedicamentsList, rbrMedicamentsResultList);
 					displayMedicaments(cbrMedicamentsList, cbrMedicamentsResultList);
+					
+					if(rbrMedicamentsResultList.size() == 0 && cbrMedicamentsResultList.size() == 0) {
+						Utils.warning("Naša baza nije u mogućnosti da na osnovu unetih parametara predloži rešenje! ");
+					}
 
 				}else {
 					Utils.error("Nepravilno uneta dijagnoza");

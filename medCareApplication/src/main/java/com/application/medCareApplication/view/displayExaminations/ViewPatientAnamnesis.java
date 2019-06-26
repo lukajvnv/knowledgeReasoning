@@ -49,6 +49,7 @@ public class ViewPatientAnamnesis extends JPanel {
 	private Anamnesis patientAnamnesis = new Anamnesis(); //anamneza konkretnog pacijenta na osnovu koje cbr treba da nam da rezultat dopunskog pregleda
 	Collection<RetrievalResult> eval;
 	
+	private JButton newButton;
 	
 	@SuppressWarnings("serial")
 	public ViewPatientAnamnesis(Patient p) {
@@ -75,7 +76,7 @@ public class ViewPatientAnamnesis extends JPanel {
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
 		toolBar.add(lblNewLabel);
 		
-		JButton newButton = new JButton("Novi");
+		 newButton = new JButton("Novi");
 		newButton.setIcon(new ImageIcon("images\\doc_new_icon&24.png"));
 		newButton.addActionListener(new AbstractAction() {
 			
@@ -176,12 +177,19 @@ public class ViewPatientAnamnesis extends JPanel {
 		
 		System.out.println("Lista anamneza: " + anamnesisListModel.isEmpty());
 		
-		if(!anamnesisListModel.isEmpty()) {
-			newButton.setEnabled(false);
-		}
+//		if(!anamnesisListModel.isEmpty()) {
+//			newButton.setEnabled(false);
+//		}
+		disableNewButtonIfIsNotEmpty();
 		
 		scrollPane = new JScrollPane(patientAnamnesisList);
 		add(scrollPane, BorderLayout.CENTER);
+	}
+	
+	public void disableNewButtonIfIsNotEmpty() {
+		if(!anamnesisListModel.isEmpty()) {
+			newButton.setEnabled(false);
+		}
 	}
 	
 	private void initList() {

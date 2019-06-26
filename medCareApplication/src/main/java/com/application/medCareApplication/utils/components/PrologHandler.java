@@ -69,7 +69,7 @@ public class PrologHandler {
 				StringBuilder stBuilder = new StringBuilder(solution.toString());
 				for (JIPVariable var: solution.getVariables()) {
 					System.out.println(var.getName() + "=" + var.getValue());
-					stBuilder.append( " " + var.getName() + " ==> " + var.getValue());
+					stBuilder.append( "[ " + var.getName() + " ==> " + var.getValue() + " ]");
 				}
 				if( i > 1) {
 					System.out.println("Vise resenja!!!");
