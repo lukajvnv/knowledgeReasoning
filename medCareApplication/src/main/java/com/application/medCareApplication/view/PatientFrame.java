@@ -285,7 +285,7 @@ public class PatientFrame extends JFrame {
 		setPatientInfoLabel();
 		patientInfoPanel.add(patientInfoLabel);
 		
-		ViewPatientAnamnesis anemns = new ViewPatientAnamnesis(patient);
+		ViewPatientAnamnesis anemns = new ViewPatientAnamnesis(patient, this);
 		splitPane.setLeftComponent(anemns);
 	}
 
@@ -300,7 +300,7 @@ public class PatientFrame extends JFrame {
 		rightPanel.setBorder(new TitledBorder(null, "Detalji", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		splitPane.setRightComponent(rightPanel);
 		
-		leftPanel =  new ViewPatientAnamnesis(patient);
+		leftPanel =  new ViewPatientAnamnesis(patient, this);
 		splitPane.setLeftComponent(leftPanel);
 	
 	}
