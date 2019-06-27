@@ -39,22 +39,22 @@ node diagnosis
 {
      label = "C1";
      position = (396 244);
-     states = ("acute_bronchitis" "acute_sinusitis" "asthma" "common_cold" "copd" "lung_cancer" "pneumonia" "none");
+     states = ("acute_bronchitis" "acute_sinusitis" "asthma" "common_cold" "copd" "lung_cancer" "pneumonia" "zdrav");
 }
 
 potential (Smoking)
 {
- data = ( 0.5 0.5 );
+ data = ( 0.15 0.85 );
 }
 
 potential (Alcohol)
 {
- data = ( 0.5 0.5 );
+ data = ( 0.25 0.75 );
 }
 
 potential (living_place)
 {
- data = ( 0.5 0.5 );
+ data = ( 0.55 0.45 );
 }
 
 potential (ranije_bolesti)

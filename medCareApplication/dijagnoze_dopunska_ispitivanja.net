@@ -11,7 +11,7 @@ node RTG
 {
      label = "C1";
      position = (86 43);
-     states = ("normalan" "patoloski");
+     states = ("normalan_rtg" "patoloski_rtg");
 }
 
 node CT
@@ -24,7 +24,7 @@ node CT
 node krvna_slika
 {
      label = "C3";
-     position = (346 45);
+     position = (346 0);
      states = ("u_normali" "poviseni_leukociti" "snizeni_leukociti" "poviseni_eritrociti" "snizeni_eritrociti");
 }
 
@@ -32,7 +32,7 @@ node diagnosis
 {
      label = "C4";
      position = (195 135);
-     states = ("acute_bronchitis" "acute_sinusitis" "asthma" "common_cold" "copd" "lung_cancer" "pneumonia" "none");
+     states = ("acute_bronchitis" "acute_sinusitis" "asthma" "common_cold" "copd" "lung_cancer" "pneumonia" "zdrav");
 }
 
 potential (RTG)
@@ -55,10 +55,10 @@ potential (diagnosis | krvna_slika CT RTG)
  data = (((( 0.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0 )
 ( 0.0 0.0 0.0 0.0 0.2 0.3 0.5 0.0 ))
 (( 0.0 0.0 0.0 0.0 0.2 0.25 0.45 0.1 )
-( 0.0 0.0 0.0 0.0 0.2 0.4 0.3 0.0 )))
+( 0.0 0.0 0.0 0.0 0.25 0.45 0.3 0.0 )))
 ((( 0.3 0.3 0.05 0.35 0.0 0.0 0.0 0.0 )
 ( 0.2 0.2 0.0 0.25 0.1 0.1 0.15 0.0 ))
-(( 0.2 0.2 0.0 0.25 0.1 0.35 0.0 0.0 )
+(( 0.2 0.2 0.0 0.2 0.05 0.35 0.0 0.0 )
 ( 0.1 0.1 0.0 0.05 0.05 0.4 0.3 0.0 )))
 ((( 0.15 0.15 0.0 0.3 0.0 0.0 0.2 0.2 )
 ( 0.1 0.1 0.0 0.25 0.2 0.3 0.05 0.0 ))

@@ -56,6 +56,17 @@ public class Anamnesis implements CaseComponent {
 	@Column(name = "diagnosis")
 	private String diagnosis;
 	
+	@Column(name = "rezultat_dopunskih")
+	private String rezDopunskih;
+	
+	public String getRezDopunskih() {
+		return rezDopunskih;
+	}
+
+	public void setRezDopunskih(String rezDopunskih) {
+		this.rezDopunskih = rezDopunskih;
+	}
+
 	public Anamnesis(int anamnesisId, int patientId, String smoking, String alcohol, String employed,
 			String workingCondition, String livingPlace, String livingObject, String pet, String additionalExamination,
 			String diagnosis) {

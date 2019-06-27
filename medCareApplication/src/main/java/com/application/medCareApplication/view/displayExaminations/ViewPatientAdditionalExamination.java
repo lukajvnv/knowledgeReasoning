@@ -21,15 +21,19 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.application.medCareApplication.model.Anamnesis;
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.PhysicalExamination;
 import com.application.medCareApplication.model.examination.CTpluca;
 import com.application.medCareApplication.model.examination.KrvnaSlika;
 import com.application.medCareApplication.model.examination.RTGPluca;
 import com.application.medCareApplication.model.examination.UltraZvuk;
+import com.application.medCareApplication.utils.Utils;
 import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.PatientFrame;
+import com.application.medCareApplication.view.recommendation.RecommendedDiagnosisAdditionalExamDialog;
+import com.application.medCareApplication.view.recommendation.RecommendedDiagnosisDialog;
 import com.ugos.b.d;
 
 public class ViewPatientAdditionalExamination extends JPanel {
@@ -47,6 +51,9 @@ public class ViewPatientAdditionalExamination extends JPanel {
 		this.patientFrame = pf;
 		setLayout(new BorderLayout(0, 0));
 		
+		DefaultListModel<Anamnesis> anamnesisListModel = new DefaultListModel<Anamnesis>();
+		DatabaseHandler dbHandler = MainFrame.getInstance().getDatabaseHandler();
+		List<Anamnesis> anemnesis = dbHandler.selectAllPatientAnamnesis(patient);
 		JToolBar toolBar = new JToolBar();
 		add(toolBar, BorderLayout.NORTH);
 		
@@ -82,7 +89,7 @@ public class ViewPatientAdditionalExamination extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Object obj = patientAdditionalExaminatonList.getSelectedValue();
+				/*Object obj = patientAdditionalExaminatonList.getSelectedValue();
 				if(obj instanceof CTpluca) {
 					
 				} else if(obj instanceof KrvnaSlika) {
@@ -91,6 +98,14 @@ public class ViewPatientAdditionalExamination extends JPanel {
 					
 				} else if(obj instanceof UltraZvuk) {
 					
+				}*/
+				List<Anamnesis> anemnesis = dbHandler.selectAllPatientAnamnesis(patient);
+				if(anamnesisListModel.isEmpty() && anemnesis.isEmpty()) {
+					System.out.println("nema anamneza pa ne moze da se preporucuje!");
+					Utils.info("Nema anamneza pa ne mogu da se preporucuju dopunski pregledi!");		
+				} else {
+					RecommendedDiagnosisAdditionalExamDialog rda = new RecommendedDiagnosisAdditionalExamDialog(patient);
+					rda.setVisible(true);
 				}
 			}
 		});

@@ -72,12 +72,12 @@ node ranije_bolesti
 
 potential (Smoking)
 {
- data = ( 0.5 0.5 );
+ data = ( 0.15 0.85 );
 }
 
 potential (Alcohol)
 {
- data = ( 0.5 0.5 );
+ data = ( 0.25 0.75 );
 }
 
 potential (Employed)
@@ -92,7 +92,7 @@ potential (working_condition)
 
 potential (living_place)
 {
- data = ( 0.5 0.5 );
+ data = ( 0.55 0.45 );
 }
 
 potential (living_object)
