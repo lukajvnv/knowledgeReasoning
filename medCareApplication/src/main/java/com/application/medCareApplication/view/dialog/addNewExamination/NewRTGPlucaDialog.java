@@ -11,6 +11,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
@@ -24,7 +25,9 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import com.application.medCareApplication.model.AdditionalExamination;
 import com.application.medCareApplication.model.Patient;
+import com.application.medCareApplication.model.examination.KrvnaSlika;
 import com.application.medCareApplication.model.examination.RTGPluca;
 import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
@@ -247,6 +250,37 @@ public class NewRTGPlucaDialog extends JDialog {
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
+						}
+						
+						//ubacujemo u novu tabelu add exam
+						RTGPluca ctt = new RTGPluca();
+						List<Object> lista = dbHandler.selectAllPatientCBC(p);
+						for (Object object : lista) {
+							ctt = (RTGPluca) object;
+						}
+						
+						if(dbHandler.selectAdditionalExamination(p.getPatientId()) == null) {
+							AdditionalExamination novi = new AdditionalExamination();
+							System.out.println("idd1? " + ctt.getId());
+							novi.setIdRtg(ctt.getId());
+							novi.setPatientId(patientId);
+							try {
+								dbHandler.createAdditionalExamination(novi);
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						} else {
+							AdditionalExamination novi = dbHandler.selectAdditionalExamination(p.getPatientId());
+							System.out.println("idd2? " + ctt.getId());
+							novi.setIdRtg(ctt.getId());
+							try {
+								dbHandler.updateAdditionalExamination(novi);
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							//novi.setPatientId(patientId);
 						}
 
 						dispose();

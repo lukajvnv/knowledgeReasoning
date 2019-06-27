@@ -16,6 +16,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.application.medCareApplication.model.AdditionalExamination;
 import com.application.medCareApplication.model.Anamnesis;
 import com.application.medCareApplication.model.Diagnosis;
 import com.application.medCareApplication.model.Patient;
@@ -1002,6 +1003,41 @@ public class DatabaseHandler {
 	
 	}
 	
+public RTGPluca selectPatientRtg(int ksId) {
+		
+		String sql = String.format("SELECT %s FROM %s WHERE rtg_id = '%s';", "*", "rtg_pluca", ksId);
+		
+		System.out.println(sql);
+		
+		RTGPluca cts = new RTGPluca();
+		
+		try {
+			Statement stmt = databaseConnection.createStatement();			
+			
+			ResultSet rset = stmt.executeQuery(sql);
+			
+			if(!rset.isBeforeFirst()) {
+				System.out.println("Nema podataka");
+			}
+
+			while(rset.next()) {
+				cts = makeOneRTG(rset);
+			}
+				
+
+				
+			rset.close();
+			stmt.close();
+			
+			return cts;
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return null;
+		}
+	
+	}
+	
 	private RTGPluca makeOneRTG(ResultSet resultSet) {
 		RTGPluca rtgPluca = null;
 		try {
@@ -1040,6 +1076,42 @@ public class DatabaseHandler {
 					cts.add(a);
 				}
 			}
+				
+			rset.close();
+			stmt.close();
+			
+			return cts;
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return null;
+		}
+	
+	}
+	
+public CTpluca selectPatientCt(int ctId) {
+		
+	String sql = String.format("SELECT %s FROM %s WHERE ct_id = '%s';", "*", "ct_pluca", ctId);
+		
+		System.out.println(sql);
+		
+		CTpluca cts = new CTpluca();
+		
+		try {
+			Statement stmt = databaseConnection.createStatement();			
+			
+			ResultSet rset = stmt.executeQuery(sql);
+			
+			if(!rset.isBeforeFirst()) {
+				System.out.println("Nema podataka");
+			}
+
+
+			while(rset.next()) {
+				cts = makeOneCT(rset);
+			}
+			
+
 				
 			rset.close();
 			stmt.close();
@@ -1095,6 +1167,40 @@ public class DatabaseHandler {
 			stmt.close();
 			
 			return cbcs;
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return null;
+		}
+	
+	}
+	
+public KrvnaSlika selectPatientKs(int ksId) {
+		
+		String sql = String.format("SELECT %s FROM %s WHERE krvna_id = '%s';", "*", "krvna_slika", ksId);
+		
+		System.out.println(sql);
+		
+		KrvnaSlika cts = new KrvnaSlika();
+		
+		try {
+			Statement stmt = databaseConnection.createStatement();			
+			
+			ResultSet rset = stmt.executeQuery(sql);
+			
+			if(!rset.isBeforeFirst()) {
+				System.out.println("Nema podataka");
+			}
+
+			while(rset.next()) {
+				cts = makeOneCBC(rset);
+			}
+
+				
+			rset.close();
+			stmt.close();
+			
+			return cts;
 			
 		} catch (SQLException e) {
 			//e.printStackTrace();
@@ -1569,5 +1675,118 @@ public class DatabaseHandler {
 	}
 
 	/** --------------END: Operacije za resurse koji se koriste u aplikaciji ------------------------------- */
+	
+	/** --------------BEGIN: Operacije za additionalexamination ------------------------------- */
+	
+	
+	public AdditionalExamination selectAdditionalExamination(int patientId) {
+		
+		String sql = String.format("SELECT %s FROM %s WHERE %s = '%s';", "*", "additional_examination", PatientsColumn.patientId, patientId);
+		
+		System.out.println(sql);
+		
+		
+		try {
+			AdditionalExamination ae = null;
+
+			
+			Statement stmt = databaseConnection.createStatement();			
+			
+			ResultSet rset = stmt.executeQuery(sql);
+			
+			if(!rset.isBeforeFirst()) {
+				System.out.println("Nevalidan id");
+			}
+			
+			while(rset.next()) {
+				ae = makeOneAdditionalExamination(rset);
+			}
+			
+			
+			rset.close();
+			stmt.close();
+			
+			return ae;
+			
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	private AdditionalExamination makeOneAdditionalExamination(ResultSet resultSet) {
+		AdditionalExamination ae = null;
+		try {
+			Integer id = resultSet.getInt(PatientsColumn.additional_examination_id);
+			Integer id_pacijenta = resultSet.getInt(PatientsColumn.id_pacijenta);
+			Integer id_ct = resultSet.getInt(PatientsColumn.id_ct);
+			Integer id_rtg = resultSet.getInt(PatientsColumn.id_rtg);
+			Integer id_ks = resultSet.getInt(PatientsColumn.id_ks);
+			Integer id_uz = resultSet.getInt(PatientsColumn.id_uz);
+			String diagnosis = resultSet.getString(PatientsColumn.diagnosis);
+			
+			ae = new AdditionalExamination(id, id_pacijenta, id_rtg, id_ct, id_ks, id_uz, diagnosis);
+			
+			
+			return ae;
+		} catch (SQLException e) {
+			return ae;
+		}
+	}
+	
+	public void updateAdditionalExamination(AdditionalExamination ae) throws SQLException {
+		String template = "UPDATE additional_examination SET id_pacijenta = ?, id_ct = ?, id_ks = ?, id_rtg = ?, id_uz = ?, diagnosis = ? WHERE additional_examination_id = ?";
+
+		System.out.println(template);
+		PreparedStatement preparedStatement = databaseConnection.prepareStatement(template);
+		
+		try {
+			preparedStatement.setInt(7, ae.getAnamnesisId());
+			preparedStatement.setInt(1, ae.getPatientId());
+			preparedStatement.setInt(2, ae.getIdCt());
+			preparedStatement.setInt(3, ae.getIdKs());
+			preparedStatement.setInt(4,ae.getIdRtg());
+			preparedStatement.setInt(5, ae.getIdUz());
+			preparedStatement.setString(6, ae.getDiagnosis());
+
+			
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			throw new SQLException("");
+		} finally {
+			preparedStatement.close();
+		}
+	}
+	
+public void createAdditionalExamination(AdditionalExamination ae) throws SQLException{
+		
+		int id = getId("additional_examination");
+		String template = "INSERT INTO additional_examination (additional_examination_id, id_pacijenta, id_ct, id_ks, id_rtg, id_uz, diagnosis) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		
+		System.out.println(template);
+	
+		try {
+			/*Statement stmt = databaseConnection.createStatement();
+			stmt.execute(template);
+			
+			stmt.close();*/
+			
+			PreparedStatement preparedStatement = databaseConnection.prepareStatement(template);
+			preparedStatement.setInt(1, id);
+			preparedStatement.setInt(2, ae.getPatientId());
+			preparedStatement.setInt(3, ae.getIdCt());
+			preparedStatement.setInt(4, ae.getIdKs());
+			preparedStatement.setInt(5, ae.getIdRtg());
+			preparedStatement.setInt(6, ae.getIdUz());
+			preparedStatement.setString(7, ae.getDiagnosis());
+			
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			throw new SQLException("");
+		}
+		
+	}
 
 }

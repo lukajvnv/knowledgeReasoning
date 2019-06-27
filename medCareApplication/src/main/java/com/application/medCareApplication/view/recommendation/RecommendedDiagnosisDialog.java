@@ -34,6 +34,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import com.application.medCareApplication.connector.CbrApplication;
+import com.application.medCareApplication.model.AdditionalExamination;
 import com.application.medCareApplication.model.Anamnesis;
 import com.application.medCareApplication.model.Diagnosis;
 import com.application.medCareApplication.model.Patient;
@@ -126,6 +127,11 @@ public class RecommendedDiagnosisDialog extends JDialog {
 			patientPhysicalExamination = a;
 			physicalListModel.addElement(a);
 		}
+		
+		
+		
+		
+
 		
 		
 		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());

@@ -11,6 +11,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -23,11 +24,15 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import com.application.medCareApplication.model.AdditionalExamination;
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.examination.CTpluca;
 import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
 import com.application.medCareApplication.view.displayExaminations.ViewPatientAnamnesis;
+
+import javassist.CtBehavior;
+import javassist.CtPrimitiveType;
 
 
 public class NewCTDialog extends JDialog {
@@ -191,6 +196,37 @@ public class NewCTDialog extends JDialog {
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
+						}
+						
+						//ubacujemo u novu tabelu add exam
+						CTpluca ctt = new CTpluca();
+						List<Object> lista = dbHandler.selectAllPatientCt(p);
+						for (Object object : lista) {
+							ctt = (CTpluca) object;
+						}
+						
+						if(dbHandler.selectAdditionalExamination(p.getPatientId()) == null) {
+							AdditionalExamination novi = new AdditionalExamination();
+							System.out.println("idd1? " + ctt.getId());
+							novi.setIdCt(ctt.getId());
+							novi.setPatientId(patientId);
+							try {
+								dbHandler.createAdditionalExamination(novi);
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						} else {
+							AdditionalExamination novi = dbHandler.selectAdditionalExamination(p.getPatientId());
+							System.out.println("idd2? " + ctt.getId());
+							novi.setIdCt(ctt.getId());
+							try {
+								dbHandler.updateAdditionalExamination(novi);
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							//novi.setPatientId(patientId);
 						}
 
 						dispose();

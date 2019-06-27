@@ -74,4 +74,14 @@ public class PatientsColumn {
 	public static String leukociti = "leukociti";
 	public static String eritrociti = "eritrociti";
 	public static String parametarske_inflamacije = "parametarske_inflamacije";
+	
+	//additional examination
+	
+	public static String additional_examination_id = "additional_examination_id";
+	public static String id_pacijenta = "id_pacijenta";
+	public static String id_ct = "id_ct";
+	public static String id_rtg = "id_rtg";
+	public static String id_ks = "id_ks";
+	public static String id_uz = "id_uz";
+	
 }

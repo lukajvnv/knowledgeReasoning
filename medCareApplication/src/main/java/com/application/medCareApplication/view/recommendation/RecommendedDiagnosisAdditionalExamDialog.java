@@ -6,10 +6,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -25,12 +28,23 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import org.hibernate.property.access.internal.PropertyAccessMapImpl.GetterImpl;
+
 import com.application.medCareApplication.connector.CbrApplication;
+import com.application.medCareApplication.model.AdditionalExamination;
 import com.application.medCareApplication.model.Anamnesis;
+import com.application.medCareApplication.model.Diagnosis;
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.PhysicalExamination;
+import com.application.medCareApplication.model.examination.CTpluca;
+import com.application.medCareApplication.model.examination.KrvnaSlika;
+import com.application.medCareApplication.model.examination.RTGPluca;
+import com.application.medCareApplication.model.examination.UltraZvuk;
 import com.application.medCareApplication.utils.AdditionalExaminationEnum;
+import com.application.medCareApplication.utils.Utils;
+import com.application.medCareApplication.utils.components.DatabaseHandler;
 import com.application.medCareApplication.view.MainFrame;
+import com.application.medCareApplication.view.utils.DateLabelFormatter;
 
 import ucm.gaia.jcolibri.cbrcore.CBRCase;
 import ucm.gaia.jcolibri.cbrcore.CBRQuery;
@@ -67,8 +81,48 @@ public class RecommendedDiagnosisAdditionalExamDialog extends JDialog {
 	private JButton btnUradi = new JButton("");
 	private JButton button = new JButton("Pogledaj");
 	
+	
+	//additional
+	private AdditionalExamination additinal = new AdditionalExamination();
+	private KrvnaSlika ks = new KrvnaSlika();
+	private RTGPluca rtg = new RTGPluca();
+	private CTpluca ct = new CTpluca();
+	private UltraZvuk uz = new UltraZvuk();
+	
 	public RecommendedDiagnosisAdditionalExamDialog(Patient p) {
 		this.patient = p;
+		
+		//za dopunska ispitivanja
+				//DefaultListModel<AdditionalExamination> physicalListModel = new DefaultListModel<AdditionalExamination>();
+		DatabaseHandler dbHandler = MainFrame.getInstance().getDatabaseHandler();
+		additinal = dbHandler.selectAdditionalExamination(patient.getPatientId());
+		
+		if(additinal.getIdCt() != 0) {
+			ct = dbHandler.selectPatientCt(additinal.getIdCt());
+			System.out.println(ct.toString());
+			
+		} else {
+			ct = null;
+		}
+		
+		if(additinal.getIdKs() != 0) {
+			ks = dbHandler.selectPatientKs(additinal.getIdKs());
+		} else {
+			ks = null;
+		}
+		
+		if(additinal.getIdRtg() != 0) {
+			rtg = dbHandler.selectPatientRtg(additinal.getIdRtg());
+		} else {
+			rtg = null;
+		}
+		
+		if(additinal.getIdUz() != 0) {
+			
+		}
+		
+		
+		
 		
 		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
 		String titleText = String.format("Predlog dopunskih ispitivanja na osnovu anamneze: %s %s", patient.getFirstName(), patient.getLastName());
@@ -156,8 +210,155 @@ public class RecommendedDiagnosisAdditionalExamDialog extends JDialog {
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
-					
+					//djuka
 					IInferenceAlgorithm algorithm = new JunctionTreeAlgorithm();
+					algorithm.setNetwork(net);
+					algorithm.run();
+					
+					ProbabilisticNode factNode2 = (ProbabilisticNode)net.getNode("CT");
+					int stateIndex2;
+					//System.out.println("Getct: " + ct.getCt());
+					if(ct != null) {
+						if(ct.getCt().equals("normalan")) {
+							stateIndex2 = 0;
+						} else {
+							stateIndex2 = 1;
+						}
+						factNode2.addFinding(stateIndex2);
+					} else {
+						//nikom nista
+					}
+					
+					if(rtg != null) {
+						ProbabilisticNode factNode1 = (ProbabilisticNode)net.getNode("RTG");
+						int stateIndex1;
+						if(rtg.getRtg().equals("normalan")) {
+							stateIndex1 = 0;
+						} else {
+							stateIndex1 = 1;
+						}
+						factNode1.addFinding(stateIndex1);
+					} else {
+						//nikom nista
+					}
+					
+					
+					
+					
+				/*	ProbabilisticNode factNode3 = (ProbabilisticNode)net.getNode("krvna_slika");
+					int stateIndex3;
+					if(ks.getParametarske_inflamacije().equals("U normai")) {
+						stateIndex3 = 0;
+					} else if (ks.getLeukociti().equals("Poviseni")) {
+						stateIndex3 = 1;
+					} else if (ks.getLeukociti().equals("Snizeni")) {
+						stateIndex3 = 2;
+					} else if (ks.getEritrociti().equals("Poviseni")) {
+						stateIndex3 = 3;
+					} else {
+						stateIndex3 = 4;
+					}*/
+					
+					if(ks != null) {
+						ProbabilisticNode factNode3 = (ProbabilisticNode)net.getNode("eritrociti");
+						int stateIndex3;
+						if(ks.getEritrociti().equals("Poviseni")) {
+							
+							stateIndex3 = 0;
+						} else {
+							stateIndex3 = 1;
+						}
+						
+						System.out.println("State index 3: " + stateIndex3);
+						factNode3.addFinding(stateIndex3);
+						
+						ProbabilisticNode factNode4 = (ProbabilisticNode)net.getNode("leukociti");
+						int stateIndex4;
+						if(ks.getEritrociti().equals("Poviseni")) {
+							
+							stateIndex4 = 0;
+						} else {
+							stateIndex4 = 1;
+						}
+						
+						System.out.println("State index 3: " + stateIndex4);
+						factNode4.addFinding(stateIndex4);
+						
+						ProbabilisticNode factNode5 = (ProbabilisticNode)net.getNode("parametarske_inflamacije");
+						int stateIndex5;
+						if(ks.getEritrociti().equals("Povisene")) {
+							
+							stateIndex5 = 0;
+						} else {
+							stateIndex5 = 1;
+						}
+						
+						System.out.println("State index 3: " + stateIndex5);
+						factNode5.addFinding(stateIndex5);
+					} else {
+						//nikom nista
+					}
+					
+					
+					
+					
+					
+					try {
+			        	net.updateEvidences();
+			        } catch (Exception e2) {
+			        	System.out.println(e2.getMessage());               	
+			        }
+			        
+					List<Node> nodeList = net.getNodes();
+			        // states overview after propagation
+					for (Node node : nodeList) {
+						System.out.println(node.getName());
+						for (int i = 0; i < node.getStatesSize(); i++) {
+							System.out.println(node.getStateAt(i) + ": " + ((ProbabilisticNode)node).getMarginalAt(i));
+						}
+					}
+					
+					List<Float> listaVerovatnoca = new ArrayList<Float>();
+					
+					String temp="";
+					Node solution = net.getNode("resenje");
+					System.out.println("Solution: " + solution.getName());
+					temp+= "Diagnosis: " + solution.getName() + "\n";
+					for(int i = 0; i < solution.getStatesSize(); i++) {
+						
+						listaVerovatnoca.add(((ProbabilisticNode)solution).getMarginalAt(i));
+						
+					}
+					Collections.sort(listaVerovatnoca);
+					Collections.reverse(listaVerovatnoca);
+					double max = 0.0;
+					String maxId = "";
+					temp="";
+					for(int i = 0; i < solution.getStatesSize(); i++) {
+						temp += solution.getStateAt(i) + ": " +  ((ProbabilisticNode)solution).getMarginalAt(i) + "\n";
+						System.out.println(solution.getStateAt(i) + ": " +  ((ProbabilisticNode)solution).getMarginalAt(i));
+						solutionList.add(temp);
+						temp="";
+						if(((ProbabilisticNode)solution).getMarginalAt(i) > max) {
+							maxId = "";
+							max = ((ProbabilisticNode)solution).getMarginalAt(i);
+							maxId += solution.getStateAt(i);
+						}
+					}
+					
+					System.out.println("*****\n");
+					
+					System.out.println(maxId.toUpperCase() + ": " + max);
+					
+					poslednji4 += maxId.toUpperCase();
+					
+					btnUradi.setText("Dodaj '" + poslednji4 + "'" );
+					
+					System.out.println("*************\n" + temp);
+					
+					
+					//pop
+			/*		IInferenceAlgorithm algorithm = new JunctionTreeAlgorithm();
 					algorithm.setNetwork(net);
 					algorithm.run();
 					
@@ -193,8 +394,8 @@ public class RecommendedDiagnosisAdditionalExamDialog extends JDialog {
 						stateIndex3 = 4;
 					}
 					factNode3.addFinding(stateIndex3);
-					
-					try {
+					*/
+					/*try {
 			        	net.updateEvidences();
 			        } catch (Exception e2) {
 			        	System.out.println(e2.getMessage());               	
@@ -235,7 +436,7 @@ public class RecommendedDiagnosisAdditionalExamDialog extends JDialog {
 							max = ((ProbabilisticNode)solution).getMarginalAt(i);
 							maxId += solution.getStateAt(i);
 						}
-					}
+					}*/
 				}
 				else {
 					System.out.println("Tu smo 2");
@@ -329,6 +530,28 @@ public class RecommendedDiagnosisAdditionalExamDialog extends JDialog {
 		gbc_btnUradi.gridy = 5;
 		contentPanel.add(btnUradi, gbc_btnUradi);
 		btnUradi.setName("Uradi '" + poslednji4 + "'" );
+		
+		btnUradi.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+					/*Izvuci sta je selektovan podatak konkretno lek/terapija */
+					DateLabelFormatter dF = new DateLabelFormatter();		
+					Diagnosis newDiagnosis = new Diagnosis(-1, patient.getPatientId(), poslednji4, dF.getDateFormatter().format(new Date()));
+					DatabaseHandler handler = MainFrame.getInstance().getDatabaseHandler();
+					try {
+						handler.createDiagnosis(newDiagnosis);
+						Utils.info("Dijagnoza je dodata u karton pacijenta");
+						dispose();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
+			
+		});
 	}
 	private void displaySolutions(List<String> solutions) {
 		DefaultListModel<String> model = new DefaultListModel<String>();

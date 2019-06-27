@@ -45,6 +45,14 @@ values (5, 7, 'Ne', 'Ne', 'Zaposlen', 'Fizicki tezak posao', 'Grad', 'Stan', 'Ne
 insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,dopunska_ispitivanja,patient_id_pacijenta,diagnosis)
 values (6, 6, 'Da', 'Da', 'Zaposlen', 'Fizicki lak posao', 'Selo', 'Kuca', 'Ne', 'KRVNA_SLIKA', 6, 'pneumonia');
 
+
+/*
+ *  Dopunska ispitivanja
+ * */
+
+insert into additional_examination(additional_examination_id, id_pacijenta, id_rtg,id_ct,id_ks,id_uz,diagnosis) 
+values(1,1,1,1,1,1,'copd');
+ 
 /* Ranije bolesti*/
 INSERT INTO ranije_bolesti (patient_id, diagnosis_id)
 values (1, 38);
@@ -53,9 +61,9 @@ INSERT INTO porodicne_bolesti (patient_id, diagnosis_id)
 values (1, 43);
 
 /*Dopunska ispitivanja pacijenta*/
-INSERT INTO ct_pluca (ct_id, id_pacijenta, ct) values (1, 1, 'ct');
-INSERT INTO rtg_pluca (rtg_id, id_pacijenta, rtg, lezije) values (1, 1, 'rtg', 'lezije');
-INSERT INTO krvna_slika (krvna_id, id_pacijenta, leukociti, eritrociti, parametarske_inflamacije) values (1, 1, 'da', 'da', 'da');
+INSERT INTO ct_pluca (ct_id, id_pacijenta, ct) values (1, 1, 'patoloski');
+INSERT INTO rtg_pluca (rtg_id, id_pacijenta, rtg, lezije) values (1, 1, 'normalan', 'lezije');
+INSERT INTO krvna_slika (krvna_id, id_pacijenta, leukociti, eritrociti, parametarske_inflamacije) values (1, 1, 'Poviseni', 'Snizeni', 'U normi');
 INSERT INTO ultra_zvuk (uv_id, id_pacijenta, visina_izliva, dubina_izliva, gustina_izliva, mesto_punkcije) values (1, 1, '35', '45', '54', 'ovde');
 
 /* Dijagnoze pacijenta */
