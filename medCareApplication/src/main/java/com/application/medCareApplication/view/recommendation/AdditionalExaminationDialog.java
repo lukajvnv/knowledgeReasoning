@@ -56,7 +56,10 @@ import unbbayes.prs.Node;
 import unbbayes.prs.bn.JunctionTreeAlgorithm;
 import unbbayes.prs.bn.ProbabilisticNetwork;
 import unbbayes.prs.bn.ProbabilisticNode;
+import unbbayes.util.ResourcesUtil;
 import unbbayes.util.extension.bn.inference.IInferenceAlgorithm;
+
+import org.springframework.util.ResourceUtils;
 
 public class AdditionalExaminationDialog extends JDialog {
 	
@@ -203,7 +206,8 @@ public class AdditionalExaminationDialog extends JDialog {
 						// loading from file
 						 BaseIO io = new NetIO();
 						 try {
-							net = (ProbabilisticNetwork)io.load(new File("dopunska_ispitivanja_anamneza.net"));
+							 File f = ResourceUtils.getFile("classpath:bayesian_net/dopunska_ispitivanja_anamneza.net");
+							net = (ProbabilisticNetwork)io.load(f);
 						} catch (LoadException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -212,20 +216,20 @@ public class AdditionalExaminationDialog extends JDialog {
 							e1.printStackTrace();
 						}
 						 
-						 System.out.println("STa se desava?? : " + net.getEdge(net.getNode("Smoking"), net.getNode("solution")));
+						// System.out.println("STa se desava?? : " + net.getEdge(net.getNode("Smoking"), net.getNode("solution")));
 						 Node n1 = net.getNode("solution");
-						 System.out.println("STa se desava?? : " + n1.getStateAt(0));
+						// System.out.println("STa se desava?? : " + n1.getStateAt(0));
 						 
 						 
 						 Node n2 = net.getNode("Smoking");
-						 System.out.println("Sta je ovo sad ? ? ? : " + n2.getStateAt(0));
+						 //System.out.println("Sta je ovo sad ? ? ? : " + n2.getStateAt(0));
 						 n2.setStateAt("No", 0);
-						 System.out.println("Sta je ovo sad ? ? ? : " + n2.getStateAt(0));
+						 //System.out.println("Sta je ovo sad ? ? ? : " + n2.getStateAt(0));
 						 
 					
 						 n2.setStateAt("Yes", 0);
 						 
-						 System.out.println("Sta je ovo sad ? ? ? : "+ n2.getStateAt(0));
+						// System.out.println("Sta je ovo sad ? ? ? : "+ n2.getStateAt(0));
 						 
 						 System.out.println("***** COMPAILING *****");
 						 IInferenceAlgorithm algorithm = new JunctionTreeAlgorithm();
@@ -503,7 +507,10 @@ public class AdditionalExaminationDialog extends JDialog {
 						// loading from file
 						 BaseIO io = new NetIO();
 						 try {
-							net = (ProbabilisticNetwork)io.load(new File("dopunska_ispitivanja_fiz_preg.net"));
+							 File f = ResourceUtils.getFile("classpath:bayesian_net/dopunska_ispitivanja_fiz_preg.net");
+							net = (ProbabilisticNetwork)io.load(f);
+							
+							//"classpath:rdfResources/" + fileName
 						} catch (LoadException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
