@@ -1507,7 +1507,7 @@ public KrvnaSlika selectPatientKs(int ksId) {
 			String leukociti = resultSet.getString(PatientsColumn.leukociti);
 			String p_inf = resultSet.getString(PatientsColumn.parametarske_inflamacije);
 			
-			d = new Diagnosis(id, patientId, date, ct, rtg, eritrociti, leukociti, p_inf, diagnose);
+			d = new Diagnosis(id, patientId, date, ct, rtg, eritrociti, leukociti, p_inf, diagnose); 
 			
 			return d;
 		} catch (SQLException e) {

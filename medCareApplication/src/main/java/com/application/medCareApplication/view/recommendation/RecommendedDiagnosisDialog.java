@@ -93,7 +93,7 @@ public class RecommendedDiagnosisDialog extends JDialog {
 	private String poslednji4 = "";
 	
 	private Boolean vrsta; // vrsta ili ti da li je anamneza(true) ili fizikalni pregled (false) u pitanju
-	private JButton btnDodaj = new JButton("Dodaj");
+	private JButton btnDodaj = new JButton("");
 	private JButton button = new JButton("Pogledaj");
 	
 	private ReasoningAnswerData lastSelectedTherapyElement;
@@ -391,9 +391,9 @@ public class RecommendedDiagnosisDialog extends JDialog {
 						
 						System.out.println("*****\n");
 						
-						System.out.println(maxId.toUpperCase() + ": " + max);
+						System.out.println(maxId + ": " + max);
 						
-						poslednji4 += maxId.toUpperCase();
+						poslednji4 += maxId;
 						
 						btnDodaj.setText("Dodaj '" + poslednji4 + "'" );
 						
@@ -578,9 +578,9 @@ public class RecommendedDiagnosisDialog extends JDialog {
 						
 						System.out.println("*************\n" + temp);
 						
-						System.out.println(maxId.toUpperCase() + ": " + max);
+						System.out.println(maxId + ": " + max);
 						
-						poslednji4 += maxId.toUpperCase();
+						poslednji4 += maxId;
 						
 						btnDodaj.setText("Dodaj '" + poslednji4 + "'" );
 						
@@ -678,7 +678,7 @@ public class RecommendedDiagnosisDialog extends JDialog {
 		
 		JPanel panel_1 = new JPanel();
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.gridheight = 7;
+		gbc_panel_1.gridheight = 4;
 		gbc_panel_1.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_1.fill = GridBagConstraints.BOTH;
 		gbc_panel_1.gridx = 0;
@@ -694,10 +694,10 @@ public class RecommendedDiagnosisDialog extends JDialog {
 		
 		GridBagConstraints gbc_btnDodaj = new GridBagConstraints();
 		gbc_btnDodaj.insets = new Insets(0, 0, 0, 5);
-		gbc_btnDodaj.gridx = 1;
+		gbc_btnDodaj.gridx = 0;
 		gbc_btnDodaj.gridy = 5;
 		contentPanel.add(btnDodaj, gbc_btnDodaj);
-		btnDodaj.setText("Dodaj '" + poslednji4 + "'" );
+		btnDodaj.setName("Dodaj '" + poslednji4 + "'" );
 		
 		btnDodaj.addActionListener(new ActionListener() {
 			

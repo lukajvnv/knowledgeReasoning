@@ -127,7 +127,7 @@ public class RecommendedDiagnosisAdditionalExamDialog extends JDialog {
 		
 		
 		setIconImage(new ImageIcon("images/medCareLogo.png").getImage());
-		String titleText = String.format("Predlog dopunskih ispitivanja na osnovu anamneze: %s %s", patient.getFirstName(), patient.getLastName());
+		String titleText = String.format("Predlog dijagnoze: %s %s", patient.getFirstName(), patient.getLastName());
 		setTitle(titleText);
 		setModal(true);
 		setFocusable(true);		//focus da bi se mogao trigerovati keyListener
@@ -350,9 +350,9 @@ public class RecommendedDiagnosisAdditionalExamDialog extends JDialog {
 					
 					System.out.println("*****\n");
 					
-					System.out.println(maxId.toUpperCase() + ": " + max);
+					System.out.println(maxId + ": " + max);
 					
-					poslednji4 += maxId.toUpperCase();
+					poslednji4 += maxId;
 					
 					btnUradi.setText("Dodaj '" + poslednji4 + "'" );
 					
@@ -529,7 +529,7 @@ public class RecommendedDiagnosisAdditionalExamDialog extends JDialog {
 		gbc_btnUradi.gridx = 0;
 		gbc_btnUradi.gridy = 5;
 		contentPanel.add(btnUradi, gbc_btnUradi);
-		btnUradi.setName("Uradi '" + poslednji4 + "'" );
+		btnUradi.setName("Dodaj '" + poslednji4 + "'" );
 		
 		btnUradi.addActionListener(new ActionListener() {
 			
