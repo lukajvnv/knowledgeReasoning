@@ -47,6 +47,8 @@ public class CbrApplication implements StandardCBRApplication {
 			simConfig.addMapping(new Attribute("livingPlace", Anamnesis.class), new Equal());
 			simConfig.addMapping(new Attribute("livingObject", Anamnesis.class), new Equal());
 		} else if (MainFrame.getInstance().getIsDiagnosis()) {
+			simConfig.addMapping(new Attribute("ct", Diagnosis.class), new Equal());
+			simConfig.addMapping(new Attribute("rtg", Diagnosis.class), new Equal());
 			simConfig.addMapping(new Attribute("eritrociti", Diagnosis.class), new Equal());
 			simConfig.addMapping(new Attribute("leukociti", Diagnosis.class), new Equal());
 			simConfig.addMapping(new Attribute("parametarske_inflamacije", Diagnosis.class), new Equal());
