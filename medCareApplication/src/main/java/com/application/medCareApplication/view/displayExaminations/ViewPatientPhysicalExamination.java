@@ -57,6 +57,7 @@ public class ViewPatientPhysicalExamination extends JPanel {
 	@SuppressWarnings("serial")
 	public ViewPatientPhysicalExamination(Patient p, PatientFrame pf) {
 		MainFrame.getInstance().setIsAnamnesis(false);
+		MainFrame.getInstance().setIsDiagnosis(false);
 		MainFrame.getInstance().setCurrentPatient(p);
 		this.patient = p;
 		this.patientFrame = pf;
