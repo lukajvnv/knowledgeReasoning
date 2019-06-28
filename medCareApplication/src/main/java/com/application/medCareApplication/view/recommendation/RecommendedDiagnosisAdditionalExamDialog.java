@@ -457,8 +457,8 @@ public class RecommendedDiagnosisAdditionalExamDialog extends JDialog {
 						diagnosis.setRtg(patientDiagnosis.getRtg());
 						diagnosis.setEritrociti(patientDiagnosis.getEritrociti());
 						diagnosis.setLeukociti(patientDiagnosis.getLeukociti());
-						diagnosis.setPrametarske_inflamacije(patientDiagnosis.getPrametarske_inflamacije());
-	
+						diagnosis.setParametarske_inflamacije(patientDiagnosis.getParametarske_inflamacije());
+
 						
 						query.setDescription(diagnosis);
 						

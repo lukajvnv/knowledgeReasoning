@@ -41,7 +41,7 @@ public class Diagnosis implements CaseComponent {
 	private String parametarske_inflamacije;
 	
 	public Diagnosis(int diagnosisId, int patientId, String date, String ct, String rtg,
-			String eritrociti, String leukociti, String prametarske_inflamacije, String diagnose) {
+			String eritrociti, String leukociti, String parametarske_inflamacije, String diagnose) {
 		super();
 		this.diagnosisId = diagnosisId;
 		this.patientId = patientId;	
@@ -50,7 +50,7 @@ public class Diagnosis implements CaseComponent {
 		this.rtg = rtg;
 		this.eritrociti = eritrociti;
 		this.leukociti = leukociti;
-		this.parametarske_inflamacije = prametarske_inflamacije;
+		this.parametarske_inflamacije = parametarske_inflamacije;
 		this.diagnose = diagnose;
 	}
 
@@ -86,8 +86,12 @@ public class Diagnosis implements CaseComponent {
 		this.leukociti = leukociti;
 	}
 
-	public String getPrametarske_inflamacije() {
+	public String getParametarske_inflamacije() {
 		return parametarske_inflamacije;
+	}
+
+	public void setParametarske_inflamacije(String parametarske_inflamacije) {
+		this.parametarske_inflamacije = parametarske_inflamacije;
 	}
 
 	public void setPrametarske_inflamacije(String prametarske_inflamacije) {
