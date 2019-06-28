@@ -50,6 +50,8 @@ public class NewAnamnesisDialog extends JDialog {
 	private ButtonGroup livingObjectButtonGroup;
 	private ButtonGroup petButtonGroup;
 	
+	private JButton btnNewButton;
+	
 	private Patient patient;
 	/**
 	 * Launch the application.
@@ -409,14 +411,16 @@ public class NewAnamnesisDialog extends JDialog {
 			gbc_lblNewLabel.gridy = 0;
 			olderPersonalAnamnesisPanel.add(lblNewLabel, gbc_lblNewLabel);
 			
-			JButton btnNewButton = new JButton("Odaberi");
+			btnNewButton = new JButton("Odaberi");
 			
 			btnNewButton.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
+					
 					SelectAnamnesisDialog d = new SelectAnamnesisDialog(true);
+					d.setReferenca(NewAnamnesisDialog.this);
 					d.setVisible(true);
 					
 				}
@@ -575,4 +579,14 @@ public class NewAnamnesisDialog extends JDialog {
 	public void setPatient(Patient patient) {
 		this.patient = patient;
 	}
+
+	public JButton getBtnNewButton() {
+		return btnNewButton;
+	}
+
+	public void setBtnNewButton(JButton btnNewButton) {
+		this.btnNewButton = btnNewButton;
+	}
+	
+	
 }

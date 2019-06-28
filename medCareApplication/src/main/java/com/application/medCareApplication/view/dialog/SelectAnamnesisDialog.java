@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -46,7 +47,11 @@ public class SelectAnamnesisDialog extends JDialog {
 	private DatabaseHandler db = MainFrame.getInstance().getDatabaseHandler();
 	
 	private Boolean ranijeBolesti;
+	
+	private NewAnamnesisDialog referenca;
 
+
+	
 
 	/**
 	 * Launch the application.
@@ -250,6 +255,7 @@ public class SelectAnamnesisDialog extends JDialog {
 							}
 						}
 						
+						referenca.getBtnNewButton().setEnabled(false);
 						
 						dispose();
 						
@@ -380,7 +386,7 @@ public class SelectAnamnesisDialog extends JDialog {
 		list.setForeground(Color.BLACK);
 		list.setBackground(Color.WHITE);
 		
-		
+		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		
 		list.setCellRenderer(new ResourcesListRenderer());
 		       
@@ -422,5 +428,13 @@ public class SelectAnamnesisDialog extends JDialog {
 	}
 	public JScrollPane getSelectedValuesScrollPane() {
 		return selectedValuesScrollPane;
+	}
+	
+	public NewAnamnesisDialog getReferenca() {
+		return referenca;
+	}
+
+	public void setReferenca(NewAnamnesisDialog referenca) {
+		this.referenca = referenca;
 	}
 }

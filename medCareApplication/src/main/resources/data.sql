@@ -46,6 +46,14 @@ insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tez
 values (6, 6, 'Da', 'Da', 'Zaposlen', 'Fizicki lak posao', 'Selo', 'Kuca', 'Ne', 'KRVNA_SLIKA', 6, 'pneumonia');
 
 
+/* test za null-ove
+insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci, dopunska_ispitivanja,patient_id_pacijenta, diagnosis)
+values (1, 1, 'Ne', 'Ne', 'Nezaposlen', 'Fizicki lak posao', 'Grad', 'Stan', 'Ne', 'CT_PLUCA', 1 , 'asthma');
+
+insert into anamnesis (anamnesis_id, Id_Pacijenta, Pusenje, Alkohol, Stanje, Tezina, Zivi, Stanuje, Ljubimci,patient_id_pacijenta)
+values (2, 3, 'Da', 'Da', 'Zaposlen', 'Fizicki tezak posao', 'Grad', 'Kuca', 'Da', 1);*/
+
+
 /*
  *  Dopunska ispitivanja
  * */

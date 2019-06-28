@@ -438,25 +438,34 @@ public class RecommendedDiagnosisDialog extends JDialog {
 							cbr = retrievalResult.get_case();
 							temp2 = retrievalResult.get_case().getDescription().toString();
 							temp = retrievalResult.get_case().getDescription().toString() + " -> " + retrievalResult.getEval();
-							break; // za sad cu uzimati samo jedan predlog
+							
+							String[] prvi = temp2.split(",");
+							
+							for (String s : prvi) {
+								solutionList.add(s);
+							}
+							
+							String poslednji = prvi[prvi.length-3];
+							poslednji = poslednji.trim();
+							
+							String[] poslednji2 = poslednji.split("=");
+							String poslednji3 = poslednji2[1];
+							
+							poslednji4 = poslednji3.substring(0, poslednji3.length());
+							System.out.println("Poslednji : " + poslednji4);
+							//solutionList.add(temp);
+							btnDodaj.setText("Dodaj '" + poslednji4 + "'");
+							
+							if(poslednji4.equals("null")) {
+								continue;
+							} else {
+								break;
+							}
+							
+							//break; // za sad cu uzimati samo jedan predlog
 						}
 						
-						String[] prvi = temp2.split(",");
 						
-						for (String s : prvi) {
-							solutionList.add(s);
-						}
-						
-						String poslednji = prvi[prvi.length-3];
-						poslednji = poslednji.trim();
-						
-						String[] poslednji2 = poslednji.split("=");
-						String poslednji3 = poslednji2[1];
-						
-						poslednji4 = poslednji3.substring(0, poslednji3.length());
-						System.out.println("Poslednji : " + poslednji4);
-						//solutionList.add(temp);
-						btnDodaj.setText("Dodaj '" + poslednji4 + "'");
 						
 					
 					}
@@ -613,7 +622,31 @@ public class RecommendedDiagnosisDialog extends JDialog {
 							cbr = retrievalResult.get_case();
 							temp2 = retrievalResult.get_case().getDescription().toString();
 							temp = retrievalResult.get_case().getDescription().toString() + " -> " + retrievalResult.getEval();
-							break; // za sad cu uzimati samo jedan predlog
+							
+							String[] prvi = temp2.split(",");
+							
+							for (String s : prvi) {
+								solutionList.add(s);
+							}
+							
+							String pom = solutionList.get(6);
+							
+							String[] sss = pom.split("=");
+							
+							String sss2 = sss[1];
+							
+							poslednji4 = sss2.substring(0, sss2.length()-1);
+							
+							System.out.println("Poslednji : " + poslednji4);
+							btnDodaj.setText("Dodaj '" + poslednji4 + "'" );
+							
+							if(poslednji4.equals("null")) {
+								continue;
+							} else {
+								break;
+							}
+							
+							//break; // za sad cu uzimati samo jedan predlog
 						}
 						
 						String[] prvi = temp2.split(",");
