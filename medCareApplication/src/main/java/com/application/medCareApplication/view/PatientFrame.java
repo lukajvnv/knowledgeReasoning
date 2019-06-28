@@ -160,6 +160,7 @@ public class PatientFrame extends JFrame {
 				ViewPatientAnamnesis p = new ViewPatientAnamnesis(patient, PatientFrame.this);
 				leftPanel = p;
 				splitPane.setLeftComponent(leftPanel);
+				splitPane.setRightComponent(null);
 			}
 		});
 		
@@ -177,6 +178,7 @@ public class PatientFrame extends JFrame {
 				// TODO Auto-generated method stub
 				ViewPatientPhysicalExamination p = new ViewPatientPhysicalExamination(patient, PatientFrame.this);
 				splitPane.setLeftComponent(p);
+				splitPane.setRightComponent(null);
 			}
 		});
 		toolBar.add(physicalExaminationsButton);
@@ -192,6 +194,8 @@ public class PatientFrame extends JFrame {
 				// TODO Auto-generated method stub
 				ViewPatientAdditionalExamination p = new ViewPatientAdditionalExamination(patient, PatientFrame.this);
 				splitPane.setLeftComponent(p);
+				splitPane.setRightComponent(null);
+
 			}
 		});
 		
@@ -204,6 +208,8 @@ public class PatientFrame extends JFrame {
 				// TODO Auto-generated method stub
 				ViewPatientDiagnosis p = new ViewPatientDiagnosis(patient, PatientFrame.this);
 				splitPane.setLeftComponent(p);
+				splitPane.setRightComponent(null);
+
 			}
 		});
 		diagnosisButton.setIcon(new ImageIcon("images/folder_icon&24.png"));
@@ -219,6 +225,8 @@ public class PatientFrame extends JFrame {
 				// TODO Auto-generated method stub
 				ViewPatientTherapy p = new ViewPatientTherapy(patient, PatientFrame.this);
 				splitPane.setLeftComponent(p);
+				splitPane.setRightComponent(null);
+
 			}
 		});
 		toolBar.add(medicamentsButton);
@@ -266,7 +274,7 @@ public class PatientFrame extends JFrame {
 		
 		rightPanel = new JPanel();
 		rightPanel.setBorder(new TitledBorder(null, "Detalji", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		splitPane.setRightComponent(rightPanel);
+		splitPane.setRightComponent(null);
 		
 		leftPanel = new JPanel();
 		splitPane.setLeftComponent(leftPanel);
