@@ -538,7 +538,7 @@ public class RecommendedDiagnosisAdditionalExamDialog extends JDialog {
 				
 					/*Izvuci sta je selektovan podatak konkretno lek/terapija */
 					DateLabelFormatter dF = new DateLabelFormatter();		
-					Diagnosis newDiagnosis = new Diagnosis(-1, patient.getPatientId(), poslednji4, dF.getDateFormatter().format(new Date()));
+					Diagnosis newDiagnosis = new Diagnosis(-1, patient.getPatientId(), poslednji4.toLowerCase(), dF.getDateFormatter().format(new Date()));
 					DatabaseHandler handler = MainFrame.getInstance().getDatabaseHandler();
 					try {
 						handler.createDiagnosis(newDiagnosis);

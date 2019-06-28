@@ -52,7 +52,7 @@ public class DisplayInfo extends JPanel {
 		backGroundColor = Color.WHITE;
 		foreGroundColor = Color.BLUE;
 		textFont = new Font("Tahoma", Font.PLAIN, 14);
-		lineBorder = new LineBorder(Color.MAGENTA, 2, true);
+		lineBorder = new LineBorder(Color.CYAN, 2, true);
 		
 		
 		// Panel u kom se prikazuje uvodni tekst
@@ -126,7 +126,7 @@ public class DisplayInfo extends JPanel {
 	}
 	
 	public void displayAnamnesis(Anamnesis anamnesis) {
-		infoText = String.format(infoTemplate, "dijagnoze");
+		infoText = String.format(infoTemplate, "anamneze");
 		lblNewLabel.setText(infoText);
 		
 		//Jedan red
@@ -638,7 +638,7 @@ public class DisplayInfo extends JPanel {
 	}
 
 	public void displayDiagnosis(Diagnosis diagnosis) {
-		infoText = String.format(infoTemplate, "anamneze");
+		infoText = String.format(infoTemplate, "dijagnoze");
 		lblNewLabel.setText(infoText);
 		
 		//Jedan red

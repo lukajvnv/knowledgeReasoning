@@ -254,7 +254,7 @@ public class NewRTGPlucaDialog extends JDialog {
 						
 						//ubacujemo u novu tabelu add exam
 						RTGPluca ctt = new RTGPluca();
-						List<Object> lista = dbHandler.selectAllPatientCBC(p);
+						List<Object> lista = dbHandler.selectAllPatientRTG(p);
 						for (Object object : lista) {
 							ctt = (RTGPluca) object;
 						}
