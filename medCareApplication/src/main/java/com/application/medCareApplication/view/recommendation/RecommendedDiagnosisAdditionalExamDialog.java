@@ -119,9 +119,11 @@ public class RecommendedDiagnosisAdditionalExamDialog extends JDialog {
 			rtg = null;
 		}
 		
-		if(additinal.getIdUz() != 0) {
+		/*if(additinal.getIdUz() != 0) {
 			
-		}
+		} else {
+			
+		}*/
 		
 		
 		
