@@ -3,6 +3,7 @@ package com.application.medCareApplication.connector;
 import java.util.Collection;
 
 import com.application.medCareApplication.model.Anamnesis;
+import com.application.medCareApplication.model.Diagnosis;
 import com.application.medCareApplication.model.PhysicalExamination;
 import com.application.medCareApplication.view.MainFrame;
 
@@ -45,6 +46,10 @@ public class CbrApplication implements StandardCBRApplication {
 			simConfig.addMapping(new Attribute("workingCondition", Anamnesis.class), new Equal());
 			simConfig.addMapping(new Attribute("livingPlace", Anamnesis.class), new Equal());
 			simConfig.addMapping(new Attribute("livingObject", Anamnesis.class), new Equal());
+		} else if (MainFrame.getInstance().getIsDiagnosis()) {
+			simConfig.addMapping(new Attribute("eritrociti", Diagnosis.class), new Equal());
+			simConfig.addMapping(new Attribute("leukociti", Diagnosis.class), new Equal());
+			simConfig.addMapping(new Attribute("parametarske_inflamacije", Diagnosis.class), new Equal());
 		} else {
 			System.out.println("Bio ovde?");
 			simConfig.addMapping(new Attribute("bodyTemperature", PhysicalExamination.class), new Equal());

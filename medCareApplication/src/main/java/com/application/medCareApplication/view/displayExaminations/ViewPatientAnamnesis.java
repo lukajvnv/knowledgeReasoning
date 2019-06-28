@@ -61,6 +61,7 @@ public class ViewPatientAnamnesis extends JPanel {
 	public ViewPatientAnamnesis(Patient p, PatientFrame pf) {
 		this.patientFrame = pf;
 		MainFrame.getInstance().setIsAnamnesis(true);
+		MainFrame.getInstance().setIsDiagnosis(false);
 		MainFrame.getInstance().setCurrentPatient(p);
 		this.patient = p;
 		DefaultListModel<Anamnesis> anamnesisListModel = new DefaultListModel<Anamnesis>();

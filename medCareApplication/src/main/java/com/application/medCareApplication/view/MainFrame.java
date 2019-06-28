@@ -60,6 +60,7 @@ public class MainFrame extends JFrame {
 	 *  Boolean polje kao privremeno resenje za rad sa CBR-om u okviru modula za odredjivanje dopunskih ispitivanja
 	 * */
 	private Boolean isAnamnesis;
+	private Boolean isDiagnosis;
 	private Collection<RetrievalResult> eval;
 
 	private PrologHandler prologHandler;
@@ -243,7 +244,14 @@ public class MainFrame extends JFrame {
 	public void setDatabaseHandler(DatabaseHandler databaseHandler) {
 		this.databaseHandler = databaseHandler;
 	}
-
+	
+	public Boolean getIsDiagnosis() {
+		return isDiagnosis;
+	}
+	
+	public void setIsDiagnosis(Boolean isDiagnosis) {
+		this.isDiagnosis = isDiagnosis;
+	}
 
 	public Boolean getIsAnamnesis() {
 		return isAnamnesis;

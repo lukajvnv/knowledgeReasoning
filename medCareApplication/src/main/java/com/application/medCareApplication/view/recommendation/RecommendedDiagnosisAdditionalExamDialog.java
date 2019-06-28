@@ -48,6 +48,7 @@ import com.application.medCareApplication.view.utils.DateLabelFormatter;
 
 import ucm.gaia.jcolibri.cbrcore.CBRCase;
 import ucm.gaia.jcolibri.cbrcore.CBRQuery;
+import ucm.gaia.jcolibri.cbrcore.CaseComponent;
 import ucm.gaia.jcolibri.exception.ExecutionException;
 import ucm.gaia.jcolibri.method.retrieve.RetrievalResult;
 import unbbayes.io.BaseIO;
@@ -69,6 +70,7 @@ public class RecommendedDiagnosisAdditionalExamDialog extends JDialog {
 	
 	private Anamnesis patientAnamnesis = new Anamnesis(); //anamneza konkretnog pacijenta na osnovu koje cbr treba da nam da rezultat dopunskog pregleda
 	private PhysicalExamination patientPhysicalExamination = new PhysicalExamination(); // fiz pregled konkretnog pacijenta
+	private Diagnosis patientDiagnosis = new Diagnosis();
 	
 	private JComboBox<String> combo;
 	private JList<String> solutionList = new JList<String>();
@@ -449,18 +451,16 @@ public class RecommendedDiagnosisAdditionalExamDialog extends JDialog {
 						
 						CBRQuery query = new CBRQuery();
 
-						Anamnesis anam = new Anamnesis();
-						anam.setAlcohol(patientAnamnesis.getAlcohol());
-						anam.setEmployed(patientAnamnesis.getEmployed());
-						anam.setLivingObject(patientAnamnesis.getLivingObject());
-						anam.setLivingPlace(patientAnamnesis.getLivingPlace());
-						anam.setPet(patientAnamnesis.getPet());
-						anam.setSmoking(patientAnamnesis.getSmoking());
-						anam.setWorkingCondition(patientAnamnesis.getWorkingCondition());
+						Diagnosis diagnosis = new Diagnosis();
 						
+						diagnosis.setCt(patientDiagnosis.getCt());
+						diagnosis.setRtg(patientDiagnosis.getRtg());
+						diagnosis.setEritrociti(patientDiagnosis.getEritrociti());
+						diagnosis.setLeukociti(patientDiagnosis.getLeukociti());
+						diagnosis.setPrametarske_inflamacije(patientDiagnosis.getPrametarske_inflamacije());
+	
 						
-						
-						query.setDescription( anam );
+						query.setDescription(diagnosis);
 						
 						app.cycle(query);
 
@@ -489,7 +489,7 @@ public class RecommendedDiagnosisAdditionalExamDialog extends JDialog {
 						solutionList.add(s);
 					}
 					
-					String poslednji = prvi[prvi.length-4];
+					String poslednji = prvi[prvi.length-7];
 					poslednji = poslednji.trim();
 					
 					String[] poslednji2 = poslednji.split("=");
@@ -498,7 +498,7 @@ public class RecommendedDiagnosisAdditionalExamDialog extends JDialog {
 					poslednji4 = poslednji3.substring(0, poslednji3.length());
 					System.out.println("Poslednji : " + poslednji4);
 					//solutionList.add(temp);
-					btnUradi.setText("Uradi '" + poslednji4 + "'");
+					btnUradi.setText("Dodaj '" + poslednji4 + "'");
 					
 				
 				}

@@ -76,15 +76,15 @@ INSERT INTO ultra_zvuk (uv_id, id_pacijenta, visina_izliva, dubina_izliva, gusti
 
 /* Dijagnoze pacijenta */
 INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (1, 1, 'asthma', '16.01.2019.');
-INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (2, 1, 'asthma', '16.04.2019.');
-INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (3, 1, 'asthma', '19.06.2019.');
-INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (4, 1, 'copd', '26.02.2019.');
-INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (5, 1, 'copd', '16.05.2019.');
-INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (6, 2, 'asthma', '11.06.2018.');
-INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (7, 2, 'asthma', '11.01.2019.');
-INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (8, 2, 'asthma', '11.04.2019.');
-INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (9, 2, 'copd', '16.05.2019.');
-INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, Dijagnoza, Datum) values (10, 2, 'copd', '16.06.2019.');
+INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, ct, rtg, eritrociti, leukociti, parametarske_inflamacije, Dijagnoza, Datum) values (2, 1, 'normalan', 'normalan', 'Poviseni', 'Snizeni', 'Povisene', 'asthma', '16.04.2019.');
+INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, ct, rtg, eritrociti, leukociti, parametarske_inflamacije, Dijagnoza, Datum) values (3, 1, 'normalan', 'normalan', 'Poviseni', 'Poviseni', 'Povisene', 'asthma', '19.06.2019.');
+INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, ct, rtg, eritrociti, leukociti, parametarske_inflamacije, Dijagnoza, Datum) values (4, 1, 'patoloski', 'normalan', 'Poviseni', 'Poviseni', 'Povisene', 'copd', '26.02.2019.');
+INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, ct, rtg, eritrociti, leukociti, parametarske_inflamacije, Dijagnoza, Datum) values (5, 1, 'patoloski', 'normalan', 'Snizeni', 'Snizeni', 'Povisene', 'copd', '16.05.2019.');
+INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, ct, rtg, eritrociti, leukociti, parametarske_inflamacije, Dijagnoza, Datum) values (6, 2, 'normalan', 'patoloski', 'Snizeni', 'Snizeni', 'U normi', 'asthma', '11.06.2018.');
+INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, ct, rtg, eritrociti, leukociti, parametarske_inflamacije, Dijagnoza, Datum) values (7, 2, 'normalan', 'normalan', 'Poviseni', 'Poviseni', 'U normi', 'asthma', '11.01.2019.');
+INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, ct, rtg, eritrociti, leukociti, parametarske_inflamacije, Dijagnoza, Datum) values (8, 2, 'patoloski', 'normalan', 'Poviseni', 'Snizeni', 'U normi', 'asthma', '11.04.2019.');
+INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, ct, rtg, eritrociti, leukociti, parametarske_inflamacije, Dijagnoza, Datum) values (9, 2, 'patoloski', 'patoloski', 'Poviseni', 'Snizeni', 'Povisene', 'copd', '16.05.2019.');
+INSERT INTO diagnosis (diagnosis_id, Id_Pacijenta, ct, rtg, eritrociti, leukociti, parametarske_inflamacije, Dijagnoza, Datum) values (10, 2, 'patoloski', 'normalan', 'Snizeni', 'Snizeni', 'Povisene', 'copd', '16.06.2019.');
 
 
 /* Terapije pacijenta */

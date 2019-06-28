@@ -51,6 +51,8 @@ public class ViewPatientAdditionalExamination extends JPanel {
 		this.patientFrame = pf;
 		setLayout(new BorderLayout(0, 0));
 		
+		MainFrame.getInstance().setIsDiagnosis(true);
+		MainFrame.getInstance().setIsAnamnesis(false);
 		DefaultListModel<Anamnesis> anamnesisListModel = new DefaultListModel<Anamnesis>();
 		DatabaseHandler dbHandler = MainFrame.getInstance().getDatabaseHandler();
 		List<Anamnesis> anemnesis = dbHandler.selectAllPatientAnamnesis(patient);

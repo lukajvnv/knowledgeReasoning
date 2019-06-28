@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.application.medCareApplication.model.Anamnesis;
+import com.application.medCareApplication.model.Diagnosis;
 import com.application.medCareApplication.model.Patient;
 import com.application.medCareApplication.model.PhysicalExamination;
 import com.application.medCareApplication.utils.components.DatabaseHandler;
@@ -13,6 +14,7 @@ import com.application.medCareApplication.view.MainFrame;
 
 import ucm.gaia.jcolibri.cbrcore.CBRCase;
 import ucm.gaia.jcolibri.cbrcore.CaseBaseFilter;
+import ucm.gaia.jcolibri.cbrcore.CaseComponent;
 import ucm.gaia.jcolibri.cbrcore.Connector;
 import ucm.gaia.jcolibri.exception.InitializingException;
 
@@ -36,6 +38,18 @@ public class CsvConnector implements Connector {
 				CBRCase cbrCase = new CBRCase(); // OVDE JE BILA GRESKA!!!
 				System.out.println("Anamneza: " + a.getAnamnesisId());
 				cbrCase.setDescription(a);
+				cases.add(cbrCase);
+			}
+			
+			return cases;
+		} else if (MainFrame.getInstance().getIsDiagnosis()) {
+			LinkedList<CBRCase> cases = new LinkedList<CBRCase>();
+			List<Diagnosis> diagnosis = databaseHandler.selectAllPatientDiagnosisWithoutCurrent(curPat);
+			
+			for (Diagnosis d : diagnosis) {
+				CBRCase cbrCase = new CBRCase();
+				System.out.println("Dijagnoza: " + d.getDiagnosisId());
+				cbrCase.setDescription(d);
 				cases.add(cbrCase);
 			}
 			

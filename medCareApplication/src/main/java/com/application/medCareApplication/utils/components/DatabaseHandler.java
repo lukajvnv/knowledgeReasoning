@@ -1428,6 +1428,40 @@ public KrvnaSlika selectPatientKs(int ksId) {
 	
 	}
 	
+	public List<Diagnosis> selectAllPatientDiagnosisWithoutCurrent(Patient p) {
+		String sql = String.format("SELECT %s FROM %s WHERE %s != '%s' ;", "*", "diagnosis", PatientsColumn.patientId, p.getPatientId());
+		
+		System.out.println(sql);
+		
+		List<Diagnosis> diagnosis = new ArrayList<Diagnosis>();
+		
+		try {
+			Statement stmt = databaseConnection.createStatement();
+			
+			ResultSet rset = stmt.executeQuery(sql);
+			
+			if(!rset.isBeforeFirst()) {
+				System.out.println("Nema podataka");
+			}
+			
+			while(rset.next()) {
+				Diagnosis d = makeOneDiagnosis(rset);
+				if(d != null) {
+					diagnosis.add(d);
+				}
+			}
+			
+			rset.close();
+			stmt.close();
+			
+			return diagnosis;
+		} catch (SQLException e) {
+			return null;
+
+		}
+		
+	}
+	
 	public Diagnosis selectDiagnosis(int diagnosisId) {
 		
 		String sql = String.format("SELECT %s FROM %s WHERE %s = '%s';", "*", "patient", PatientsColumn.diagnosis_Id, diagnosisId);
@@ -1467,8 +1501,13 @@ public KrvnaSlika selectPatientKs(int ksId) {
 			int patientId = resultSet.getInt(PatientsColumn.patientId);
 			String diagnose = resultSet.getString(PatientsColumn.diagnose);
 			String date = resultSet.getString(PatientsColumn.date);
+			String ct = resultSet.getString(PatientsColumn.ct);
+			String rtg = resultSet.getString(PatientsColumn.rtg);
+			String eritrociti = resultSet.getString(PatientsColumn.eritrociti);
+			String leukociti = resultSet.getString(PatientsColumn.leukociti);
+			String p_inf = resultSet.getString(PatientsColumn.parametarske_inflamacije);
 			
-			d = new Diagnosis(id, patientId, diagnose, date);
+			d = new Diagnosis(id, patientId, date, ct, rtg, eritrociti, leukociti, p_inf, diagnose);
 			
 			return d;
 		} catch (SQLException e) {
