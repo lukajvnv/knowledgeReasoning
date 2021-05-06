@@ -8,3 +8,6 @@ Aplikacija je Spring Boot projekat implementirana u Javi prilagođena da bude de
 
 ### Uputstvo za pokretanje aplikacije
 _Klonirajte repozitorijum. Uvucite Maven projekat u Eclipse razvojno okruženje. Obezbedite da biblioteke u direktorijumima lib i lib_rdf budu uključene u java build path. Za potrebe čuvanja podataka potrebno je obezbediti MySql bazu, a svoje konekcione parametre neophodno je podesiti u application.properties fajlu u src/main/resources. Nakon komande mvn install, pokrenite aplikaciju._
+
+### Demo
+https://user-images.githubusercontent.com/44602021/117358601-a591aa80-aeb6-11eb-86a2-a00c01104712.mp4
